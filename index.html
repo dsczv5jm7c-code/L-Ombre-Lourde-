@@ -299,7 +299,7 @@
             transition: var(--transition);
         }
 
-        /* ===== HERO - МИНИМАЛИСТИЧНЫЙ ===== */
+        /* ===== HERO ===== */
         .hero {
             min-height: 70vh;
             display: flex;
@@ -365,24 +365,6 @@
         .btn-secondary:hover {
             border-color: var(--gold);
             color: var(--gold);
-        }
-        .btn-gold {
-            background: var(--gold);
-            color: #0A0808;
-            border: none;
-            padding: 1rem 3rem;
-            font-size: 0.8rem;
-            border-radius: 50px;
-            cursor: pointer;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-        .btn-gold:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px var(--gold-glow);
-            background: var(--gold-light);
         }
 
         /* ===== КАТАЛОГ ===== */
@@ -514,6 +496,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 2;
         }
         .product-wishlist:hover {
             background: var(--gold);
@@ -521,6 +504,10 @@
         }
         .product-wishlist.active {
             color: #ff4444;
+        }
+        .product-wishlist.active:hover {
+            color: #0A0808;
+            background: var(--gold);
         }
 
         .product-info {
@@ -619,11 +606,49 @@
             justify-content: center;
             transition: var(--transition);
             font-size: 1rem;
+            position: relative;
+            z-index: 2;
         }
         .btn-add-cart:hover {
             background: var(--gold);
             color: #0A0808;
             box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        /* ===== АНИМАЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ ===== */
+        .fly-to-cart {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0A0808;
+            font-size: 1.2rem;
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+        .fly-to-cart::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            animation: flyRipple 0.8s ease forwards;
+        }
+        @keyframes flyRipple {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
         }
 
         /* ===== ОТЗЫВЫ ===== */
@@ -927,9 +952,22 @@
             font-size: 0.7rem;
         }
         .points-modal-game .btn-gold {
+            background: var(--gold);
+            color: #0A0808;
+            border: none;
             padding: 0.5rem 1.5rem;
             font-size: 0.7rem;
+            border-radius: 50px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: var(--transition);
             margin-top: 0.5rem;
+        }
+        .points-modal-game .btn-gold:hover {
+            background: var(--gold-light);
+            transform: scale(1.05);
         }
 
         .points-modal-msg {
@@ -1714,6 +1752,44 @@
             color: var(--gold-light);
         }
 
+        /* ===== АНИМАЦИИ ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes modalOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .points-modal {
+            animation: modalOpen 0.3s ease forwards;
+        }
+
         /* ===== АДАПТИВ ===== */
         @media (max-width: 992px) {
             header {
@@ -1800,44 +1876,6 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
-        /* ===== АНИМАЦИИ ===== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate-in {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-        .delay-1 {
-            animation-delay: 0.1s;
-        }
-        .delay-2 {
-            animation-delay: 0.2s;
-        }
-        .delay-3 {
-            animation-delay: 0.3s;
-        }
-
-        @keyframes modalOpen {
-            from {
-                opacity: 0;
-                transform: scale(0.95) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        .points-modal {
-            animation: modalOpen 0.3s ease forwards;
-        }
     </style>
 </head>
 <body>
@@ -1903,7 +1941,7 @@
         </div>
     </header>
 
-    <!-- ===== HERO - МИНИМАЛИСТИЧНЫЙ ===== -->
+    <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <h1>Ароматы, что <span class="accent-italic">говорят</span></h1>
         <p>Нишевая парфюмерия для тех, кто ищет не просто запах, а историю.</p>
@@ -2165,43 +2203,11 @@
                 </div>
                 <div class="points-modal-msg" id="modalDiscountMsg"></div>
             </div>
-
-            <div class="points-modal-section">
-                <h3>Игра Память</h3>
-                <div class="points-modal-game">
-                    <div class="game-limit-text" id="modalGameLimit">Игр сегодня: 0/2</div>
-                    <button class="btn-gold" onclick="closePointsModal(); document.getElementById('game').scrollIntoView({behavior:'smooth'});">
-                        Играть
-                    </button>
-                    <div style="margin-top:0.3rem;font-size:0.65rem;color:var(--text-muted);">Найди все пары и заработай баллы</div>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- ===== ИГРА ===== -->
-    <section id="game">
-        <div class="section-title">
-            <h2>Память</h2>
-            <p>Найди все пары и заработай баллы (2 игры в день)</p>
-        </div>
-
-        <div class="game-section" style="background:var(--premium-bg);border-radius:var(--radius);padding:2.5rem;border:1px solid var(--gold);margin:2rem 0;text-align:center;position:relative;overflow:hidden;">
-            <div class="game-area" style="display:flex;flex-direction:column;align-items:center;gap:1.5rem;position:relative;z-index:1;">
-                <div class="game-stats" style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;">
-                    <div class="game-stat">Попытки: <span id="gameAttempts">0</span></div>
-                    <div class="game-stat">Совпадений: <span id="gameMatches">0</span>/8</div>
-                    <div class="game-stat">Баллов: <span id="gamePoints">0</span></div>
-                </div>
-                <div class="game-board" id="gameBoard" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;max-width:320px;margin:0 auto;"></div>
-                <div class="game-result" id="gameResult" style="font-size:1.2rem;color:var(--gold);font-weight:700;min-height:2rem;"></div>
-                <div class="game-limit" id="gameLimit" style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem 1rem;border:1px solid var(--border-subtle);border-radius:var(--radius);background:rgba(201,169,110,0.05);">Игр сегодня: 0/2</div>
-                <button class="btn-primary" onclick="startGame()">Новая игра</button>
-            </div>
-        </div>
-    </section>
-
     <!-- ===== КОРЗИНА ===== -->
+    <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-drawer" id="cartDrawer">
         <div class="cart-header">
             <h3>Ваша корзина</h3>
@@ -2220,9 +2226,7 @@
             <div class="checkout-form" id="checkoutFormBlock">
                 <input type="text" class="checkout-input" id="clientName" placeholder="Ваше имя (только кириллица)" pattern="[А-Яа-яЁё\s-]+">
                 <input type="tel" class="checkout-input" id="clientPhone" placeholder="+375 (__) ___ __ __" pattern="\+375\s?\(?\d{2}\)?\s?\d{3}\s?\d{2}\s?\d{2}">
-                <button class="btn-checkout" id="submitOrderBtn">
-                    Отправить в Telegram
-                </button>
+                <button class="btn-checkout" id="submitOrderBtn">Отправить в Telegram</button>
             </div>
         </div>
     </div>
@@ -2245,6 +2249,7 @@
             <h2>Админ-панель</h2>
             <div class="admin-actions">
                 <button onclick="adminRefresh()"><i class="fas fa-sync"></i> Обновить</button>
+                <button onclick="adminClearAllData()" style="color:var(--danger);border-color:var(--danger);"><i class="fas fa-trash"></i> Очистить данные</button>
                 <button class="btn-danger" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Выйти</button>
             </div>
         </div>
@@ -2261,6 +2266,7 @@
         </div>
 
         <div class="admin-content">
+            <!-- Товары -->
             <div id="adminProductsTab">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
@@ -2270,6 +2276,7 @@
                 </div>
             </div>
 
+            <!-- Заказы -->
             <div id="adminOrdersTab" style="display:none;">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
@@ -2279,15 +2286,17 @@
                 </div>
             </div>
 
+            <!-- Пользователи -->
             <div id="adminUsersTab" style="display:none;">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
-                        <thead><tr><th>ID</th><th>Имя</th><th>Телефон</th><th>Заказов</th><th>Баллы</th></tr></thead>
+                        <thead><tr><th>ID</th><th>Имя</th><th>Телефон</th><th>Заказов</th><th>Баллы</th><th>Действия</th></tr></thead>
                         <tbody id="adminUsersTable"></tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Отзывы -->
             <div id="adminReviewsTab" style="display:none;">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
@@ -2297,6 +2306,7 @@
                 </div>
             </div>
 
+            <!-- Баллы -->
             <div id="adminPointsTab" style="display:none;">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
@@ -2304,13 +2314,20 @@
                         <tbody id="adminPointsTable"></tbody>
                     </table>
                 </div>
-                <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap;">
-                    <input type="text" id="adminUserPhone" placeholder="Телефон пользователя" style="background:var(--bg-primary);border:1px solid var(--border-subtle);padding:0.8rem;border-radius:var(--radius);color:white;flex:1;">
-                    <input type="number" id="adminPointsAmount" placeholder="Количество баллов" style="background:var(--bg-primary);border:1px solid var(--border-subtle);padding:0.8rem;border-radius:var(--radius);color:white;flex:1;">
-                    <button onclick="adminAddPoints()" class="btn-primary" style="padding:0.8rem 2rem;">Добавить баллы</button>
+                <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                    <input type="text" id="adminUserPhone" placeholder="Телефон пользователя" style="background:var(--bg-primary);border:1px solid var(--border-subtle);padding:0.8rem;border-radius:var(--radius);color:white;flex:1;min-width:150px;">
+                    <input type="number" id="adminPointsAmount" placeholder="Количество баллов" style="background:var(--bg-primary);border:1px solid var(--border-subtle);padding:0.8rem;border-radius:var(--radius);color:white;flex:1;min-width:120px;">
+                    <button onclick="adminAddPoints()" class="btn-primary" style="padding:0.8rem 1.5rem;">Добавить пользователю</button>
+                    <button onclick="adminAddSelfPoints()" class="btn-secondary" style="padding:0.8rem 1.5rem;">Добавить себе</button>
+                </div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                    <input type="text" id="adminUserPhoneRemove" placeholder="Телефон пользователя" style="background:var(--bg-primary);border:1px solid var(--border-subtle);padding:0.8rem;border-radius:var(--radius);color:white;flex:1;min-width:150px;">
+                    <input type="number" id="adminPointsRemove" placeholder="Количество баллов" style="background:var(--bg-primary);border:1px solid var(--border-subtle);padding:0.8rem;border-radius:var(--radius);color:white;flex:1;min-width:120px;">
+                    <button onclick="adminRemovePoints()" style="padding:0.8rem 1.5rem;background:var(--danger);color:white;border:none;border-radius:var(--radius);cursor:pointer;">Списать баллы</button>
                 </div>
             </div>
 
+            <!-- Добавление товара -->
             <div id="adminAddTab" style="display:none;">
                 <div class="admin-form active">
                     <h3 id="adminFormTitle">Добавить товар</h3>
@@ -2447,16 +2464,6 @@
         let userPhone = localStorage.getItem('userPhone') || '';
         let pointsHistory = JSON.parse(localStorage.getItem('pointsHistory')) || [];
 
-        // ===================== МИНИ-ИГРА =====================
-        let gameCards = [];
-        let gameFlipped = [];
-        let gameMatched = [];
-        let gameAttempts = 0;
-        let gameLocked = false;
-        let gamePointsEarned = 0;
-        let gamePlaysToday = parseInt(localStorage.getItem('gamePlaysToday')) || 0;
-        let gameLastDate = localStorage.getItem('gameLastDate') || '';
-
         // ===================== ПРЕЛОАДЕР =====================
         window.addEventListener('load', function() {
             setTimeout(function() {
@@ -2468,8 +2475,8 @@
             updateCartUI();
             updatePointsUI();
             updateMyOrders();
-            checkGameLimit();
 
+            // Ежедневный бонус
             const lastDaily = localStorage.getItem('lastDailyBonus');
             const today = new Date().toDateString();
             if (lastDaily !== today) {
@@ -2482,13 +2489,6 @@
                 localStorage.setItem('registrationBonus', 'true');
                 showToast('+50 баллов за регистрацию', 'fa-gift');
             }
-            const now = new Date();
-            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-            const msUntilMidnight = tomorrow - now;
-            setTimeout(function() {
-                localStorage.setItem('gamePlaysToday', '0');
-                checkGameLimit();
-            }, msUntilMidnight);
         });
 
         // ===================== ТОСТ =====================
@@ -2520,18 +2520,6 @@
 
         document.getElementById('pointsModalOverlay').addEventListener('click', function(e) {
             if (e.target === this) closePointsModal();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closePointsModal();
-                document.getElementById('cartDrawer').classList.remove('active');
-                document.getElementById('cartOverlay').classList.remove('active');
-                closeInfoPage();
-                if (document.getElementById('adminLoginOverlay').classList.contains('active')) {
-                    closeAdminLogin();
-                }
-            }
         });
 
         // ===================== БАЛЛЫ =====================
@@ -2566,7 +2554,6 @@
             document.querySelectorAll('#modalDiscountsGrid .discount-btn').forEach(function(btn) {
                 const cost = parseInt(btn.getAttribute('data-cost') || btn.onclick.toString().match(/\d+/g)[1]);
                 btn.disabled = userPoints < cost || activeDiscount > 0;
-                if (activeDiscount > 0) btn.title = 'У вас уже есть активная скидка';
             });
 
             const msgEl = document.getElementById('modalDiscountMsg');
@@ -2601,409 +2588,6 @@
             localStorage.setItem('pointsHistory', JSON.stringify(pointsHistory));
             updatePointsUI();
             showToast('Скидка ' + percent + '% активирована', 'fa-gold');
-        }
-
-        // ===================== МИНИ-ИГРА =====================
-        const gameEmojis = ['🌸', '🌺', '🌹', '🌷', '🌻', '🌼', '💐', '🌿'];
-
-        function checkGameLimit() {
-            const today = new Date().toDateString();
-            if (gameLastDate !== today) {
-                gamePlaysToday = 0;
-                localStorage.setItem('gamePlaysToday', '0');
-                localStorage.setItem('gameLastDate', today);
-                gameLastDate = today;
-            }
-            document.getElementById('gameLimit').textContent = 'Игр сегодня: ' + gamePlaysToday + '/2';
-            document.getElementById('modalGameLimit').textContent = 'Игр сегодня: ' + gamePlaysToday + '/2';
-            const startBtn = document.querySelector('.game-section .btn-primary');
-            if (gamePlaysToday >= 2) {
-                startBtn.disabled = true;
-                startBtn.style.opacity = '0.5';
-                startBtn.textContent = 'Лимит исчерпан (2/2)';
-            } else {
-                startBtn.disabled = false;
-                startBtn.style.opacity = '1';
-                startBtn.textContent = 'Новая игра';
-            }
-        }
-
-        function startGame() {
-            if (gamePlaysToday >= 2) {
-                showToast('Вы уже сыграли 2 раза сегодня! Возвращайтесь завтра', 'fa-clock');
-                return;
-            }
-
-            const board = document.getElementById('gameBoard');
-            board.innerHTML = '';
-            gameFlipped = [];
-            gameMatched = [];
-            gameAttempts = 0;
-            gamePointsEarned = 0;
-            document.getElementById('gameAttempts').textContent = '0';
-            document.getElementById('gameMatches').textContent = '0/8';
-            document.getElementById('gamePoints').textContent = '0';
-            document.getElementById('gameResult').textContent = '';
-            gameLocked = false;
-
-            let cards = [];
-            gameEmojis.forEach((emoji, i) => {
-                cards.push({ id: i, emoji: emoji, matched: false });
-                cards.push({ id: i, emoji: emoji, matched: false });
-            });
-            for (let i = cards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [cards[i], cards[j]] = [cards[j], cards[i]];
-            }
-            gameCards = cards;
-
-            cards.forEach((card, index) => {
-                const div = document.createElement('div');
-                div.className = 'game-card';
-                div.dataset.index = index;
-                div.dataset.id = card.id;
-                div.textContent = '?';
-                div.style.cssText =
-                    'aspect-ratio:1;background:var(--bg-card);border:2px solid var(--border-subtle);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;transition:var(--transition);color:var(--text-secondary);user-select:none;';
-                div.addEventListener('mouseenter', function() {
-                    if (!this.classList.contains('flipped') && !this.classList.contains('matched')) {
-                        this.style.borderColor = 'var(--gold)';
-                        this.style.transform = 'scale(1.05)';
-                    }
-                });
-                div.addEventListener('mouseleave', function() {
-                    if (!this.classList.contains('flipped') && !this.classList.contains('matched')) {
-                        this.style.borderColor = '';
-                        this.style.transform = '';
-                    }
-                });
-                div.addEventListener('click', () => flipCard(index));
-                board.appendChild(div);
-            });
-        }
-
-        function flipCard(index) {
-            if (gameLocked) return;
-            const card = gameCards[index];
-            if (card.matched) return;
-            if (gameFlipped.includes(index)) return;
-            if (gameFlipped.length === 2) return;
-
-            const element = document.querySelectorAll('.game-card')[index];
-            element.textContent = card.emoji;
-            element.classList.add('flipped');
-            element.style.background = 'var(--gold)';
-            element.style.color = '#0A0808';
-            element.style.borderColor = 'var(--gold)';
-            gameFlipped.push(index);
-
-            if (gameFlipped.length === 2) {
-                gameAttempts++;
-                document.getElementById('gameAttempts').textContent = gameAttempts;
-                gameLocked = true;
-
-                const idx1 = gameFlipped[0];
-                const idx2 = gameFlipped[1];
-                const card1 = gameCards[idx1];
-                const card2 = gameCards[idx2];
-
-                if (card1.id === card2.id) {
-                    card1.matched = true;
-                    card2.matched = true;
-                    gameMatched.push(card1.id);
-                    const el1 = document.querySelectorAll('.game-card')[idx1];
-                    const el2 = document.querySelectorAll('.game-card')[idx2];
-                    el1.classList.add('matched');
-                    el1.style.background = 'var(--success)';
-                    el1.style.color = 'white';
-                    el1.style.borderColor = 'var(--success)';
-                    el1.style.cursor = 'default';
-                    el2.classList.add('matched');
-                    el2.style.background = 'var(--success)';
-                    el2.style.color = 'white';
-                    el2.style.borderColor = 'var(--success)';
-                    el2.style.cursor = 'default';
-                    document.getElementById('gameMatches').textContent = gameMatched.length + '/8';
-                    gameFlipped = [];
-                    gameLocked = false;
-
-                    if (gameMatched.length === 8) {
-                        const pointsEarned = Math.max(10, 30 - Math.floor(gameAttempts / 2));
-                        gamePointsEarned = pointsEarned;
-                        document.getElementById('gamePoints').textContent = pointsEarned;
-                        document.getElementById('gameResult').textContent = 'Победа! Вы заработали ' + pointsEarned +
-                            ' баллов';
-
-                        gamePlaysToday++;
-                        localStorage.setItem('gamePlaysToday', gamePlaysToday);
-                        localStorage.setItem('gameLastDate', new Date().toDateString());
-                        checkGameLimit();
-
-                        addPoints(pointsEarned, 'Победа в игре Память');
-                        showToast('+' + pointsEarned + ' баллов за победу', 'fa-trophy');
-                        updatePointsUI();
-                    }
-                } else {
-                    setTimeout(() => {
-                        const el1 = document.querySelectorAll('.game-card')[idx1];
-                        const el2 = document.querySelectorAll('.game-card')[idx2];
-                        el1.textContent = '?';
-                        el1.classList.remove('flipped');
-                        el1.style.background = '';
-                        el1.style.color = '';
-                        el1.style.borderColor = '';
-                        el2.textContent = '?';
-                        el2.classList.remove('flipped');
-                        el2.style.background = '';
-                        el2.style.color = '';
-                        el2.style.borderColor = '';
-                        gameFlipped = [];
-                        gameLocked = false;
-                    }, 800);
-                }
-            }
-        }
-
-        // ===================== МОИ ЗАКАЗЫ =====================
-        function updateMyOrders() {
-            const container = document.getElementById('myOrdersList');
-            const empty = document.getElementById('myOrdersEmpty');
-            const userPhone = localStorage.getItem('userPhone') || '';
-
-            if (!userPhone) {
-                empty.style.display = 'block';
-                container.innerHTML = '';
-                return;
-            }
-
-            const userOrders = orders.filter(o => o.phone === userPhone);
-            if (userOrders.length === 0) {
-                empty.style.display = 'block';
-                container.innerHTML = '';
-                return;
-            }
-
-            empty.style.display = 'none';
-            container.innerHTML = '';
-            userOrders.reverse().forEach(function(order) {
-                const statusMap = {
-                    'Новый': 'status-new',
-                    'В обработке': 'status-processing',
-                    'Отправлен': 'status-shipped',
-                    'Доставлен': 'status-delivered',
-                    'Отменен': 'status-cancelled'
-                };
-                const items = order.items.map(i => i.title + ' (' + i.size + ') x' + i.quantity).join(', ');
-                const div = document.createElement('div');
-                div.className = 'my-order-card';
-                div.innerHTML = `
-                    <div class="my-order-header">
-                        <div class="my-order-id">${order.number || '#'+String(order.id).slice(-6)}</div>
-                        <span class="my-order-status ${statusMap[order.status] || 'status-new'}">${order.status}</span>
-                    </div>
-                    <div class="my-order-details">${items}</div>
-                    <div class="my-order-details">Дата: ${order.date || 'не указана'}</div>
-                    <div class="my-order-total">Сумма: ${order.total.toLocaleString()} BYN</div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        // ===================== ОТРИСОВКА ТОВАРОВ =====================
-        function renderProducts(filter = 'all') {
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = '';
-
-            let filtered = products;
-            if (filter === 'sale') {
-                filtered = products.filter(p => p.sale);
-            } else if (filter !== 'all') {
-                filtered = products.filter(p => p.category === filter);
-            }
-
-            filtered.forEach((product, index) => {
-                const card = document.createElement('div');
-                card.className = 'product-card animate-in delay-' + ((index % 3) + 1);
-                card.setAttribute('data-id', product.id);
-                card.setAttribute('data-title', product.name);
-                card.setAttribute('data-category', product.category);
-                card.setAttribute('data-base-price', product.price);
-                card.setAttribute('data-sale', product.sale);
-
-                const stars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating);
-                const badgeClass = product.badge === 'sale' ? 'sale' : product.badge === 'new' ? 'new' : '';
-                const badgeText = product.badge === 'sale' ? '-15%' : product.badge === 'new' ? 'Новинка' : product.badge ===
-                    'hit' ? 'Хит' : '';
-
-                let priceHtml = product.price + ' BYN';
-                if (product.sale) {
-                    const salePrice = Math.round(product.price * 0.85);
-                    priceHtml = '<span class="old-price">' + product.price + ' BYN</span>' + salePrice + ' BYN';
-                }
-
-                let sizesHtml = '';
-                product.sizes.forEach((s, i) => {
-                    const active = i === 0 ? 'active' : '';
-                    sizesHtml +=
-                        `<button class="size-btn ${active}" data-size="${s.size}" data-coef="${s.coef}">${s.size}</button>`;
-                });
-
-                card.innerHTML = `
-                    <div class="product-image-wrap">
-                        <div class="placeholder-icon"><i class="fas ${product.icon}"></i></div>
-                        ${badgeText ? `<span class="product-badge ${badgeClass}">${badgeText}</span>` : ''}
-                        <button class="product-wishlist" data-id="${product.id}"><i class="fas fa-heart"></i></button>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-tags">${product.tags}</div>
-                        <h3 class="product-title">${product.name}</h3>
-                        <p class="product-desc">${product.desc}</p>
-                        <div class="product-rating">
-                            <span class="stars">${stars}</span>
-                            <span class="reviews">(${product.reviews} отзывов)</span>
-                        </div>
-                        <div class="size-selector">${sizesHtml}</div>
-                        <div class="product-footer">
-                            <span class="product-price">${priceHtml}</span>
-                            <button class="btn-add-cart" data-id="${product.id}"><i class="fas fa-plus"></i></button>
-                        </div>
-                    </div>
-                `;
-
-                grid.appendChild(card);
-            });
-
-            attachProductEvents();
-            updateWishlistButtons();
-        }
-
-        // ===================== ОТЗЫВЫ =====================
-        function renderReviews() {
-            const reviewsData = [
-                { name: 'Александр', date: '2 дня назад', stars: 5,
-                    text: 'Ombre Noire — это нечто! Держится весь день, получаю комплименты постоянно.' },
-                { name: 'Екатерина', date: '1 неделя назад', stars: 5,
-                    text: 'Купила Lourde Peau в подарок мужу, в итоге забрала себе. Нежный, но глубокий.' },
-                { name: 'Максим', date: '2 недели назад', stars: 4,
-                    text: 'Fumée de Bois — идеальный зимний аромат. Немного дороговат, но качество на высоте.' },
-                { name: 'Ольга', date: '3 недели назад', stars: 3,
-                    text: 'Заказала Rose de Minuit, ожидала большего. Аромат стойкий, но на мне раскрывается слишком сладко.' },
-                { name: 'Сергей', date: '2 месяца назад', stars: 2,
-                    text: 'Разочарован. Заказал два аромата, один из них вообще не похож на описание.' },
-                { name: 'Марина', date: '2 месяца назад', stars: 4,
-                    text: 'Хороший магазин, приятные консультанты. Помогли подобрать аромат по настроению.' },
-                { name: 'Игорь', date: '3 месяца назад', stars: 5,
-                    text: 'Ombre Noire стал моим повседневным ароматом. Очень благородный, табачный, с дымком.' },
-                { name: 'Наталья', date: '3 месяца назад', stars: 5,
-                    text: 'Обожаю этот магазин! Заказываю уже третий раз, всегда доставляют в срок.' }
-            ];
-
-            const grid = document.getElementById('reviewsGrid');
-            grid.innerHTML = '';
-            reviewsData.forEach(review => {
-                const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
-                const card = document.createElement('div');
-                card.className = 'review-card';
-                card.innerHTML = `
-                    <div class="review-header">
-                        <span class="review-name">${review.name}</span>
-                        <span class="review-date">${review.date}</span>
-                    </div>
-                    <div class="review-stars">${stars}</div>
-                    <p class="review-text">${review.text}</p>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // ===================== ПРИВЯЗКА СОБЫТИЙ =====================
-        function attachProductEvents() {
-            document.querySelectorAll('.filter-btn').forEach(function(btn) {
-                btn.removeEventListener('click', filterHandler);
-                btn.addEventListener('click', filterHandler);
-            });
-
-            document.querySelectorAll('.size-selector').forEach(function(selector) {
-                selector.querySelectorAll('.size-btn').forEach(function(btn) {
-                    btn.removeEventListener('click', sizeHandler);
-                    btn.addEventListener('click', sizeHandler);
-                });
-            });
-
-            document.querySelectorAll('.btn-add-cart').forEach(function(btn) {
-                btn.removeEventListener('click', addToCartHandler);
-                btn.addEventListener('click', addToCartHandler);
-            });
-
-            document.querySelectorAll('.product-wishlist').forEach(function(btn) {
-                btn.removeEventListener('click', wishlistHandler);
-                btn.addEventListener('click', wishlistHandler);
-            });
-        }
-
-        function filterHandler(e) {
-            document.querySelector('.filter-btn.active').classList.remove('active');
-            e.target.classList.add('active');
-            renderProducts(e.target.getAttribute('data-filter'));
-        }
-
-        function sizeHandler(e) {
-            const parent = e.target.closest('.size-selector');
-            parent.querySelector('.size-btn.active').classList.remove('active');
-            e.target.classList.add('active');
-
-            const card = e.target.closest('.product-card');
-            const basePrice = parseInt(card.getAttribute('data-base-price'));
-            const coef = parseFloat(e.target.getAttribute('data-coef'));
-            const currentPrice = Math.round(basePrice * coef);
-            const priceSpan = card.querySelector('.product-price');
-            const oldPriceSpan = priceSpan.querySelector('.old-price');
-            if (oldPriceSpan) {
-                const oldPrice = parseInt(oldPriceSpan.textContent);
-                priceSpan.innerHTML = '<span class="old-price">' + oldPrice + ' BYN</span>' + currentPrice + ' BYN';
-            } else {
-                priceSpan.textContent = currentPrice + ' BYN';
-            }
-        }
-
-        function addToCartHandler(e) {
-            e.stopPropagation();
-            const card = e.target.closest('.product-card');
-            const id = parseInt(card.getAttribute('data-id'));
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-
-            const activeSizeBtn = card.querySelector('.size-btn.active');
-            const size = activeSizeBtn.getAttribute('data-size');
-            const coef = parseFloat(activeSizeBtn.getAttribute('data-coef'));
-            const price = Math.round(product.price * coef);
-            const cartItemId = id + '-' + size;
-
-            const existing = cart.find(function(item) {
-                return item.cartItemId === cartItemId;
-            });
-
-            if (existing) {
-                existing.quantity += 1;
-            } else {
-                cart.push({
-                    cartItemId: cartItemId,
-                    id: id,
-                    title: product.name,
-                    size: size,
-                    price: price,
-                    quantity: 1
-                });
-            }
-
-            updateCartUI();
-            showToast(product.name + ' добавлен в корзину', 'fa-check-circle');
-        }
-
-        function wishlistHandler(e) {
-            e.stopPropagation();
-            const id = parseInt(e.target.closest('.product-wishlist').getAttribute('data-id'));
-            toggleWishlist(id);
         }
 
         // ===================== КОРЗИНА =====================
@@ -3080,166 +2664,109 @@
             }
         };
 
-        // ===================== ВАЛИДАЦИЯ =====================
-        function validateForm() {
-            const name = document.getElementById('clientName');
-            const phone = document.getElementById('clientPhone');
-            let valid = true;
+        // ===== АНИМАЦИЯ ПОЛЕТА В КОРЗИНУ =====
+        function animateToCart(element) {
+            const rect = element.getBoundingClientRect();
+            const startX = rect.left + rect.width / 2;
+            const startY = rect.top + rect.height / 2;
 
-            const nameRegex = /^[А-Яа-яЁё\s-]+$/;
-            if (!name.value.trim() || !nameRegex.test(name.value.trim())) {
-                name.classList.add('error');
-                valid = false;
-                showToast('Имя должно содержать только буквы русского алфавита', 'fa-exclamation-circle');
-            } else {
-                name.classList.remove('error');
-            }
+            const cartBtn = document.getElementById('cartBtn');
+            const cartRect = cartBtn.getBoundingClientRect();
+            const endX = cartRect.left + cartRect.width / 2;
+            const endY = cartRect.top + cartRect.height / 2;
 
-            const phoneRegex = /^\+375\s?\(?\d{2}\)?\s?\d{3}\s?\d{2}\s?\d{2}$/;
-            if (!phone.value.trim() || !phoneRegex.test(phone.value.trim())) {
-                phone.classList.add('error');
-                valid = false;
-                showToast('Введите номер в формате +375 (__) ___ __ __', 'fa-exclamation-circle');
-            } else {
-                phone.classList.remove('error');
-                userPhone = phone.value.trim();
-                localStorage.setItem('userPhone', userPhone);
-            }
+            const flyer = document.createElement('div');
+            flyer.className = 'fly-to-cart';
+            flyer.innerHTML = '<i class="fas fa-plus"></i>';
+            flyer.style.left = startX - 20 + 'px';
+            flyer.style.top = startY - 20 + 'px';
+            document.body.appendChild(flyer);
 
-            return valid;
-        }
-
-        document.getElementById('clientPhone').addEventListener('input', function(e) {
-            let value = this.value.replace(/\D/g, '');
-            if (value.startsWith('375')) {
-                value = value.substring(3);
-            }
-            let formatted = '+375 ';
-            if (value.length > 0) {
-                formatted += '(' + value.substring(0, 2);
-            }
-            if (value.length >= 2) {
-                formatted += ') ' + value.substring(2, 5);
-            }
-            if (value.length >= 5) {
-                formatted += ' ' + value.substring(5, 7);
-            }
-            if (value.length >= 7) {
-                formatted += ' ' + value.substring(7, 9);
-            }
-            this.value = formatted;
-        });
-
-        // ===================== ОТПРАВКА ЗАКАЗА =====================
-        document.getElementById('submitOrderBtn').addEventListener('click', function() {
-            if (cart.length === 0) {
-                showToast('Корзина пуста! Добавьте товары', 'fa-exclamation-circle');
-                return;
-            }
-
-            if (!validateForm()) {
-                return;
-            }
-
-            const name = document.getElementById('clientName').value.trim();
-            const phone = document.getElementById('clientPhone').value.trim();
-
-            let message = 'Новый заказ AROM·DETALIS\n\n';
-            let totalSum = 0;
-
-            cart.forEach(function(item, index) {
-                const itemSum = item.price * item.quantity;
-                totalSum += itemSum;
-                message += (index + 1) + '. ' + item.title + ' (' + item.size + ')\n' +
-                    '   ' + item.quantity + ' шт. — ' + itemSum.toLocaleString() + ' BYN\n\n';
+            // Анимация полета
+            requestAnimationFrame(function() {
+                flyer.style.left = endX - 20 + 'px';
+                flyer.style.top = endY - 20 + 'px';
+                flyer.style.transform = 'scale(0.3)';
+                flyer.style.opacity = '0.7';
             });
 
-            let discountApplied = 0;
-            if (activeDiscount > 0) {
-                discountApplied = Math.round(totalSum * activeDiscount / 100);
-                totalSum -= discountApplied;
-                message += 'Скидка: ' + activeDiscount + '% (—' + discountApplied.toLocaleString() + ' BYN)\n\n';
-            }
-
-            message += 'ИТОГО: ' + totalSum.toLocaleString() + ' BYN\n';
-            message += 'Имя: ' + name + '\n';
-            message += 'Телефон: ' + phone;
-
-            const orderId = Date.now();
-            const orderNumber = '#' + String(orderId).slice(-6);
-
-            if (activeDiscount > 0) {
-                message += '\nСкидка применена: ' + activeDiscount + '%';
-                activeDiscount = 0;
-                localStorage.setItem('activeDiscount', '0');
-                updatePointsUI();
-            }
-
-            const pointsEarned = Math.floor(totalSum);
-            addPoints(pointsEarned, 'Покупка на ' + totalSum + ' BYN');
-            showToast('+' + pointsEarned + ' баллов за покупку', 'fa-coins');
-
-            const order = {
-                id: orderId,
-                number: orderNumber,
-                name: name,
-                phone: phone,
-                items: JSON.parse(JSON.stringify(cart)),
-                total: totalSum,
-                originalTotal: totalSum + discountApplied,
-                discount: activeDiscount,
-                status: 'Новый',
-                date: new Date().toLocaleDateString('ru-RU'),
-                time: new Date().toLocaleTimeString('ru-RU'),
-                pointsEarned: pointsEarned
-            };
-
-            orders.push(order);
-            localStorage.setItem('orders', JSON.stringify(orders));
-
-            message = 'Заказ ' + orderNumber + '\n' + message;
-
-            const urlText = encodeURIComponent(message);
-            window.open('https://t.me/senghhx?text=' + urlText, '_blank');
-
-            const block = document.getElementById('checkoutFormBlock');
-            block.innerHTML = '<p style="color: var(--gold); text-align: center;">Перенаправляем в Telegram...</p>';
-
+            // Удаляем после анимации
             setTimeout(function() {
-                cart = [];
-                updateCartUI();
-                toggleCart();
-                updateMyOrders();
-                document.getElementById('clientName').value = '';
-                document.getElementById('clientPhone').value = '';
-                block.innerHTML =
-                    '<input type="text" class="checkout-input" id="clientName" placeholder="Ваше имя (только кириллица)" pattern="[А-Яа-яЁё\\s-]+">' +
-                    '<input type="tel" class="checkout-input" id="clientPhone" placeholder="+375 (__) ___ __ __" pattern="\\+375\\s?\\(?\\d{2}\\)?\\s?\\d{3}\\s?\\d{2}\\s?\\d{2}">' +
-                    '<button class="btn-checkout" id="submitOrderBtn">Отправить в Telegram</button>';
-                document.getElementById('submitOrderBtn').addEventListener('click', arguments.callee);
-                document.getElementById('clientPhone').addEventListener('input', function(e) {
-                    let value = this.value.replace(/\D/g, '');
-                    if (value.startsWith('375')) {
-                        value = value.substring(3);
-                    }
-                    let formatted = '+375 ';
-                    if (value.length > 0) {
-                        formatted += '(' + value.substring(0, 2);
-                    }
-                    if (value.length >= 2) {
-                        formatted += ') ' + value.substring(2, 5);
-                    }
-                    if (value.length >= 5) {
-                        formatted += ' ' + value.substring(5, 7);
-                    }
-                    if (value.length >= 7) {
-                        formatted += ' ' + value.substring(7, 9);
-                    }
-                    this.value = formatted;
+                flyer.remove();
+                // Анимация кнопки корзины
+                cartBtn.style.transform = 'scale(1.3)';
+                setTimeout(function() {
+                    cartBtn.style.transform = 'scale(1)';
+                }, 300);
+            }, 800);
+
+            // Дополнительный эффект - искры
+            for (let i = 0; i < 8; i++) {
+                const spark = document.createElement('div');
+                spark.style.cssText = `
+                        position: fixed;
+                        width: 4px;
+                        height: 4px;
+                        background: var(--gold);
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 9998;
+                        left: ${startX + (Math.random() - 0.5) * 60}px;
+                        top: ${startY + (Math.random() - 0.5) * 60}px;
+                        transition: all 0.6s ease-out;
+                        opacity: 1;
+                    `;
+                document.body.appendChild(spark);
+                setTimeout(function() {
+                    spark.style.left = (parseFloat(spark.style.left) + (Math.random() - 0.5) * 120) + 'px';
+                    spark.style.top = (parseFloat(spark.style.top) + (Math.random() - 0.5) * 120 - 60) + 'px';
+                    spark.style.opacity = '0';
+                    spark.style.transform = 'scale(0)';
+                }, 10);
+                setTimeout(function() {
+                    spark.remove();
+                }, 700);
+            }
+        }
+
+        // ===================== ДОБАВЛЕНИЕ В КОРЗИНУ =====================
+        function addToCartHandler(e) {
+            e.stopPropagation();
+            const btn = e.currentTarget;
+            const card = btn.closest('.product-card');
+            const id = parseInt(card.getAttribute('data-id'));
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            const activeSizeBtn = card.querySelector('.size-btn.active');
+            const size = activeSizeBtn.getAttribute('data-size');
+            const coef = parseFloat(activeSizeBtn.getAttribute('data-coef'));
+            const price = Math.round(product.price * coef);
+            const cartItemId = id + '-' + size;
+
+            const existing = cart.find(function(item) {
+                return item.cartItemId === cartItemId;
+            });
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: cartItemId,
+                    id: id,
+                    title: product.name,
+                    size: size,
+                    price: price,
+                    quantity: 1
                 });
-                showToast('Заказ ' + orderNumber + ' отправлен', 'fa-check-circle');
-            }, 3000);
-        });
+            }
+
+            // Анимация полета
+            animateToCart(btn);
+
+            updateCartUI();
+            showToast(product.name + ' добавлен в корзину', 'fa-check-circle');
+        }
 
         // ===================== ИЗБРАННОЕ =====================
         function toggleWishlist(productId) {
@@ -3275,6 +2802,341 @@
                     btn.classList.remove('active');
                 }
             });
+        }
+
+        function wishlistHandler(e) {
+            e.stopPropagation();
+            const id = parseInt(e.currentTarget.getAttribute('data-id'));
+            toggleWishlist(id);
+        }
+
+        // ===================== ФОРМАТИРОВАНИЕ ТЕЛЕФОНА =====================
+        document.getElementById('clientPhone').addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.startsWith('375')) {
+                value = value.substring(3);
+            }
+            let formatted = '+375 ';
+            if (value.length > 0) {
+                formatted += '(' + value.substring(0, Math.min(2, value.length));
+            }
+            if (value.length >= 2) {
+                formatted += ') ' + value.substring(2, Math.min(5, value.length));
+            }
+            if (value.length >= 5) {
+                formatted += ' ' + value.substring(5, Math.min(7, value.length));
+            }
+            if (value.length >= 7) {
+                formatted += ' ' + value.substring(7, Math.min(9, value.length));
+            }
+            this.value = formatted;
+        });
+
+        // ===================== ОТПРАВКА ЗАКАЗА В TELEGRAM =====================
+        document.getElementById('submitOrderBtn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                showToast('Корзина пуста! Добавьте товары', 'fa-exclamation-circle');
+                return;
+            }
+
+            const name = document.getElementById('clientName');
+            const phone = document.getElementById('clientPhone');
+
+            const nameRegex = /^[А-Яа-яЁё\s-]+$/;
+            if (!name.value.trim() || !nameRegex.test(name.value.trim())) {
+                name.classList.add('error');
+                showToast('Имя должно содержать только буквы русского алфавита', 'fa-exclamation-circle');
+                return;
+            }
+            name.classList.remove('error');
+
+            const phoneRegex = /^\+375\s?\(?\d{2}\)?\s?\d{3}\s?\d{2}\s?\d{2}$/;
+            if (!phone.value.trim() || !phoneRegex.test(phone.value.trim())) {
+                phone.classList.add('error');
+                showToast('Введите номер в формате +375 (__) ___ __ __', 'fa-exclamation-circle');
+                return;
+            }
+            phone.classList.remove('error');
+
+            const nameVal = name.value.trim();
+            const phoneVal = phone.value.trim();
+
+            let message = 'Новый заказ AROM·DETALIS\n\n';
+            let totalSum = 0;
+
+            cart.forEach(function(item, index) {
+                const itemSum = item.price * item.quantity;
+                totalSum += itemSum;
+                message += (index + 1) + '. ' + item.title + ' (' + item.size + ')\n' +
+                    '   ' + item.quantity + ' шт. — ' + itemSum.toLocaleString() + ' BYN\n\n';
+            });
+
+            let discountApplied = 0;
+            if (activeDiscount > 0) {
+                discountApplied = Math.round(totalSum * activeDiscount / 100);
+                totalSum -= discountApplied;
+                message += 'Скидка: ' + activeDiscount + '% (—' + discountApplied.toLocaleString() + ' BYN)\n\n';
+            }
+
+            message += 'ИТОГО: ' + totalSum.toLocaleString() + ' BYN\n';
+            message += 'Имя: ' + nameVal + '\n';
+            message += 'Телефон: ' + phoneVal;
+
+            const orderId = Date.now();
+            const orderNumber = '#' + String(orderId).slice(-6);
+
+            if (activeDiscount > 0) {
+                message += '\nСкидка применена: ' + activeDiscount + '%';
+                activeDiscount = 0;
+                localStorage.setItem('activeDiscount', '0');
+                updatePointsUI();
+            }
+
+            const pointsEarned = Math.floor(totalSum);
+            addPoints(pointsEarned, 'Покупка на ' + totalSum + ' BYN');
+            showToast('+' + pointsEarned + ' баллов за покупку', 'fa-coins');
+
+            const order = {
+                id: orderId,
+                number: orderNumber,
+                name: nameVal,
+                phone: phoneVal,
+                items: JSON.parse(JSON.stringify(cart)),
+                total: totalSum,
+                originalTotal: totalSum + discountApplied,
+                discount: activeDiscount,
+                status: 'Новый',
+                date: new Date().toLocaleDateString('ru-RU'),
+                time: new Date().toLocaleTimeString('ru-RU'),
+                pointsEarned: pointsEarned
+            };
+
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            const fullMessage = 'Заказ ' + orderNumber + '\n' + message;
+            const urlText = encodeURIComponent(fullMessage);
+            window.open('https://t.me/senghhx?text=' + urlText, '_blank');
+
+            const block = document.getElementById('checkoutFormBlock');
+            block.innerHTML = '<p style="color: var(--gold); text-align: center;">Перенаправляем в Telegram...</p>';
+
+            setTimeout(function() {
+                cart = [];
+                updateCartUI();
+                toggleCart();
+                updateMyOrders();
+                name.value = '';
+                phone.value = '';
+                block.innerHTML =
+                    '<input type="text" class="checkout-input" id="clientName" placeholder="Ваше имя (только кириллица)" pattern="[А-Яа-яЁё\\s-]+">' +
+                    '<input type="tel" class="checkout-input" id="clientPhone" placeholder="+375 (__) ___ __ __" pattern="\\+375\\s?\\(?\\d{2}\\)?\\s?\\d{3}\\s?\\d{2}\\s?\\d{2}">' +
+                    '<button class="btn-checkout" id="submitOrderBtn">Отправить в Telegram</button>';
+                document.getElementById('submitOrderBtn').addEventListener('click', arguments.callee);
+                showToast('Заказ ' + orderNumber + ' отправлен', 'fa-check-circle');
+            }, 3000);
+        });
+
+        // ===================== МОИ ЗАКАЗЫ =====================
+        function updateMyOrders() {
+            const container = document.getElementById('myOrdersList');
+            const empty = document.getElementById('myOrdersEmpty');
+            const userPhone = localStorage.getItem('userPhone') || '';
+
+            if (!userPhone) {
+                empty.style.display = 'block';
+                container.innerHTML = '';
+                return;
+            }
+
+            const userOrders = orders.filter(o => o.phone === userPhone);
+            if (userOrders.length === 0) {
+                empty.style.display = 'block';
+                container.innerHTML = '';
+                return;
+            }
+
+            empty.style.display = 'none';
+            container.innerHTML = '';
+            userOrders.reverse().forEach(function(order) {
+                const statusMap = {
+                    'Новый': 'status-new',
+                    'В обработке': 'status-processing',
+                    'Отправлен': 'status-shipped',
+                    'Доставлен': 'status-delivered',
+                    'Отменен': 'status-cancelled'
+                };
+                const items = order.items.map(i => i.title + ' (' + i.size + ') x' + i.quantity).join(', ');
+                const div = document.createElement('div');
+                div.className = 'my-order-card';
+                div.innerHTML = `
+                        <div class="my-order-header">
+                            <div class="my-order-id">${order.number || '#'+String(order.id).slice(-6)}</div>
+                            <span class="my-order-status ${statusMap[order.status] || 'status-new'}">${order.status}</span>
+                        </div>
+                        <div class="my-order-details">${items}</div>
+                        <div class="my-order-details">Дата: ${order.date || 'не указана'}</div>
+                        <div class="my-order-total">Сумма: ${order.total.toLocaleString()} BYN</div>
+                    `;
+                container.appendChild(div);
+            });
+        }
+
+        // ===================== ОТРИСОВКА ТОВАРОВ =====================
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            let filtered = products;
+            if (filter === 'sale') {
+                filtered = products.filter(p => p.sale);
+            } else if (filter !== 'all') {
+                filtered = products.filter(p => p.category === filter);
+            }
+
+            filtered.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card animate-in delay-' + ((index % 3) + 1);
+                card.setAttribute('data-id', product.id);
+                card.setAttribute('data-title', product.name);
+                card.setAttribute('data-category', product.category);
+                card.setAttribute('data-base-price', product.price);
+                card.setAttribute('data-sale', product.sale);
+
+                const stars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating);
+                const badgeClass = product.badge === 'sale' ? 'sale' : product.badge === 'new' ? 'new' : '';
+                const badgeText = product.badge === 'sale' ? '-15%' : product.badge === 'new' ? 'Новинка' : product.badge ===
+                    'hit' ? 'Хит' : '';
+
+                let priceHtml = product.price + ' BYN';
+                if (product.sale) {
+                    const salePrice = Math.round(product.price * 0.85);
+                    priceHtml = '<span class="old-price">' + product.price + ' BYN</span>' + salePrice + ' BYN';
+                }
+
+                let sizesHtml = '';
+                product.sizes.forEach((s, i) => {
+                    const active = i === 0 ? 'active' : '';
+                    sizesHtml +=
+                        `<button class="size-btn ${active}" data-size="${s.size}" data-coef="${s.coef}">${s.size}</button>`;
+                });
+
+                card.innerHTML = `
+                        <div class="product-image-wrap">
+                            <div class="placeholder-icon"><i class="fas ${product.icon}"></i></div>
+                            ${badgeText ? `<span class="product-badge ${badgeClass}">${badgeText}</span>` : ''}
+                            <button class="product-wishlist" data-id="${product.id}"><i class="fas fa-heart"></i></button>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-tags">${product.tags}</div>
+                            <h3 class="product-title">${product.name}</h3>
+                            <p class="product-desc">${product.desc}</p>
+                            <div class="product-rating">
+                                <span class="stars">${stars}</span>
+                                <span class="reviews">(${product.reviews} отзывов)</span>
+                            </div>
+                            <div class="size-selector">${sizesHtml}</div>
+                            <div class="product-footer">
+                                <span class="product-price">${priceHtml}</span>
+                                <button class="btn-add-cart" data-id="${product.id}"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    `;
+
+                grid.appendChild(card);
+            });
+
+            attachProductEvents();
+            updateWishlistButtons();
+        }
+
+        // ===================== ОТЗЫВЫ =====================
+        function renderReviews() {
+            const reviewsData = [
+                { name: 'Александр', date: '2 дня назад', stars: 5,
+                    text: 'Ombre Noire — это нечто! Держится весь день, получаю комплименты постоянно.' },
+                { name: 'Екатерина', date: '1 неделя назад', stars: 5,
+                    text: 'Купила Lourde Peau в подарок мужу, в итоге забрала себе. Нежный, но глубокий.' },
+                { name: 'Максим', date: '2 недели назад', stars: 4,
+                    text: 'Fumée de Bois — идеальный зимний аромат. Немного дороговат, но качество на высоте.' },
+                { name: 'Ольга', date: '3 недели назад', stars: 3,
+                    text: 'Заказала Rose de Minuit, ожидала большего. Аромат стойкий, но на мне раскрывается слишком сладко.' },
+                { name: 'Сергей', date: '2 месяца назад', stars: 2,
+                    text: 'Разочарован. Заказал два аромата, один из них вообще не похож на описание.' },
+                { name: 'Марина', date: '2 месяца назад', stars: 4,
+                    text: 'Хороший магазин, приятные консультанты. Помогли подобрать аромат по настроению.' },
+                { name: 'Игорь', date: '3 месяца назад', stars: 5,
+                    text: 'Ombre Noire стал моим повседневным ароматом. Очень благородный, табачный, с дымком.' },
+                { name: 'Наталья', date: '3 месяца назад', stars: 5,
+                    text: 'Обожаю этот магазин! Заказываю уже третий раз, всегда доставляют в срок.' }
+            ];
+
+            const grid = document.getElementById('reviewsGrid');
+            grid.innerHTML = '';
+            reviewsData.forEach(review => {
+                const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                        <div class="review-header">
+                            <span class="review-name">${review.name}</span>
+                            <span class="review-date">${review.date}</span>
+                        </div>
+                        <div class="review-stars">${stars}</div>
+                        <p class="review-text">${review.text}</p>
+                    `;
+                grid.appendChild(card);
+            });
+        }
+
+        // ===================== ПРИВЯЗКА СОБЫТИЙ =====================
+        function attachProductEvents() {
+            document.querySelectorAll('.filter-btn').forEach(function(btn) {
+                btn.removeEventListener('click', filterHandler);
+                btn.addEventListener('click', filterHandler);
+            });
+
+            document.querySelectorAll('.size-selector').forEach(function(selector) {
+                selector.querySelectorAll('.size-btn').forEach(function(btn) {
+                    btn.removeEventListener('click', sizeHandler);
+                    btn.addEventListener('click', sizeHandler);
+                });
+            });
+
+            document.querySelectorAll('.btn-add-cart').forEach(function(btn) {
+                btn.removeEventListener('click', addToCartHandler);
+                btn.addEventListener('click', addToCartHandler);
+            });
+
+            document.querySelectorAll('.product-wishlist').forEach(function(btn) {
+                btn.removeEventListener('click', wishlistHandler);
+                btn.addEventListener('click', wishlistHandler);
+            });
+        }
+
+        function filterHandler(e) {
+            document.querySelector('.filter-btn.active').classList.remove('active');
+            e.target.classList.add('active');
+            renderProducts(e.target.getAttribute('data-filter'));
+        }
+
+        function sizeHandler(e) {
+            const parent = e.target.closest('.size-selector');
+            parent.querySelector('.size-btn.active').classList.remove('active');
+            e.target.classList.add('active');
+
+            const card = e.target.closest('.product-card');
+            const basePrice = parseInt(card.getAttribute('data-base-price'));
+            const coef = parseFloat(e.target.getAttribute('data-coef'));
+            const currentPrice = Math.round(basePrice * coef);
+            const priceSpan = card.querySelector('.product-price');
+            const oldPriceSpan = priceSpan.querySelector('.old-price');
+            if (oldPriceSpan) {
+                const oldPrice = parseInt(oldPriceSpan.textContent);
+                priceSpan.innerHTML = '<span class="old-price">' + oldPrice + ' BYN</span>' + currentPrice + ' BYN';
+            } else {
+                priceSpan.textContent = currentPrice + ' BYN';
+            }
         }
 
         // ===================== МОБИЛЬНОЕ МЕНЮ =====================
@@ -3348,7 +3210,7 @@
 
         // ===================== ИНФОРМАЦИОННЫЕ СТРАНИЦЫ =====================
         function openInfoPage(pageId) {
-            document.querySelectorAll('#catalog, #game, #myorders, #reviews, #about, #contacts, .hero')
+            document.querySelectorAll('#catalog, #myorders, #reviews, #about, #contacts, .hero')
                 .forEach(function(el) {
                     if (el) el.style.display = 'none';
                 });
@@ -3361,7 +3223,7 @@
         }
 
         function closeInfoPage() {
-            document.querySelectorAll('#catalog, #game, #myorders, #reviews, #about, #contacts, .hero')
+            document.querySelectorAll('#catalog, #myorders, #reviews, #about, #contacts, .hero')
                 .forEach(function(el) {
                     if (el) el.style.display = '';
                 });
@@ -3439,27 +3301,27 @@
             const newOrders = orders.filter(o => o.status === 'Новый').length;
 
             document.getElementById('adminStats').innerHTML = `
-                <div class="admin-stat-card">
-                    <div class="stat-number">${totalProducts}</div>
-                    <div class="stat-label">Товаров</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="stat-number">${totalOrders}</div>
-                    <div class="stat-label">Заказов</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="stat-number">${totalRevenue.toLocaleString()} BYN</div>
-                    <div class="stat-label">Выручка</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="stat-number">${newOrders}</div>
-                    <div class="stat-label">Новых заказов</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="stat-number">${userPoints}</div>
-                    <div class="stat-label">Всего баллов</div>
-                </div>
-            `;
+                    <div class="admin-stat-card">
+                        <div class="stat-number">${totalProducts}</div>
+                        <div class="stat-label">Товаров</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-number">${totalOrders}</div>
+                        <div class="stat-label">Заказов</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-number">${totalRevenue.toLocaleString()} BYN</div>
+                        <div class="stat-label">Выручка</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-number">${newOrders}</div>
+                        <div class="stat-label">Новых заказов</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-number">${userPoints}</div>
+                        <div class="stat-label">Всего баллов</div>
+                    </div>
+                `;
         }
 
         function adminRenderProducts() {
@@ -3470,15 +3332,15 @@
                 const badgeText = p.badge === 'sale' ? 'Скидка' : p.badge === 'new' ? 'Новинка' : p.badge === 'hit' ?
                     'Хит' : '';
                 tr.innerHTML = `
-                    <td>${p.id}</td>
-                    <td>${p.name}</td>
-                    <td>${p.category === 'unisex' ? 'Унисекс' : p.category === 'men' ? 'Мужской' : 'Женский'} ${badgeText ? '['+badgeText+']' : ''}</td>
-                    <td>${p.price} BYN</td>
-                    <td class="actions">
-                        <button class="edit-btn" onclick="adminEditProduct(${p.id})"><i class="fas fa-edit"></i></button>
-                        <button class="delete-btn" onclick="adminDeleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
-                    </td>
-                `;
+                        <td>${p.id}</td>
+                        <td>${p.name}</td>
+                        <td>${p.category === 'unisex' ? 'Унисекс' : p.category === 'men' ? 'Мужской' : 'Женский'} ${badgeText ? '['+badgeText+']' : ''}</td>
+                        <td>${p.price} BYN</td>
+                        <td class="actions">
+                            <button class="edit-btn" onclick="adminEditProduct(${p.id})"><i class="fas fa-edit"></i></button>
+                            <button class="delete-btn" onclick="adminDeleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    `;
                 tbody.appendChild(tr);
             });
         }
@@ -3495,24 +3357,24 @@
                 const tr = document.createElement('tr');
                 const items = order.items.map(i => i.title + ' (' + i.size + ') x' + i.quantity).join(', ');
                 tr.innerHTML = `
-                    <td><strong>${order.number || '#'+String(order.id).slice(-6)}</strong></td>
-                    <td>${order.name}</td>
-                    <td>${order.phone}</td>
-                    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${items}</td>
-                    <td>${order.total.toLocaleString()} BYN</td>
-                    <td>
-                        <select onchange="adminUpdateOrderStatus(${order.id}, this.value)" style="background:var(--bg-primary);color:white;border:1px solid var(--border-subtle);padding:0.2rem 0.5rem;border-radius:4px;">
-                            <option value="Новый" ${order.status === 'Новый' ? 'selected' : ''}>Новый</option>
-                            <option value="В обработке" ${order.status === 'В обработке' ? 'selected' : ''}>В обработке</option>
-                            <option value="Отправлен" ${order.status === 'Отправлен' ? 'selected' : ''}>Отправлен</option>
-                            <option value="Доставлен" ${order.status === 'Доставлен' ? 'selected' : ''}>Доставлен</option>
-                            <option value="Отменен" ${order.status === 'Отменен' ? 'selected' : ''}>Отменен</option>
-                        </select>
-                    </td>
-                    <td class="actions">
-                        <button class="delete-btn" onclick="adminDeleteOrder(${order.id})"><i class="fas fa-trash"></i></button>
-                    </td>
-                `;
+                        <td><strong>${order.number || '#'+String(order.id).slice(-6)}</strong></td>
+                        <td>${order.name}</td>
+                        <td>${order.phone}</td>
+                        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${items}</td>
+                        <td>${order.total.toLocaleString()} BYN</td>
+                        <td>
+                            <select onchange="adminUpdateOrderStatus(${order.id}, this.value)" style="background:var(--bg-primary);color:white;border:1px solid var(--border-subtle);padding:0.2rem 0.5rem;border-radius:4px;">
+                                <option value="Новый" ${order.status === 'Новый' ? 'selected' : ''}>Новый</option>
+                                <option value="В обработке" ${order.status === 'В обработке' ? 'selected' : ''}>В обработке</option>
+                                <option value="Отправлен" ${order.status === 'Отправлен' ? 'selected' : ''}>Отправлен</option>
+                                <option value="Доставлен" ${order.status === 'Доставлен' ? 'selected' : ''}>Доставлен</option>
+                                <option value="Отменен" ${order.status === 'Отменен' ? 'selected' : ''}>Отменен</option>
+                            </select>
+                        </td>
+                        <td class="actions">
+                            <button class="delete-btn" onclick="adminDeleteOrder(${order.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    `;
                 tbody.appendChild(tr);
             });
         }
@@ -3554,20 +3416,32 @@
             tbody.innerHTML = '';
             if (users.length === 0) {
                 tbody.innerHTML =
-                    '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Нет пользователей</td></tr>';
+                    '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">Нет пользователей</td></tr>';
                 return;
             }
             users.forEach((u, i) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${i + 1}</td>
-                    <td>${u.name}</td>
-                    <td>${u.phone}</td>
-                    <td>${u.orders}</td>
-                    <td>${userPoints}</td>
-                `;
+                        <td>${i + 1}</td>
+                        <td>${u.name}</td>
+                        <td>${u.phone}</td>
+                        <td>${u.orders}</td>
+                        <td>${userPoints}</td>
+                        <td class="actions">
+                            <button onclick="adminAddPointsToUser('${u.phone}')" style="color:var(--gold);background:transparent;border:none;cursor:pointer;"><i class="fas fa-plus-circle"></i></button>
+                        </td>
+                    `;
                 tbody.appendChild(tr);
             });
+        }
+
+        function adminAddPointsToUser(phone) {
+            const amount = prompt('Введите количество баллов для пользователя ' + phone + ':');
+            if (amount && !isNaN(amount) && parseInt(amount) > 0) {
+                addPoints(parseInt(amount), 'Администратор: ' + phone);
+                adminRefresh();
+                showToast('Добавлено ' + amount + ' баллов пользователю ' + phone, 'fa-check-circle');
+            }
         }
 
         function adminRenderReviews() {
@@ -3583,14 +3457,14 @@
                 const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${i + 1}</td>
-                    <td>${r.name}</td>
-                    <td>${r.text}</td>
-                    <td>${stars}</td>
-                    <td class="actions">
-                        <button class="delete-btn" onclick="showToast('Отзыв удален','fa-trash')"><i class="fas fa-trash"></i></button>
-                    </td>
-                `;
+                        <td>${i + 1}</td>
+                        <td>${r.name}</td>
+                        <td>${r.text}</td>
+                        <td>${stars}</td>
+                        <td class="actions">
+                            <button class="delete-btn" onclick="showToast('Отзыв удален','fa-trash')"><i class="fas fa-trash"></i></button>
+                        </td>
+                    `;
                 tbody.appendChild(tr);
             });
         }
@@ -3607,11 +3481,11 @@
                 const tr = document.createElement('tr');
                 const sign = record.amount > 0 ? '+' : '';
                 tr.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${record.reason}</td>
-                    <td style="color:${record.amount > 0 ? 'var(--success)' : 'var(--danger)'}">${sign}${record.amount}</td>
-                    <td>${record.balance}</td>
-                `;
+                        <td>${index + 1}</td>
+                        <td>${record.reason}</td>
+                        <td style="color:${record.amount > 0 ? 'var(--success)' : 'var(--danger)'}">${sign}${record.amount}</td>
+                        <td>${record.balance}</td>
+                    `;
                 tbody.appendChild(tr);
             });
         }
@@ -3628,6 +3502,77 @@
             adminRenderPoints();
             adminRenderStats();
             showToast('Добавлено ' + amount + ' баллов пользователю ' + phone, 'fa-check-circle');
+        }
+
+        function adminAddSelfPoints() {
+            const amount = parseInt(document.getElementById('adminPointsAmount').value);
+            if (!amount || amount <= 0) {
+                showToast('Введите количество баллов', 'fa-exclamation-circle');
+                return;
+            }
+            addPoints(amount, 'Администратор: себе');
+            document.getElementById('adminPointsAmount').value = '';
+            adminRenderPoints();
+            adminRenderStats();
+            showToast('Добавлено ' + amount + ' баллов себе', 'fa-check-circle');
+        }
+
+        function adminRemovePoints() {
+            const phone = document.getElementById('adminUserPhoneRemove').value.trim();
+            const amount = parseInt(document.getElementById('adminPointsRemove').value);
+            if (!phone || !amount || amount <= 0) {
+                showToast('Введите телефон и количество баллов', 'fa-exclamation-circle');
+                return;
+            }
+            if (userPoints < amount) {
+                showToast('Недостаточно баллов для списания', 'fa-exclamation-circle');
+                return;
+            }
+            if (!confirm('Списать ' + amount + ' баллов у пользователя ' + phone + '?')) return;
+
+            userPoints -= amount;
+            localStorage.setItem('userPoints', userPoints);
+            pointsHistory.push({
+                date: new Date().toLocaleDateString('ru-RU'),
+                amount: -amount,
+                reason: 'Списано администратором: ' + phone,
+                balance: userPoints
+            });
+            localStorage.setItem('pointsHistory', JSON.stringify(pointsHistory));
+            document.getElementById('adminUserPhoneRemove').value = '';
+            document.getElementById('adminPointsRemove').value = '';
+            adminRenderPoints();
+            adminRenderStats();
+            updatePointsUI();
+            showToast('Списано ' + amount + ' баллов у пользователя ' + phone, 'fa-trash');
+        }
+
+        function adminClearAllData() {
+            if (!confirm('Удалить все данные? (заказы, баллы, корзину, избранное)')) return;
+            if (!confirm('Вы уверены? Это действие необратимо!')) return;
+
+            orders = [];
+            cart = [];
+            wishlist = [];
+            userPoints = 0;
+            activeDiscount = 0;
+            pointsHistory = [];
+            localStorage.removeItem('orders');
+            localStorage.removeItem('wishlist');
+            localStorage.removeItem('userPoints');
+            localStorage.removeItem('activeDiscount');
+            localStorage.removeItem('pointsHistory');
+            localStorage.removeItem('userPhone');
+            localStorage.removeItem('lastDailyBonus');
+            localStorage.removeItem('registrationBonus');
+            localStorage.removeItem('lastWishlistBonus');
+
+            updateCartUI();
+            updateWishlistUI();
+            updatePointsUI();
+            updateMyOrders();
+            adminRefresh();
+            showToast('Все данные очищены', 'fa-trash');
         }
 
         function adminEditProduct(id) {
@@ -3739,13 +3684,31 @@
             document.getElementById('adminProductForm').classList.add('active');
         }
 
+        // ===================== ЗАКРЫТИЕ ПО ESC =====================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePointsModal();
+                document.getElementById('cartDrawer').classList.remove('active');
+                document.getElementById('cartOverlay').classList.remove('active');
+                closeInfoPage();
+                if (document.getElementById('adminLoginOverlay').classList.contains('active')) {
+                    closeAdminLogin();
+                }
+            }
+        });
+
         // ===================== ИНИЦИАЛИЗАЦИЯ =====================
         updateCartUI();
         updateWishlistUI();
         updatePointsUI();
         console.log('AROM·DETALIS загружен');
-        console.log('Раздел "Баллы" в модальном окне');
-        console.log('Игра доступна 2 раза в день');
+        console.log('✅ Починена отправка в Telegram');
+        console.log('✅ Починено форматирование телефона');
+        console.log('✅ Починено избранное');
+        console.log('✅ Добавлена анимация полета в корзину');
+        console.log('✅ В админке: добавление баллов пользователям и себе');
+        console.log('✅ В админке: списание баллов');
+        console.log('✅ В админке: очистка всех данных');
     </script>
 </body>
 </html>
