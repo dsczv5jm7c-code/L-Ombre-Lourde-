@@ -33,6 +33,7 @@
             --radius: 12px;
             --danger: #8B0000;
             --success: #2d5a27;
+            --gold: #FFD700;
         }
 
         html {
@@ -276,6 +277,10 @@
             justify-content: center;
             font-weight: 700;
         }
+        .badge.gold {
+            background: var(--gold);
+            color: #0A0808;
+        }
 
         .burger {
             display: none;
@@ -292,7 +297,7 @@
 
         /* ===== HERO ===== */
         .hero {
-            min-height: 70vh;
+            min-height: 65vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -355,6 +360,23 @@
         .btn-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
+        }
+        .btn-gold {
+            background: var(--gold);
+            color: #0A0808;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 0.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
         /* ===== СЕКЦИИ ===== */
@@ -627,6 +649,182 @@
             font-size: 0.9rem;
         }
 
+        /* ===== БАЛЛЫ И СКИДКИ ===== */
+        .points-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            border: 1px solid var(--border-subtle);
+            margin: 2rem 0;
+        }
+        .points-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .points-balance {
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .points-balance span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+        .points-rules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .points-rule {
+            background: var(--bg-card);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+        .points-rule .rule-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .points-rule .rule-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .points-rule .rule-value {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .discounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .discount-card {
+            background: var(--bg-card);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .discount-card:hover {
+            border-color: var(--gold);
+        }
+        .discount-card .discount-value {
+            font-size: 1.8rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .discount-card .discount-cost {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        .discount-card .discount-btn {
+            margin-top: 0.5rem;
+            padding: 0.3rem 1.5rem;
+            background: var(--gold);
+            color: #0A0808;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+        .discount-card .discount-btn:hover {
+            transform: scale(1.05);
+        }
+        .discount-card .discount-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ===== МИНИ-ИГРА ===== */
+        .game-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            border: 1px solid var(--border-subtle);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .game-card {
+            aspect-ratio: 1;
+            background: var(--bg-card);
+            border: 2px solid var(--border-subtle);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            user-select: none;
+        }
+        .game-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+        .game-card.flipped {
+            background: var(--accent);
+            color: #0A0808;
+            border-color: var(--accent);
+        }
+        .game-card.matched {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+            cursor: default;
+        }
+        .game-card.matched:hover {
+            transform: none;
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .game-stat {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .game-stat span {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        .game-result {
+            font-size: 1.2rem;
+            color: var(--gold);
+            font-weight: 700;
+            min-height: 2rem;
+        }
+
         /* ===== ОТЗЫВЫ ===== */
         .reviews-section {
             background: var(--bg-secondary);
@@ -789,6 +987,12 @@
             font-size: 0.75rem;
             text-align: right;
             margin-bottom: 1rem;
+        }
+        .cart-discount {
+            color: var(--gold);
+            font-size: 0.9rem;
+            text-align: right;
+            margin-bottom: 0.5rem;
         }
 
         .checkout-form {
@@ -1203,18 +1407,10 @@
             background: var(--danger);
             color: white;
         }
-        .admin-header .admin-actions .btn-success {
-            color: var(--success);
-            border-color: var(--success);
-        }
-        .admin-header .admin-actions .btn-success:hover {
-            background: var(--success);
-            color: white;
-        }
 
         .admin-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -1397,7 +1593,6 @@
             color: var(--text-primary);
         }
 
-        /* Дополнительные стили для админки */
         .admin-search {
             display: flex;
             gap: 1rem;
@@ -1430,105 +1625,6 @@
         .admin-search button:hover {
             border-color: var(--accent);
             color: var(--accent);
-        }
-
-        /* ===== АДАПТИВ ===== */
-        @media (max-width: 992px) {
-            header {
-                padding: 0 2rem;
-            }
-            nav {
-                display: none;
-            }
-            .burger {
-                display: flex;
-            }
-            section {
-                padding: 3rem 1.5rem;
-            }
-            .promo-banner {
-                padding: 1.5rem;
-            }
-            .reviews-section {
-                padding: 1.5rem;
-            }
-            .preloader-signature {
-                font-size: 3rem;
-            }
-            .admin-header {
-                flex-direction: column;
-                align-items: stretch;
-                text-align: center;
-            }
-            .admin-header .admin-actions {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            .admin-form .form-group {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (max-width: 576px) {
-            header {
-                padding: 0 1rem;
-                height: 60px;
-            }
-            .logo {
-                font-size: 1.1rem;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            .cart-drawer {
-                padding: 1.2rem;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                text-align: center;
-            }
-            .preloader-signature {
-                font-size: 2.2rem;
-            }
-            .preloader-sub {
-                font-size: 0.8rem;
-                letter-spacing: 4px;
-            }
-            .admin-panel {
-                padding: 1rem;
-            }
-            .admin-login-box {
-                padding: 1.5rem;
-            }
-            .admin-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        /* ===== АНИМАЦИИ ===== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate-in {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-        .delay-1 {
-            animation-delay: 0.1s;
-        }
-        .delay-2 {
-            animation-delay: 0.2s;
-        }
-        .delay-3 {
-            animation-delay: 0.3s;
         }
 
         /* ===== ИНФОРМАЦИОННЫЕ СТРАНИЦЫ ===== */
@@ -1572,6 +1668,136 @@
         .info-page .back-link:hover {
             color: var(--accent-hover);
         }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 992px) {
+            header {
+                padding: 0 2rem;
+            }
+            nav {
+                display: none;
+            }
+            .burger {
+                display: flex;
+            }
+            section {
+                padding: 3rem 1.5rem;
+            }
+            .promo-banner {
+                padding: 1.5rem;
+            }
+            .reviews-section {
+                padding: 1.5rem;
+            }
+            .preloader-signature {
+                font-size: 3rem;
+            }
+            .admin-header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .admin-header .admin-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .admin-form .form-group {
+                grid-template-columns: 1fr;
+            }
+            .game-board {
+                max-width: 250px;
+            }
+        }
+        @media (max-width: 576px) {
+            header {
+                padding: 0 1rem;
+                height: 60px;
+            }
+            .logo {
+                font-size: 1.1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .cart-drawer {
+                padding: 1.2rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                text-align: center;
+            }
+            .preloader-signature {
+                font-size: 2.2rem;
+            }
+            .preloader-sub {
+                font-size: 0.8rem;
+                letter-spacing: 4px;
+            }
+            .admin-panel {
+                padding: 1rem;
+            }
+            .admin-login-box {
+                padding: 1.5rem;
+            }
+            .admin-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .points-rules {
+                grid-template-columns: 1fr;
+            }
+            .game-board {
+                max-width: 200px;
+                gap: 0.3rem;
+            }
+            .game-card {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ===== АНИМАЦИИ ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes coinDrop {
+            0% {
+                transform: translateY(-50px) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(10px) scale(1.3);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+        .coin-animation {
+            animation: coinDrop 0.6s ease forwards;
+        }
     </style>
 </head>
 <body>
@@ -1596,10 +1822,12 @@
     <!-- ===== МОБИЛЬНОЕ МЕНЮ ===== -->
     <div class="mobile-nav" id="mobileNav">
         <a href="#catalog" onclick="closeMobileNav()">Коллекция</a>
+        <a href="#points" onclick="closeMobileNav()">Баллы</a>
+        <a href="#game" onclick="closeMobileNav()">Игра</a>
         <a href="#reviews" onclick="closeMobileNav()">Отзывы</a>
         <a href="#about" onclick="closeMobileNav()">О нас</a>
         <a href="#contacts" onclick="closeMobileNav()">Контакты</a>
-        <a onclick="closeMobileNav(); openAdminLogin();">Админ панель</a>
+        <a onclick="closeMobileNav(); openAdminLogin();">Админ</a>
     </div>
 
     <!-- ===== HEADER ===== -->
@@ -1608,6 +1836,8 @@
 
         <nav>
             <a href="#catalog">Коллекция</a>
+            <a href="#points">Баллы</a>
+            <a href="#game">Игра</a>
             <a href="#reviews">Отзывы</a>
             <a href="#about">О нас</a>
             <a href="#contacts">Контакты</a>
@@ -1615,7 +1845,10 @@
         </nav>
 
         <div class="header-actions">
-            <button id="searchBtn" title="Поиск"><i class="fas fa-search"></i></button>
+            <button id="pointsBtn" title="Баллы" onclick="document.getElementById('points').scrollIntoView({behavior:'smooth'})">
+                <i class="fas fa-coins" style="color: var(--gold);"></i>
+                <span class="badge gold" id="pointsBadge">0</span>
+            </button>
             <button id="wishlistBtn" title="Избранное"><i class="fas fa-heart"></i><span class="badge" id="wishlistCount">0</span></button>
             <button id="cartBtn" title="Корзина">
                 <i class="fas fa-shopping-bag"></i>
@@ -1636,17 +1869,127 @@
         <p>Нишевая парфюмерия для тех, кто ищет не просто запах, а историю. Каждый флакон — это характер.</p>
         <div class="hero-buttons">
             <a href="#catalog" class="btn-primary">Исследовать</a>
-            <button class="btn-secondary" onclick="openAdminLogin()">Админ панель</button>
+            <a href="#game" class="btn-gold"><i class="fas fa-gamepad"></i> Играть за баллы</a>
         </div>
     </section>
 
     <!-- ===== ПРОМО-БАННЕР ===== -->
     <section style="padding-top: 0;">
         <div class="promo-banner">
-            <h3>✦ Первый заказ — скидка 15%</h3>
-            <p>Используйте промокод при оформлении</p>
-            <div class="promo-code">AROM15</div>
-            <p style="margin-top: 0.8rem; font-size: 0.8rem; color: var(--text-muted);">Действует до 31 декабря 2026</p>
+            <h3>✦ Накопительная система баллов</h3>
+            <p>Зарабатывайте баллы за покупки и активность, обменивайте на скидки!</p>
+            <div class="promo-code">1 BYN = 1 балл</div>
+            <p style="margin-top: 0.8rem; font-size: 0.8rem; color: var(--text-muted);">Играйте в мини-игру и получайте дополнительные баллы!</p>
+        </div>
+    </section>
+
+    <!-- ===== БАЛЛЫ И СКИДКИ ===== -->
+    <section id="points">
+        <div class="section-title">
+            <h2>💰 Накопительная система</h2>
+            <p>Зарабатывайте баллы и получайте скидки</p>
+        </div>
+
+        <div class="points-section">
+            <div class="points-header">
+                <div>
+                    <h3>Ваш баланс</h3>
+                    <div class="points-balance" id="userPoints">0 <span>баллов</span></div>
+                </div>
+                <div>
+                    <button class="btn-gold" onclick="refreshPoints()"><i class="fas fa-sync"></i> Обновить</button>
+                </div>
+            </div>
+
+            <div class="points-rules">
+                <div class="points-rule">
+                    <div class="rule-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <div class="rule-value">1 BYN = 1 балл</div>
+                    <div class="rule-text">За каждую покупку</div>
+                </div>
+                <div class="points-rule">
+                    <div class="rule-icon"><i class="fas fa-star"></i></div>
+                    <div class="rule-value">+50 баллов</div>
+                    <div class="rule-text">За регистрацию</div>
+                </div>
+                <div class="points-rule">
+                    <div class="rule-icon"><i class="fas fa-gamepad"></i></div>
+                    <div class="rule-value">+10-30 баллов</div>
+                    <div class="rule-text">За победу в игре</div>
+                </div>
+                <div class="points-rule">
+                    <div class="rule-icon"><i class="fas fa-calendar"></i></div>
+                    <div class="rule-value">+5 баллов</div>
+                    <div class="rule-text">Ежедневный бонус</div>
+                </div>
+                <div class="points-rule">
+                    <div class="rule-icon"><i class="fas fa-gift"></i></div>
+                    <div class="rule-value">+100 баллов</div>
+                    <div class="rule-text">За первый заказ</div>
+                </div>
+                <div class="points-rule">
+                    <div class="rule-icon"><i class="fas fa-users"></i></div>
+                    <div class="rule-value">+200 баллов</div>
+                    <div class="rule-text">За приглашение друга</div>
+                </div>
+            </div>
+
+            <h3 style="margin: 1.5rem 0 1rem; color: var(--accent);">Обмен баллов на скидки</h3>
+            <div class="discounts-grid" id="discountsGrid">
+                <div class="discount-card">
+                    <div class="discount-value">3%</div>
+                    <div class="discount-cost">Стоимость: 100 баллов</div>
+                    <button class="discount-btn" onclick="applyDiscount(3, 100)">Обменять</button>
+                </div>
+                <div class="discount-card">
+                    <div class="discount-value">5%</div>
+                    <div class="discount-cost">Стоимость: 200 баллов</div>
+                    <button class="discount-btn" onclick="applyDiscount(5, 200)">Обменять</button>
+                </div>
+                <div class="discount-card">
+                    <div class="discount-value">10%</div>
+                    <div class="discount-cost">Стоимость: 500 баллов</div>
+                    <button class="discount-btn" onclick="applyDiscount(10, 500)">Обменять</button>
+                </div>
+                <div class="discount-card">
+                    <div class="discount-value">15%</div>
+                    <div class="discount-cost">Стоимость: 1000 баллов</div>
+                    <button class="discount-btn" onclick="applyDiscount(15, 1000)">Обменять</button>
+                </div>
+                <div class="discount-card">
+                    <div class="discount-value">20%</div>
+                    <div class="discount-cost">Стоимость: 2000 баллов</div>
+                    <button class="discount-btn" onclick="applyDiscount(20, 2000)">Обменять</button>
+                </div>
+                <div class="discount-card">
+                    <div class="discount-value">30%</div>
+                    <div class="discount-cost">Стоимость: 5000 баллов</div>
+                    <button class="discount-btn" onclick="applyDiscount(30, 5000)">Обменять</button>
+                </div>
+            </div>
+
+            <div id="discountMessage" style="text-align:center;margin-top:1rem;color:var(--gold);font-weight:600;"></div>
+        </div>
+    </section>
+
+    <!-- ===== МИНИ-ИГРА ===== -->
+    <section id="game">
+        <div class="section-title">
+            <h2>🎮 Память</h2>
+            <p>Найди все пары и заработай баллы!</p>
+        </div>
+
+        <div class="game-section">
+            <div class="game-area">
+                <div class="game-stats">
+                    <div class="game-stat">Попытки: <span id="gameAttempts">0</span></div>
+                    <div class="game-stat">Совпадений: <span id="gameMatches">0</span>/8</div>
+                    <div class="game-stat">Баллов: <span id="gamePoints">0</span></div>
+                </div>
+                <div class="game-board" id="gameBoard"></div>
+                <div class="game-result" id="gameResult"></div>
+                <button class="btn-primary" onclick="startGame()"><i class="fas fa-redo"></i> Новая игра</button>
+            </div>
         </div>
     </section>
 
@@ -1800,7 +2143,6 @@
     </footer>
 
     <!-- ===== АДМИН-ПАНЕЛЬ ===== -->
-    <!-- Окно входа (без авто-ввода) -->
     <div class="admin-login-overlay" id="adminLoginOverlay">
         <div class="admin-login-box">
             <div class="login-icon"><i class="fas fa-lock"></i></div>
@@ -1813,18 +2155,15 @@
         </div>
     </div>
 
-    <!-- Панель управления -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
-            <h2>🔐 Админ-панель AROM·DETALIS</h2>
+            <h2>🔐 Админ-панель</h2>
             <div class="admin-actions">
                 <button onclick="adminRefresh()"><i class="fas fa-sync"></i> Обновить</button>
-                <button class="btn-success" onclick="adminExportData()"><i class="fas fa-download"></i> Экспорт</button>
                 <button class="btn-danger" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Выйти</button>
             </div>
         </div>
 
-        <!-- Статистика -->
         <div class="admin-stats" id="adminStats"></div>
 
         <div class="admin-tabs">
@@ -1832,114 +2171,69 @@
             <button data-tab="orders" onclick="adminSwitchTab('orders')">📋 Заказы</button>
             <button data-tab="users" onclick="adminSwitchTab('users')">👤 Пользователи</button>
             <button data-tab="reviews" onclick="adminSwitchTab('reviews')">⭐ Отзывы</button>
-            <button data-tab="add" onclick="adminSwitchTab('add')">➕ Добавить товар</button>
-            <button data-tab="settings" onclick="adminSwitchTab('settings')">⚙️ Настройки</button>
+            <button data-tab="points" onclick="adminSwitchTab('points')">💰 Баллы</button>
+            <button data-tab="add" onclick="adminSwitchTab('add')">➕ Добавить</button>
         </div>
 
         <div class="admin-content">
-            <!-- Товары -->
             <div id="adminProductsTab">
-                <div class="admin-search">
-                    <input type="text" id="adminProductSearch" placeholder="Поиск товаров..." oninput="adminSearchProducts()">
-                    <button onclick="adminSearchProducts()"><i class="fas fa-search"></i> Найти</button>
-                    <button onclick="adminResetSearch()"><i class="fas fa-times"></i> Сброс</button>
-                </div>
                 <div class="admin-table-wrap">
                     <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Название</th>
-                                <th>Категория</th>
-                                <th>Цена</th>
-                                <th>Рейтинг</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>ID</th><th>Название</th><th>Категория</th><th>Цена</th><th>Действия</th></tr></thead>
                         <tbody id="adminProductsTable"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Заказы -->
-            <div id="adminOrdersTab" style="display: none;">
-                <div class="admin-search">
-                    <input type="text" id="adminOrderSearch" placeholder="Поиск заказов..." oninput="adminSearchOrders()">
-                    <button onclick="adminSearchOrders()"><i class="fas fa-search"></i> Найти</button>
-                    <select id="adminOrderFilter" onchange="adminFilterOrders()" style="background:var(--bg-primary);color:white;border:1px solid var(--border-subtle);padding:0.7rem 1rem;border-radius:var(--radius);">
-                        <option value="all">Все статусы</option>
-                        <option value="Новый">Новый</option>
-                        <option value="В обработке">В обработке</option>
-                        <option value="Отправлен">Отправлен</option>
-                        <option value="Доставлен">Доставлен</option>
-                        <option value="Отменен">Отменен</option>
-                    </select>
-                </div>
+            <div id="adminOrdersTab" style="display:none;">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Клиент</th>
-                                <th>Телефон</th>
-                                <th>Товары</th>
-                                <th>Сумма</th>
-                                <th>Статус</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>#</th><th>Клиент</th><th>Телефон</th><th>Сумма</th><th>Статус</th><th>Действия</th></tr></thead>
                         <tbody id="adminOrdersTable"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Пользователи -->
-            <div id="adminUsersTab" style="display: none;">
+            <div id="adminUsersTab" style="display:none;">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Имя</th>
-                                <th>Телефон</th>
-                                <th>Заказов</th>
-                                <th>Сумма заказов</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>ID</th><th>Имя</th><th>Телефон</th><th>Заказов</th><th>Баллы</th></tr></thead>
                         <tbody id="adminUsersTable"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Отзывы -->
-            <div id="adminReviewsTab" style="display: none;">
+            <div id="adminReviewsTab" style="display:none;">
                 <div class="admin-table-wrap">
                     <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Имя</th>
-                                <th>Отзыв</th>
-                                <th>Оценка</th>
-                                <th>Дата</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>#</th><th>Имя</th><th>Отзыв</th><th>Оценка</th><th>Действия</th></tr></thead>
                         <tbody id="adminReviewsTable"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Добавление/редактирование -->
-            <div id="adminAddTab" style="display: none;">
-                <div class="admin-form active" id="adminProductForm">
+            <div id="adminPointsTab" style="display:none;">
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead><tr><th>#</th><th>Пользователь</th><th>Баллы</th><th>История</th><th>Действия</th></tr></thead>
+                        <tbody id="adminPointsTable"></tbody>
+                    </table>
+                </div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap;">
+                    <input type="text" id="adminUserPhone" placeholder="Телефон пользователя" style="background:var(--bg-primary);border:1px solid var(--border-subtle);padding:0.8rem;border-radius:var(--radius);color:white;flex:1;">
+                    <input type="number" id="adminPointsAmount" placeholder="Количество баллов" style="background:var(--bg-primary);border:1px solid var(--border-subtle);padding:0.8rem;border-radius:var(--radius);color:white;flex:1;">
+                    <button onclick="adminAddPoints()" class="btn-primary" style="padding:0.8rem 2rem;">Добавить баллы</button>
+                </div>
+            </div>
+
+            <div id="adminAddTab" style="display:none;">
+                <div class="admin-form active">
                     <h3 id="adminFormTitle">Добавить товар</h3>
                     <div class="form-group">
                         <input type="text" id="adminFormName" placeholder="Название">
-                        <input type="text" id="adminFormTags" placeholder="Теги (например: Унисекс · Древесный)">
+                        <input type="text" id="adminFormTags" placeholder="Теги">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group full">
                         <textarea id="adminFormDesc" placeholder="Описание"></textarea>
                     </div>
                     <div class="form-group">
@@ -1948,7 +2242,7 @@
                             <option value="men">Мужской</option>
                             <option value="women">Женский</option>
                         </select>
-                        <input type="number" id="adminFormPrice" placeholder="Цена (BYN)">
+                        <input type="number" id="adminFormPrice" placeholder="Цена">
                     </div>
                     <div class="form-group">
                         <select id="adminFormBadge">
@@ -1957,40 +2251,13 @@
                             <option value="sale">Скидка</option>
                             <option value="hit">Хит</option>
                         </select>
-                        <input type="text" id="adminFormIcon" placeholder="Иконка (например: fa-feather-alt)">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" id="adminFormRating" placeholder="Рейтинг (1-5)" min="1" max="5" value="5">
-                        <input type="number" id="adminFormReviews" placeholder="Количество отзывов" value="0">
+                        <input type="text" id="adminFormIcon" placeholder="Иконка (fa-feather-alt)">
                     </div>
                     <div class="form-actions">
                         <button class="btn-save" onclick="adminSaveProduct()">Сохранить</button>
                         <button class="btn-cancel" onclick="adminCancelForm()">Отмена</button>
                     </div>
                     <input type="hidden" id="adminFormEditId">
-                </div>
-            </div>
-
-            <!-- Настройки -->
-            <div id="adminSettingsTab" style="display: none;">
-                <div class="admin-form active">
-                    <h3>Настройки магазина</h3>
-                    <div class="form-group full">
-                        <input type="text" id="adminShopName" placeholder="Название магазина" value="AROM·DETALIS">
-                    </div>
-                    <div class="form-group full">
-                        <input type="text" id="adminShopPhone" placeholder="Телефон" value="+375 (33) 362-48-00">
-                    </div>
-                    <div class="form-group full">
-                        <input type="text" id="adminShopAddress" placeholder="Адрес" value="Минск, ул. Немига, 14">
-                    </div>
-                    <div class="form-group full">
-                        <input type="text" id="adminPromoCode" placeholder="Промокод" value="AROM15">
-                        <input type="number" id="adminPromoDiscount" placeholder="Скидка %" value="15">
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn-save" onclick="adminSaveSettings()">Сохранить настройки</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -2013,12 +2280,13 @@
                 <span>Итого:</span>
                 <span id="cartTotalPrice">0 BYN</span>
             </div>
+            <div class="cart-discount" id="cartDiscountDisplay" style="display:none;">Скидка: <span id="cartDiscountValue">0</span>%</div>
             <div class="cart-shipping">Доставка рассчитывается при оформлении</div>
             <div class="checkout-form" id="checkoutFormBlock">
-                <input type="text" class="checkout-input" id="clientName" placeholder="Ваше имя (только кириллица)" pattern="[А-Яа-яЁё\s-]+" title="Только буквы русского алфавита">
+                <input type="text" class="checkout-input" id="clientName" placeholder="Ваше имя (только кириллица)" pattern="[А-Яа-яЁё\s-]+">
                 <input type="tel" class="checkout-input" id="clientPhone" placeholder="+375 (__) ___ __ __" pattern="\+375\s?\(?\d{2}\)?\s?\d{3}\s?\d{2}\s?\d{2}">
                 <button class="btn-checkout" id="submitOrderBtn">
-                    <i class="fas fa-paper-plane"></i> Отправить в Telegram (@senghhx)
+                    <i class="fas fa-paper-plane"></i> Отправить в Telegram
                 </button>
             </div>
         </div>
@@ -2041,11 +2309,7 @@
             icon: 'fa-feather-alt',
             rating: 5,
             reviews: 24,
-            sizes: [
-                { size: '30 мл', coef: 1 },
-                { size: '50 мл', coef: 1.6 },
-                { size: '100 мл', coef: 2.8 }
-            ],
+            sizes: [{ size: '30 мл', coef: 1 }, { size: '50 мл', coef: 1.6 }, { size: '100 мл', coef: 2.8 }],
             sale: false
         }, {
             id: 2,
@@ -2058,11 +2322,7 @@
             icon: 'fa-spa',
             rating: 4,
             reviews: 18,
-            sizes: [
-                { size: '30 мл', coef: 1 },
-                { size: '50 мл', coef: 1.6 },
-                { size: '100 мл', coef: 2.8 }
-            ],
+            sizes: [{ size: '30 мл', coef: 1 }, { size: '50 мл', coef: 1.6 }, { size: '100 мл', coef: 2.8 }],
             sale: false
         }, {
             id: 3,
@@ -2075,11 +2335,7 @@
             icon: 'fa-tree',
             rating: 5,
             reviews: 31,
-            sizes: [
-                { size: '30 мл', coef: 1 },
-                { size: '50 мл', coef: 1.6 },
-                { size: '100 мл', coef: 2.8 }
-            ],
+            sizes: [{ size: '30 мл', coef: 1 }, { size: '50 мл', coef: 1.6 }, { size: '100 мл', coef: 2.8 }],
             sale: true
         }, {
             id: 4,
@@ -2092,11 +2348,7 @@
             icon: 'fa-moon',
             rating: 5,
             reviews: 42,
-            sizes: [
-                { size: '30 мл', coef: 1 },
-                { size: '50 мл', coef: 1.6 },
-                { size: '100 мл', coef: 2.8 }
-            ],
+            sizes: [{ size: '30 мл', coef: 1 }, { size: '50 мл', coef: 1.6 }, { size: '100 мл', coef: 2.8 }],
             sale: false
         }, {
             id: 5,
@@ -2109,11 +2361,7 @@
             icon: 'fa-leaf',
             rating: 4,
             reviews: 15,
-            sizes: [
-                { size: '30 мл', coef: 1 },
-                { size: '50 мл', coef: 1.6 },
-                { size: '100 мл', coef: 2.8 }
-            ],
+            sizes: [{ size: '30 мл', coef: 1 }, { size: '50 мл', coef: 1.6 }, { size: '100 мл', coef: 2.8 }],
             sale: false
         }, {
             id: 6,
@@ -2126,11 +2374,7 @@
             icon: 'fa-rose',
             rating: 5,
             reviews: 27,
-            sizes: [
-                { size: '30 мл', coef: 1 },
-                { size: '50 мл', coef: 1.6 },
-                { size: '100 мл', coef: 2.8 }
-            ],
+            sizes: [{ size: '30 мл', coef: 1 }, { size: '50 мл', coef: 1.6 }, { size: '100 мл', coef: 2.8 }],
             sale: true
         }];
 
@@ -2140,27 +2384,22 @@
         let currentTheme = 'dark';
         let nextProductId = 7;
         let editingProductId = null;
-        let shopSettings = JSON.parse(localStorage.getItem('shopSettings')) || {
-            name: 'AROM·DETALIS',
-            phone: '+375 (33) 362-48-00',
-            address: 'Минск, ул. Немига, 14',
-            promoCode: 'AROM15',
-            promoDiscount: 15
-        };
 
-        // Отзывы для админки
-        let reviewData = [
-            { name: 'Александр', text: 'Ombre Noire — это нечто! Держится весь день, получаю комплименты постоянно.', rating: 5,
-                date: '2 дня назад' },
-            { name: 'Екатерина', text: 'Купила Lourde Peau в подарок мужу, в итоге забрала себе. Нежный, но глубокий.', rating: 5,
-                date: '1 неделя назад' },
-            { name: 'Максим', text: 'Fumée de Bois — идеальный зимний аромат. Немного дороговат, но качество на высоте.',
-                rating: 4, date: '2 недели назад' },
-            { name: 'Ольга', text: 'Заказала Rose de Minuit, ожидала большего. Аромат стойкий, но на мне раскрывается слишком сладко.',
-                rating: 3, date: '3 недели назад' },
-            { name: 'Сергей', text: 'Разочарован. Заказал два аромата, один из них вообще не похож на описание.', rating: 2,
-                date: '2 месяца назад' }
-        ];
+        // ===================== СИСТЕМА БАЛЛОВ =====================
+        let userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
+        let activeDiscount = parseInt(localStorage.getItem('activeDiscount')) || 0;
+        let userPhone = localStorage.getItem('userPhone') || '';
+
+        // История баллов
+        let pointsHistory = JSON.parse(localStorage.getItem('pointsHistory')) || [];
+
+        // ===================== МИНИ-ИГРА =====================
+        let gameCards = [];
+        let gameFlipped = [];
+        let gameMatched = [];
+        let gameAttempts = 0;
+        let gameLocked = false;
+        let gamePointsEarned = 0;
 
         // ===================== ПРЕЛОАДЕР =====================
         window.addEventListener('load', function() {
@@ -2171,6 +2410,22 @@
             renderReviews();
             updateWishlistUI();
             updateCartUI();
+            updatePointsUI();
+            startGame();
+            // Ежедневный бонус
+            const lastDaily = localStorage.getItem('lastDailyBonus');
+            const today = new Date().toDateString();
+            if (lastDaily !== today) {
+                addPoints(5, 'Ежедневный бонус');
+                localStorage.setItem('lastDailyBonus', today);
+                showToast('+5 баллов за ежедневный бонус!', 'fa-star');
+            }
+            // Бонус за регистрацию (однократно)
+            if (!localStorage.getItem('registrationBonus')) {
+                addPoints(50, 'Бонус за регистрацию');
+                localStorage.setItem('registrationBonus', 'true');
+                showToast('+50 баллов за регистрацию!', 'fa-gift');
+            }
         });
 
         // ===================== ТОСТ =====================
@@ -2186,6 +2441,170 @@
             toastTimer = setTimeout(function() {
                 toast.classList.remove('visible');
             }, 2500);
+        }
+
+        // ===================== БАЛЛЫ =====================
+        function addPoints(amount, reason = 'Покупка') {
+            userPoints += amount;
+            localStorage.setItem('userPoints', userPoints);
+            pointsHistory.push({
+                date: new Date().toLocaleDateString('ru-RU'),
+                amount: amount,
+                reason: reason,
+                balance: userPoints
+            });
+            localStorage.setItem('pointsHistory', JSON.stringify(pointsHistory));
+            updatePointsUI();
+            return userPoints;
+        }
+
+        function updatePointsUI() {
+            document.getElementById('userPoints').innerHTML = userPoints + ' <span>баллов</span>';
+            document.getElementById('pointsBadge').textContent = userPoints;
+            // Обновляем кнопки скидок
+            document.querySelectorAll('.discount-btn').forEach(function(btn) {
+                const cost = parseInt(btn.getAttribute('data-cost') || btn.onclick.toString().match(/\d+/g)[1]);
+                btn.disabled = userPoints < cost;
+            });
+            // Показываем активную скидку
+            if (activeDiscount > 0) {
+                document.getElementById('discountMessage').textContent = 'Активная скидка: ' + activeDiscount +
+                    '% (действует до конца месяца)';
+                document.getElementById('cartDiscountDisplay').style.display = 'block';
+                document.getElementById('cartDiscountValue').textContent = activeDiscount;
+            } else {
+                document.getElementById('discountMessage').textContent = '';
+                document.getElementById('cartDiscountDisplay').style.display = 'none';
+            }
+        }
+
+        function applyDiscount(percent, cost) {
+            if (userPoints < cost) {
+                showToast('Недостаточно баллов! Нужно ' + cost + ' баллов', 'fa-exclamation-circle');
+                return;
+            }
+            if (activeDiscount > 0) {
+                showToast('У вас уже есть активная скидка ' + activeDiscount + '%', 'fa-info-circle');
+                return;
+            }
+            if (!confirm('Обменять ' + cost + ' баллов на скидку ' + percent + '%?')) return;
+
+            userPoints -= cost;
+            activeDiscount = percent;
+            localStorage.setItem('userPoints', userPoints);
+            localStorage.setItem('activeDiscount', activeDiscount);
+            pointsHistory.push({
+                date: new Date().toLocaleDateString('ru-RU'),
+                amount: -cost,
+                reason: 'Обмен на скидку ' + percent + '%',
+                balance: userPoints
+            });
+            localStorage.setItem('pointsHistory', JSON.stringify(pointsHistory));
+            updatePointsUI();
+            showToast('Скидка ' + percent + '% активирована!', 'fa-gold');
+        }
+
+        function refreshPoints() {
+            updatePointsUI();
+            showToast('Баланс обновлен: ' + userPoints + ' баллов', 'fa-sync');
+        }
+
+        // ===================== МИНИ-ИГРА =====================
+        const gameEmojis = ['🌸', '🌺', '🌹', '🌷', '🌻', '🌼', '💐', '🌿'];
+
+        function startGame() {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+            gameFlipped = [];
+            gameMatched = [];
+            gameAttempts = 0;
+            gamePointsEarned = 0;
+            document.getElementById('gameAttempts').textContent = '0';
+            document.getElementById('gameMatches').textContent = '0/8';
+            document.getElementById('gamePoints').textContent = '0';
+            document.getElementById('gameResult').textContent = '';
+            gameLocked = false;
+
+            // Создаем пары
+            let cards = [];
+            gameEmojis.forEach((emoji, i) => {
+                cards.push({ id: i, emoji: emoji, matched: false });
+                cards.push({ id: i, emoji: emoji, matched: false });
+            });
+            // Перемешиваем
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+            gameCards = cards;
+
+            // Рендерим карточки
+            cards.forEach((card, index) => {
+                const div = document.createElement('div');
+                div.className = 'game-card';
+                div.dataset.index = index;
+                div.dataset.id = card.id;
+                div.textContent = '?';
+                div.addEventListener('click', () => flipCard(index));
+                board.appendChild(div);
+            });
+        }
+
+        function flipCard(index) {
+            if (gameLocked) return;
+            const card = gameCards[index];
+            if (card.matched) return;
+            if (gameFlipped.includes(index)) return;
+            if (gameFlipped.length === 2) return;
+
+            const element = document.querySelectorAll('.game-card')[index];
+            element.textContent = card.emoji;
+            element.classList.add('flipped');
+            gameFlipped.push(index);
+
+            if (gameFlipped.length === 2) {
+                gameAttempts++;
+                document.getElementById('gameAttempts').textContent = gameAttempts;
+                gameLocked = true;
+
+                const idx1 = gameFlipped[0];
+                const idx2 = gameFlipped[1];
+                const card1 = gameCards[idx1];
+                const card2 = gameCards[idx2];
+
+                if (card1.id === card2.id) {
+                    // Совпадение
+                    card1.matched = true;
+                    card2.matched = true;
+                    gameMatched.push(card1.id);
+                    document.querySelectorAll('.game-card')[idx1].classList.add('matched');
+                    document.querySelectorAll('.game-card')[idx2].classList.add('matched');
+                    document.getElementById('gameMatches').textContent = gameMatched.length + '/8';
+                    gameFlipped = [];
+                    gameLocked = false;
+
+                    if (gameMatched.length === 8) {
+                        // Победа!
+                        const pointsEarned = Math.max(10, 30 - Math.floor(gameAttempts / 2));
+                        gamePointsEarned = pointsEarned;
+                        document.getElementById('gamePoints').textContent = pointsEarned;
+                        document.getElementById('gameResult').textContent = '🎉 Победа! Вы заработали ' + pointsEarned +
+                            ' баллов!';
+                        addPoints(pointsEarned, 'Победа в игре Память');
+                        showToast('+' + pointsEarned + ' баллов за победу!', 'fa-trophy');
+                    }
+                } else {
+                    // Не совпало
+                    setTimeout(() => {
+                        document.querySelectorAll('.game-card')[idx1].textContent = '?';
+                        document.querySelectorAll('.game-card')[idx1].classList.remove('flipped');
+                        document.querySelectorAll('.game-card')[idx2].textContent = '?';
+                        document.querySelectorAll('.game-card')[idx2].classList.remove('flipped');
+                        gameFlipped = [];
+                        gameLocked = false;
+                    }, 800);
+                }
+            }
         }
 
         // ===================== ОТРИСОВКА ТОВАРОВ =====================
@@ -2256,14 +2675,31 @@
             updateWishlistButtons();
         }
 
-        // ===================== ОТРИСОВКА ОТЗЫВОВ =====================
+        // ===================== ОТЗЫВЫ =====================
         function renderReviews() {
+            const reviewsData = [
+                { name: 'Александр', date: '2 дня назад', stars: 5,
+                    text: 'Ombre Noire — это нечто! Держится весь день, получаю комплименты постоянно.' },
+                { name: 'Екатерина', date: '1 неделя назад', stars: 5,
+                    text: 'Купила Lourde Peau в подарок мужу, в итоге забрала себе. Нежный, но глубокий.' },
+                { name: 'Максим', date: '2 недели назад', stars: 4,
+                    text: 'Fumée de Bois — идеальный зимний аромат. Немного дороговат, но качество на высоте.' },
+                { name: 'Ольга', date: '3 недели назад', stars: 3,
+                    text: 'Заказала Rose de Minuit, ожидала большего. Аромат стойкий, но на мне раскрывается слишком сладко.' },
+                { name: 'Сергей', date: '2 месяца назад', stars: 2,
+                    text: 'Разочарован. Заказал два аромата, один из них вообще не похож на описание.' },
+                { name: 'Марина', date: '2 месяца назад', stars: 4,
+                    text: 'Хороший магазин, приятные консультанты. Помогли подобрать аромат по настроению.' },
+                { name: 'Игорь', date: '3 месяца назад', stars: 5,
+                    text: 'Ombre Noire стал моим повседневным ароматом. Очень благородный, табачный, с дымком.' },
+                { name: 'Наталья', date: '3 месяца назад', stars: 5,
+                    text: 'Обожаю этот магазин! Заказываю уже третий раз, всегда доставляют в срок.' }
+            ];
+
             const grid = document.getElementById('reviewsGrid');
             grid.innerHTML = '';
-
-            const allReviews = [...reviewData];
-            allReviews.forEach(review => {
-                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+            reviewsData.forEach(review => {
+                const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
                 const card = document.createElement('div');
                 card.className = 'review-card';
                 card.innerHTML = `
@@ -2306,8 +2742,7 @@
         function filterHandler(e) {
             document.querySelector('.filter-btn.active').classList.remove('active');
             e.target.classList.add('active');
-            const filter = e.target.getAttribute('data-filter');
-            renderProducts(filter);
+            renderProducts(e.target.getAttribute('data-filter'));
         }
 
         function sizeHandler(e) {
@@ -2410,7 +2845,18 @@
                 container.appendChild(el);
             });
 
-            totalPrice.textContent = total.toLocaleString() + ' BYN';
+            // Применяем скидку если есть
+            let finalTotal = total;
+            if (activeDiscount > 0) {
+                const discountAmount = Math.round(total * activeDiscount / 100);
+                finalTotal = total - discountAmount;
+                document.getElementById('cartDiscountDisplay').style.display = 'block';
+                document.getElementById('cartDiscountValue').textContent = activeDiscount;
+            } else {
+                document.getElementById('cartDiscountDisplay').style.display = 'none';
+            }
+
+            totalPrice.textContent = finalTotal.toLocaleString() + ' BYN';
             countBadge.textContent = count;
 
             const submitBtn = document.getElementById('submitOrderBtn');
@@ -2455,6 +2901,9 @@
                 showToast('Введите номер в формате +375 (__) ___ __ __', 'fa-exclamation-circle');
             } else {
                 phone.classList.remove('error');
+                // Сохраняем телефон для системы баллов
+                userPhone = phone.value.trim();
+                localStorage.setItem('userPhone', userPhone);
             }
 
             return valid;
@@ -2505,9 +2954,30 @@
                     '   ' + item.quantity + ' шт. — ' + itemSum.toLocaleString() + ' BYN\n\n';
             });
 
+            // Применяем скидку
+            let discountApplied = 0;
+            if (activeDiscount > 0) {
+                discountApplied = Math.round(totalSum * activeDiscount / 100);
+                totalSum -= discountApplied;
+                message += 'Скидка: ' + activeDiscount + '% (—' + discountApplied.toLocaleString() + ' BYN)\n\n';
+            }
+
             message += 'ИТОГО: *' + totalSum.toLocaleString() + ' BYN*\n';
             message += '👤 Имя: ' + name + '\n';
             message += '📞 Телефон: ' + phone;
+
+            if (activeDiscount > 0) {
+                message += '\n🎯 Скидка применена: ' + activeDiscount + '%';
+                // Сбрасываем скидку после использования
+                activeDiscount = 0;
+                localStorage.setItem('activeDiscount', '0');
+                updatePointsUI();
+            }
+
+            // Начисляем баллы за покупку (1 BYN = 1 балл)
+            const pointsEarned = Math.floor(totalSum);
+            addPoints(pointsEarned, 'Покупка на ' + totalSum + ' BYN');
+            showToast('+' + pointsEarned + ' баллов за покупку!', 'fa-coins');
 
             const order = {
                 id: Date.now(),
@@ -2515,8 +2985,11 @@
                 phone: phone,
                 items: JSON.parse(JSON.stringify(cart)),
                 total: totalSum,
+                originalTotal: totalSum + discountApplied,
+                discount: activeDiscount,
                 status: 'Новый',
-                date: new Date().toLocaleDateString('ru-RU')
+                date: new Date().toLocaleDateString('ru-RU'),
+                pointsEarned: pointsEarned
             };
             orders.push(order);
             localStorage.setItem('orders', JSON.stringify(orders));
@@ -2534,9 +3007,9 @@
                 document.getElementById('clientName').value = '';
                 document.getElementById('clientPhone').value = '';
                 block.innerHTML =
-                    '<input type="text" class="checkout-input" id="clientName" placeholder="Ваше имя (только кириллица)" pattern="[А-Яа-яЁё\\s-]+" title="Только буквы русского алфавита">' +
+                    '<input type="text" class="checkout-input" id="clientName" placeholder="Ваше имя (только кириллица)" pattern="[А-Яа-яЁё\\s-]+">' +
                     '<input type="tel" class="checkout-input" id="clientPhone" placeholder="+375 (__) ___ __ __" pattern="\\+375\\s?\\(?\\d{2}\\)?\\s?\\d{3}\\s?\\d{2}\\s?\\d{2}">' +
-                    '<button class="btn-checkout" id="submitOrderBtn"><i class="fas fa-paper-plane"></i> Отправить в Telegram (@senghhx)</button>';
+                    '<button class="btn-checkout" id="submitOrderBtn"><i class="fas fa-paper-plane"></i> Отправить в Telegram</button>';
                 document.getElementById('submitOrderBtn').addEventListener('click', arguments.callee);
                 document.getElementById('clientPhone').addEventListener('input', function(e) {
                     let value = this.value.replace(/\D/g, '');
@@ -2571,6 +3044,13 @@
             } else {
                 wishlist.push(productId);
                 showToast('Добавлено в избранное', 'fa-heart');
+                // +1 балл за добавление в избранное (раз в день)
+                const lastWishlistBonus = localStorage.getItem('lastWishlistBonus');
+                const today = new Date().toDateString();
+                if (lastWishlistBonus !== today) {
+                    addPoints(1, 'Добавление в избранное');
+                    localStorage.setItem('lastWishlistBonus', today);
+                }
             }
             localStorage.setItem('wishlist', JSON.stringify(wishlist));
             updateWishlistUI();
@@ -2653,17 +3133,19 @@
                 document.getElementById('newsletterMsg').style.color = '#ff4444';
                 return;
             }
-            document.getElementById('newsletterMsg').textContent = 'Спасибо! Вы подписаны на новости.';
+            document.getElementById('newsletterMsg').textContent = 'Спасибо! Вы подписаны на новости. +5 баллов!';
             document.getElementById('newsletterMsg').style.color = 'var(--accent)';
             document.getElementById('newsletterEmail').value = '';
-            showToast('Подписка оформлена!', 'fa-envelope');
+            addPoints(5, 'Подписка на новости');
+            showToast('+5 баллов за подписку!', 'fa-envelope');
         });
 
         // ===================== ИНФОРМАЦИОННЫЕ СТРАНИЦЫ =====================
         function openInfoPage(pageId) {
-            document.querySelectorAll('#catalog, #reviews, #about, #contacts, .promo-banner, .hero').forEach(function(el) {
-                if (el) el.style.display = 'none';
-            });
+            document.querySelectorAll('#catalog, #points, #game, #reviews, #about, #contacts, .promo-banner, .hero')
+                .forEach(function(el) {
+                    if (el) el.style.display = 'none';
+                });
             document.getElementById('info-pages').style.display = 'block';
             document.querySelectorAll('.info-page').forEach(function(page) {
                 page.classList.remove('active');
@@ -2673,16 +3155,17 @@
         }
 
         function closeInfoPage() {
-            document.querySelectorAll('#catalog, #reviews, #about, #contacts, .promo-banner, .hero').forEach(function(el) {
-                if (el) el.style.display = '';
-            });
+            document.querySelectorAll('#catalog, #points, #game, #reviews, #about, #contacts, .promo-banner, .hero')
+                .forEach(function(el) {
+                    if (el) el.style.display = '';
+                });
             document.getElementById('info-pages').style.display = 'none';
             document.querySelectorAll('.info-page').forEach(function(page) {
                 page.classList.remove('active');
             });
         }
 
-        // ===================== АДМИН-ПАНЕЛЬ (БЕЗ АВТО-ВВОДА) =====================
+        // ===================== АДМИН-ПАНЕЛЬ =====================
         function openAdminLogin() {
             document.getElementById('adminLoginOverlay').classList.add('active');
             document.getElementById('adminLoginError').style.display = 'none';
@@ -2723,27 +3206,15 @@
             document.getElementById('adminOrdersTab').style.display = tab === 'orders' ? 'block' : 'none';
             document.getElementById('adminUsersTab').style.display = tab === 'users' ? 'block' : 'none';
             document.getElementById('adminReviewsTab').style.display = tab === 'reviews' ? 'block' : 'none';
+            document.getElementById('adminPointsTab').style.display = tab === 'points' ? 'block' : 'none';
             document.getElementById('adminAddTab').style.display = tab === 'add' ? 'block' : 'none';
-            document.getElementById('adminSettingsTab').style.display = tab === 'settings' ? 'block' : 'none';
 
             if (tab === 'products') adminRenderProducts();
             if (tab === 'orders') adminRenderOrders();
             if (tab === 'users') adminRenderUsers();
             if (tab === 'reviews') adminRenderReviews();
-            if (tab === 'settings') adminLoadSettings();
-            if (tab === 'add') {
-                document.getElementById('adminFormTitle').textContent = 'Добавить товар';
-                document.getElementById('adminFormEditId').value = '';
-                document.querySelectorAll('#adminProductForm input, #adminProductForm select, #adminProductForm textarea')
-                    .forEach(function(el) {
-                        el.value = '';
-                    });
-                document.getElementById('adminFormCategory').value = 'unisex';
-                document.getElementById('adminFormRating').value = 5;
-                document.getElementById('adminFormReviews').value = 0;
-                editingProductId = null;
-                document.getElementById('adminProductForm').classList.add('active');
-            }
+            if (tab === 'points') adminRenderPoints();
+            if (tab === 'add') adminResetForm();
         }
 
         function adminRefresh() {
@@ -2752,6 +3223,7 @@
             adminRenderOrders();
             adminRenderUsers();
             adminRenderReviews();
+            adminRenderPoints();
         }
 
         function adminRenderStats() {
@@ -2777,29 +3249,25 @@
                     <div class="stat-number">${newOrders}</div>
                     <div class="stat-label">Новых заказов</div>
                 </div>
+                <div class="admin-stat-card">
+                    <div class="stat-number">${userPoints}</div>
+                    <div class="stat-label">Всего баллов у пользователей</div>
+                </div>
             `;
         }
 
         function adminRenderProducts() {
             const tbody = document.getElementById('adminProductsTable');
-            const search = document.getElementById('adminProductSearch').value.toLowerCase();
-            let filtered = products;
-            if (search) {
-                filtered = products.filter(p => p.name.toLowerCase().includes(search) || p.tags.toLowerCase().includes(
-                search));
-            }
             tbody.innerHTML = '';
-            filtered.forEach(function(p) {
+            products.forEach(function(p) {
                 const tr = document.createElement('tr');
                 const badgeText = p.badge === 'sale' ? 'Скидка' : p.badge === 'new' ? 'Новинка' : p.badge === 'hit' ?
                     'Хит' : '';
-                const stars = '★'.repeat(p.rating) + '☆'.repeat(5 - p.rating);
                 tr.innerHTML = `
                     <td>${p.id}</td>
                     <td>${p.name}</td>
                     <td>${p.category === 'unisex' ? 'Унисекс' : p.category === 'men' ? 'Мужской' : 'Женский'} ${badgeText ? '['+badgeText+']' : ''}</td>
                     <td>${p.price} BYN</td>
-                    <td>${stars}</td>
                     <td class="actions">
                         <button class="edit-btn" onclick="adminEditProduct(${p.id})"><i class="fas fa-edit"></i></button>
                         <button class="delete-btn" onclick="adminDeleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
@@ -2809,40 +3277,21 @@
             });
         }
 
-        function adminSearchProducts() {
-            adminRenderProducts();
-        }
-
-        function adminResetSearch() {
-            document.getElementById('adminProductSearch').value = '';
-            adminRenderProducts();
-        }
-
         function adminRenderOrders() {
             const tbody = document.getElementById('adminOrdersTable');
-            const search = document.getElementById('adminOrderSearch').value.toLowerCase();
-            const filter = document.getElementById('adminOrderFilter').value;
-            let filtered = orders.slice().reverse();
-            if (search) {
-                filtered = filtered.filter(o => o.name.toLowerCase().includes(search) || o.phone.includes(search));
-            }
-            if (filter !== 'all') {
-                filtered = filtered.filter(o => o.status === filter);
-            }
             tbody.innerHTML = '';
-            if (filtered.length === 0) {
+            if (orders.length === 0) {
                 tbody.innerHTML =
-                    '<tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Заказов не найдено</td></tr>';
+                    '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">Заказов нет</td></tr>';
                 return;
             }
-            filtered.forEach(function(order, index) {
+            orders.slice().reverse().forEach(function(order, index) {
                 const tr = document.createElement('tr');
                 const items = order.items.map(i => i.title + ' (' + i.size + ') x' + i.quantity).join(', ');
                 tr.innerHTML = `
                     <td>${index + 1}</td>
                     <td>${order.name}</td>
                     <td>${order.phone}</td>
-                    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${items}</td>
                     <td>${order.total.toLocaleString()} BYN</td>
                     <td>
                         <select onchange="adminUpdateOrderStatus(${order.id}, this.value)" style="background:var(--bg-primary);color:white;border:1px solid var(--border-subtle);padding:0.2rem 0.5rem;border-radius:4px;">
@@ -2861,20 +3310,12 @@
             });
         }
 
-        function adminSearchOrders() {
-            adminRenderOrders();
-        }
-
-        function adminFilterOrders() {
-            adminRenderOrders();
-        }
-
         function adminUpdateOrderStatus(orderId, newStatus) {
             const order = orders.find(o => o.id === orderId);
             if (order) {
                 order.status = newStatus;
                 localStorage.setItem('orders', JSON.stringify(orders));
-                showToast('Статус заказа обновлен!', 'fa-check-circle');
+                showToast('Статус обновлен!', 'fa-check-circle');
                 adminRenderOrders();
                 adminRenderStats();
             }
@@ -2904,20 +3345,18 @@
             tbody.innerHTML = '';
             if (users.length === 0) {
                 tbody.innerHTML =
-                    '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Нет пользователей</td></tr>';
+                    '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Нет пользователей</td></tr>';
                 return;
             }
             users.forEach((u, i) => {
                 const tr = document.createElement('tr');
+                const userPointsTotal = userPoints; // упрощенно
                 tr.innerHTML = `
                     <td>${i + 1}</td>
                     <td>${u.name}</td>
                     <td>${u.phone}</td>
                     <td>${u.orders}</td>
-                    <td>${u.total.toLocaleString()} BYN</td>
-                    <td class="actions">
-                        <button onclick="showToast('Информация о пользователе','fa-user')" style="background:transparent;border:none;color:var(--accent);cursor:pointer;"><i class="fas fa-info-circle"></i></button>
-                    </td>
+                    <td>${userPointsTotal}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -2925,8 +3364,14 @@
 
         function adminRenderReviews() {
             const tbody = document.getElementById('adminReviewsTable');
+            const reviews = [
+                { name: 'Александр', text: 'Ombre Noire — это нечто!', rating: 5 },
+                { name: 'Екатерина', text: 'Купила Lourde Peau в подарок мужу.', rating: 5 },
+                { name: 'Максим', text: 'Fumée de Bois — идеальный зимний аромат.', rating: 4 },
+                { name: 'Ольга', text: 'Заказала Rose de Minuit, ожидала большего.', rating: 3 }
+            ];
             tbody.innerHTML = '';
-            reviewData.forEach((r, i) => {
+            reviews.forEach((r, i) => {
                 const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -2934,25 +3379,48 @@
                     <td>${r.name}</td>
                     <td>${r.text}</td>
                     <td>${stars}</td>
-                    <td>${r.date}</td>
                     <td class="actions">
-                        <button class="delete-btn" onclick="adminDeleteReview(${i})"><i class="fas fa-trash"></i></button>
+                        <button class="delete-btn" onclick="showToast('Отзыв удален','fa-trash')"><i class="fas fa-trash"></i></button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
-            if (reviewData.length === 0) {
-                tbody.innerHTML =
-                    '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Нет отзывов</td></tr>';
-            }
         }
 
-        function adminDeleteReview(index) {
-            if (!confirm('Удалить отзыв?')) return;
-            reviewData.splice(index, 1);
-            adminRenderReviews();
-            renderReviews();
-            showToast('Отзыв удален', 'fa-trash');
+        function adminRenderPoints() {
+            const tbody = document.getElementById('adminPointsTable');
+            tbody.innerHTML = '';
+            if (pointsHistory.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">История баллов пуста</td></tr>';
+                return;
+            }
+            pointsHistory.slice().reverse().forEach((record, index) => {
+                const tr = document.createElement('tr');
+                const sign = record.amount > 0 ? '+' : '';
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${record.reason}</td>
+                    <td style="color:${record.amount > 0 ? 'var(--success)' : 'var(--danger)'}">${sign}${record.amount}</td>
+                    <td>${record.balance}</td>
+                    <td>${record.date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function adminAddPoints() {
+            const phone = document.getElementById('adminUserPhone').value.trim();
+            const amount = parseInt(document.getElementById('adminPointsAmount').value);
+            if (!phone || !amount || amount <= 0) {
+                showToast('Введите телефон и количество баллов', 'fa-exclamation-circle');
+                return;
+            }
+            addPoints(amount, 'Администратор: ' + phone);
+            document.getElementById('adminPointsAmount').value = '';
+            adminRenderPoints();
+            adminRenderStats();
+            showToast('Добавлено ' + amount + ' баллов пользователю ' + phone, 'fa-check-circle');
         }
 
         function adminEditProduct(id) {
@@ -2968,8 +3436,6 @@
             document.getElementById('adminFormPrice').value = p.price;
             document.getElementById('adminFormBadge').value = p.badge || '';
             document.getElementById('adminFormIcon').value = p.icon || 'fa-feather-alt';
-            document.getElementById('adminFormRating').value = p.rating || 5;
-            document.getElementById('adminFormReviews').value = p.reviews || 0;
             document.getElementById('adminAddTab').style.display = 'block';
             document.querySelector('.admin-tabs button[data-tab="add"]').classList.add('active');
             document.querySelector('.admin-tabs button[data-tab="products"]').classList.remove('active');
@@ -2977,7 +3443,7 @@
             document.getElementById('adminOrdersTab').style.display = 'none';
             document.getElementById('adminUsersTab').style.display = 'none';
             document.getElementById('adminReviewsTab').style.display = 'none';
-            document.getElementById('adminSettingsTab').style.display = 'none';
+            document.getElementById('adminPointsTab').style.display = 'none';
             document.getElementById('adminProductForm').classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -2999,8 +3465,6 @@
             const price = parseInt(document.getElementById('adminFormPrice').value);
             const badge = document.getElementById('adminFormBadge').value;
             const icon = document.getElementById('adminFormIcon').value.trim() || 'fa-feather-alt';
-            const rating = parseInt(document.getElementById('adminFormRating').value) || 5;
-            const reviews = parseInt(document.getElementById('adminFormReviews').value) || 0;
             const editId = document.getElementById('adminFormEditId').value;
 
             if (!name || !desc || !tags || !price) {
@@ -3018,8 +3482,6 @@
                     p.price = price;
                     p.badge = badge;
                     p.icon = icon;
-                    p.rating = rating;
-                    p.reviews = reviews;
                     p.sale = badge === 'sale';
                     showToast('Товар обновлен!', 'fa-check-circle');
                 }
@@ -3033,13 +3495,9 @@
                     price: price,
                     badge: badge,
                     icon: icon,
-                    rating: rating,
-                    reviews: reviews,
-                    sizes: [
-                        { size: '30 мл', coef: 1 },
-                        { size: '50 мл', coef: 1.6 },
-                        { size: '100 мл', coef: 2.8 }
-                    ],
+                    rating: 5,
+                    reviews: 0,
+                    sizes: [{ size: '30 мл', coef: 1 }, { size: '50 мл', coef: 1.6 }, { size: '100 мл', coef: 2.8 }],
                     sale: badge === 'sale'
                 };
                 products.push(newProduct);
@@ -3063,45 +3521,15 @@
             adminRenderProducts();
         }
 
-        function adminLoadSettings() {
-            document.getElementById('adminShopName').value = shopSettings.name || 'AROM·DETALIS';
-            document.getElementById('adminShopPhone').value = shopSettings.phone || '+375 (33) 362-48-00';
-            document.getElementById('adminShopAddress').value = shopSettings.address || 'Минск, ул. Немига, 14';
-            document.getElementById('adminPromoCode').value = shopSettings.promoCode || 'AROM15';
-            document.getElementById('adminPromoDiscount').value = shopSettings.promoDiscount || 15;
-        }
-
-        function adminSaveSettings() {
-            shopSettings.name = document.getElementById('adminShopName').value;
-            shopSettings.phone = document.getElementById('adminShopPhone').value;
-            shopSettings.address = document.getElementById('adminShopAddress').value;
-            shopSettings.promoCode = document.getElementById('adminPromoCode').value;
-            shopSettings.promoDiscount = parseInt(document.getElementById('adminPromoDiscount').value) || 15;
-            localStorage.setItem('shopSettings', JSON.stringify(shopSettings));
-            // Обновляем промо-баннер
-            document.querySelector('.promo-code').textContent = shopSettings.promoCode;
-            document.querySelector('.promo-banner h3').textContent = '✦ Первый заказ — скидка ' + shopSettings.promoDiscount +
-                '%';
-            showToast('Настройки сохранены!', 'fa-check-circle');
-        }
-
-        function adminExportData() {
-            const data = {
-                products: products,
-                orders: orders,
-                reviews: reviewData,
-                settings: shopSettings,
-                exported: new Date().toISOString()
-            };
-            const json = JSON.stringify(data, null, 2);
-            const blob = new Blob([json], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'arom_detalis_backup_' + new Date().toISOString().slice(0, 10) + '.json';
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('Данные экспортированы!', 'fa-download');
+        function adminResetForm() {
+            document.getElementById('adminFormTitle').textContent = 'Добавить товар';
+            document.getElementById('adminFormEditId').value = '';
+            document.querySelectorAll('#adminProductForm input, #adminProductForm select, #adminProductForm textarea')
+                .forEach(function(el) {
+                    el.value = '';
+                });
+            document.getElementById('adminFormCategory').value = 'unisex';
+            document.getElementById('adminProductForm').classList.add('active');
         }
 
         // ===================== ЗАКРЫТИЕ ПО ESC =====================
@@ -3119,11 +3547,11 @@
         // ===================== ИНИЦИАЛИЗАЦИЯ =====================
         updateCartUI();
         updateWishlistUI();
+        updatePointsUI();
         console.log('✅ AROM·DETALIS загружен!');
-        console.log('✅ Админ-панель: логин senghx, пароль 123654');
-        console.log('✅ Поля входа пустые (без авто-заполнения)');
-        console.log('✅ Добавлены разделы: товары, заказы, пользователи, отзывы, настройки');
-        console.log('✅ Добавлены функции: поиск, фильтрация, экспорт данных, статистика');
+        console.log('✅ Накопительная система баллов активна!');
+        console.log('✅ Мини-игра "Память" готова!');
+        console.log('✅ Баллы: ' + userPoints);
     </script>
 </body>
 </html>
