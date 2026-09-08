@@ -2,50 +2,48 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L'Ombre · Lourde — Нишевая парфюмерия</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ============================================================
-           RESET & BASE
-           ============================================================ */
-        * {
+        /* === RESET & BASE === */
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 80px;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
         body {
-            background: #0A0808;
-            color: #F5F0EB;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             font-weight: 300;
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
-            cursor: default;
-            opacity: 0;
             transition: opacity 0.8s ease;
         }
         body.loaded {
             opacity: 1;
         }
-
+        /* кастомный скролл */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0A0808;
+            background: var(--bg-secondary);
         }
         ::-webkit-scrollbar-thumb {
-            background: #7A1818;
-            border-radius: 3px;
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
         }
 
         :root {
@@ -53,170 +51,125 @@
             --bg-secondary: #141010;
             --bg-card: #1A1515;
             --bg-glass: rgba(20, 16, 16, 0.7);
+
             --accent: #7A1818;
             --accent-hover: #9C2020;
-            --accent-glow: rgba(122, 24, 24, 0.3);
-            --gold: #C9A86C;
-            --gold-glow: rgba(201, 168, 108, 0.15);
+            --accent-glow: rgba(122, 24, 24, 0.4);
+
             --text-primary: #F5F0EB;
             --text-secondary: #A89890;
             --text-muted: #6B5F58;
-            --border-subtle: rgba(122, 24, 24, 0.15);
+
+            --border-subtle: rgba(122, 24, 24, 0.2);
             --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
 
-        /* ============================================================
-           PRELOADER
-           ============================================================ */
+        /* === PRELOADER === */
         #preloader {
             position: fixed;
             inset: 0;
-            background: #0A0808;
+            background: var(--bg-primary);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            z-index: 9999;
+            transition: opacity 0.8s ease;
             pointer-events: none;
-            gap: 1.5rem;
         }
         #preloader.fade {
             opacity: 0;
-            transform: scale(1.05);
         }
-        #preloader .initials {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
-            letter-spacing: 8px;
-            color: var(--gold);
-            opacity: 0.5;
-            animation: pulseGold 2s ease-in-out infinite;
+        #preloader svg {
+            width: min(80%, 700px);
+            height: auto;
         }
-        @keyframes pulseGold {
-            0%,
+        #preloader path {
+            stroke: #F5F0EB;
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: draw 2.5s ease forwards;
+        }
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        #preloader .glow {
+            animation: glowPulse 0.5s ease 2.5s forwards;
+            opacity: 0;
+        }
+        @keyframes glowPulse {
+            0% {
+                opacity: 0;
+                filter: drop-shadow(0 0 0px transparent);
+            }
             100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.7;
-                transform: scale(1.02);
-            }
-        }
-        #preloader .brand-text {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            letter-spacing: 6px;
-            opacity: 0;
-            animation: textReveal 1s ease 1.2s forwards;
-            color: var(--text-primary);
-        }
-        #preloader .brand-text span {
-            color: var(--gold);
-        }
-        @keyframes textReveal {
-            to {
                 opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        #preloader .loader-ring {
-            width: 60px;
-            height: 60px;
-            border: 2px solid rgba(201, 168, 108, 0.08);
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            opacity: 0;
-            animation: spin 1s linear infinite, textReveal 0.5s ease 0.8s forwards;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        #preloader .loader-bar {
-            width: 160px;
-            height: 1px;
-            background: rgba(201, 168, 108, 0.08);
-            border-radius: 1px;
-            overflow: hidden;
-            opacity: 0;
-            animation: textReveal 0.5s ease 1.8s forwards;
-        }
-        #preloader .loader-bar .fill {
-            height: 100%;
-            width: 0%;
-            background: var(--gold);
-            border-radius: 1px;
-            animation: progressFill 2s ease 2s forwards;
-        }
-        @keyframes progressFill {
-            to {
-                width: 100%;
+                filter: drop-shadow(0 0 20px var(--accent-glow));
             }
         }
 
-        /* ============================================================
-           HEADER
-           ============================================================ */
+        /* === TYPOGRAPHY === */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'DM Serif Display', serif;
+            font-weight: 700;
+        }
+        h1 {
+            font-size: clamp(48px, 8vw, 96px);
+        }
+        h2 {
+            font-size: clamp(32px, 5vw, 64px);
+        }
+        .accent-italic {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        /* === GLASS HEADER === */
         header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(10, 8, 8, 0.85);
+            background: var(--bg-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(122, 24, 24, 0.1);
+            border-bottom: 1px solid var(--border-subtle);
             padding: 0 2rem;
-            height: 64px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: transform 0.3s ease, background 0.3s;
-        }
-        header.hidden {
-            transform: translateY(-100%);
         }
         .logo {
             font-family: 'DM Serif Display', serif;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             letter-spacing: 1px;
             color: var(--text-primary);
             text-decoration: none;
         }
         .logo span {
-            color: var(--gold);
+            color: var(--accent);
         }
         nav {
             display: flex;
             align-items: center;
-            gap: 1.8rem;
+            gap: 2rem;
         }
         nav a {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.7rem;
+            font-size: 0.85rem;
             font-weight: 400;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             transition: color 0.2s;
             text-transform: uppercase;
-            position: relative;
-        }
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--gold);
-            transition: width 0.3s;
-        }
-        nav a:hover::after {
-            width: 100%;
         }
         nav a:hover {
             color: var(--text-primary);
@@ -224,31 +177,30 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.2rem;
         }
         .header-actions button {
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             position: relative;
             transition: color 0.2s;
-            padding: 4px;
         }
         .header-actions button:hover {
             color: var(--text-primary);
         }
         .badge {
             position: absolute;
-            top: -4px;
-            right: -4px;
+            top: -6px;
+            right: -8px;
             background: var(--accent);
             color: #fff;
-            font-size: 0.5rem;
-            font-weight: 700;
-            width: 16px;
-            height: 16px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -261,19 +213,15 @@
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px;
         }
         .burger span {
-            width: 22px;
-            height: 1.5px;
+            width: 25px;
+            height: 2px;
             background: var(--text-primary);
             transition: 0.3s;
-            border-radius: 1px;
         }
 
-        /* ============================================================
-           HERO
-           ============================================================ */
+        /* === HERO === */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -282,102 +230,56 @@
             align-items: center;
             text-align: center;
             padding: 2rem;
-            background: radial-gradient(ellipse at 50% 80%, rgba(122, 24, 24, 0.08), transparent 70%);
+            background: radial-gradient(ellipse at 50% 80%, rgba(122, 24, 24, 0.15), transparent 70%);
             position: relative;
-            margin-top: 64px;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 30% 50%, rgba(201, 168, 108, 0.02), transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(122, 24, 24, 0.03), transparent 40%);
-            z-index: 0;
-            animation: heroGlow 8s ease-in-out infinite alternate;
-        }
-        @keyframes heroGlow {
-            0% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-        }
-        .hero * {
-            position: relative;
-            z-index: 1;
+            margin-top: 70px;
         }
         .hero h1 {
             margin-bottom: 1rem;
             max-width: 900px;
-            line-height: 1.05;
-            font-size: clamp(40px, 7vw, 80px);
-            letter-spacing: -1px;
-            animation: fadeUp 1s ease 0.5s forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        .hero h1 .highlight {
-            color: var(--gold);
+            line-height: 1.1;
         }
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            max-width: 500px;
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            animation: fadeUp 1s ease 0.8s forwards;
-            opacity: 0;
-            transform: translateY(30px);
+            max-width: 600px;
+            margin-bottom: 2rem;
         }
-        .hero .btn-primary {
-            animation: fadeUp 1s ease 1.1s forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .btn-primary {
-            background: var(--gold);
-            color: #0A0808;
+            background: var(--accent);
+            color: #fff;
             border: none;
-            padding: 0.8rem 2.8rem;
-            font-size: 0.85rem;
-            font-weight: 600;
+            padding: 1rem 2.8rem;
+            font-size: 1rem;
+            font-weight: 500;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            box-shadow: 0 0 40px rgba(201, 168, 108, 0.1);
+            letter-spacing: 1px;
+            box-shadow: 0 0 30px var(--accent-glow);
+            animation: pulse 2s infinite;
         }
         .btn-primary:hover {
-            background: var(--accent);
-            color: #fff;
+            background: var(--accent-hover);
             transform: scale(1.02);
-            box-shadow: 0 0 60px rgba(122, 24, 24, 0.2);
+            box-shadow: 0 0 50px var(--accent-glow);
         }
-        .btn-primary:active {
-            transform: scale(0.97);
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 20px var(--accent-glow);
+            }
+            50% {
+                box-shadow: 0 0 40px var(--accent-glow), 0 0 60px rgba(122, 24, 24, 0.2);
+            }
         }
 
-        /* ============================================================
-           SECTIONS
-           ============================================================ */
+        /* === SECTIONS === */
         section {
-            padding: 4rem 2rem;
-            max-width: 1200px;
+            padding: 5rem 2rem;
+            max-width: 1400px;
             margin: 0 auto;
-            scroll-margin-top: 80px;
         }
         .section-title {
             margin-bottom: 2.5rem;
@@ -385,507 +287,235 @@
         }
         .section-title h2 {
             display: inline-block;
-            font-size: clamp(28px, 4vw, 48px);
-            letter-spacing: -0.5px;
-            position: relative;
-        }
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 2px;
-            background: var(--gold);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.3rem;
         }
 
-        /* ============================================================
-           FILTERS
-           ============================================================ */
-        .filters-wrapper {
-            position: sticky;
-            top: 64px;
-            z-index: 100;
-            background: rgba(10, 8, 8, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(122, 24, 24, 0.06);
-            padding: 0.6rem 2rem;
-        }
-        .filters-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 1rem;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .filters-bar input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(122, 24, 24, 0.1);
-            color: var(--text-primary);
-            padding: 0.35rem 1rem;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            outline: none;
-            min-width: 140px;
-            transition: border-color 0.3s;
-        }
-        .filters-bar input::placeholder {
-            color: var(--text-muted);
-        }
-        .filters-bar input:focus {
-            border-color: var(--gold);
-        }
-        .filter-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.3rem;
-        }
-        .filter-group .brand-filter-btn {
-            background: transparent;
-            border: 1px solid rgba(122, 24, 24, 0.1);
-            color: var(--text-secondary);
-            padding: 0.15rem 0.7rem;
-            border-radius: 30px;
-            font-size: 0.55rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            white-space: nowrap;
-        }
-        .filter-group .brand-filter-btn:hover {
-            border-color: var(--gold);
-            color: var(--text-primary);
-        }
-        .filter-group .brand-filter-btn.active {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: #0A0808;
-            font-weight: 600;
-        }
-        .filters-bar .price-control {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .filters-bar .price-control input[type="range"] {
-            min-width: 80px;
-            width: 100px;
-            height: 2px;
-            -webkit-appearance: none;
-            background: rgba(122, 24, 24, 0.15);
-            border-radius: 1px;
-            outline: none;
-        }
-        .filters-bar .price-control input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--gold);
-            cursor: pointer;
-        }
-        .filters-bar .price-control span {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
-
-        /* ============================================================
-           BRANDS
-           ============================================================ */
+        /* === BRANDS GRID === */
         .brands-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 0.8rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
         }
         .brand-card {
-            background: rgba(26, 21, 21, 0.4);
-            padding: 1rem 0.5rem;
-            border-radius: 8px;
+            background: var(--bg-card);
+            padding: 1.5rem 1rem;
+            border-radius: 12px;
             text-align: center;
             cursor: pointer;
             border: 1px solid transparent;
             transition: all 0.3s;
-            backdrop-filter: blur(4px);
+            box-shadow: var(--shadow-heavy);
         }
         .brand-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-3px);
-            background: rgba(201, 168, 108, 0.04);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
         .brand-card.active {
-            border-color: var(--gold);
-            background: rgba(201, 168, 108, 0.06);
+            border-color: var(--accent);
+            background: rgba(122, 24, 24, 0.15);
         }
         .brand-card h4 {
             font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            font-size: 0.7rem;
+            font-weight: 500;
+            font-size: 1rem;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-        }
-        .brand-card.active h4 {
-            color: var(--gold);
         }
 
-        /* ============================================================
-           PRODUCTS
-           ============================================================ */
+        /* === PRODUCTS GRID === */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
         }
         .product-card {
-            background: rgba(26, 21, 21, 0.4);
-            border-radius: 12px;
+            background: var(--bg-card);
+            border-radius: 16px;
             overflow: hidden;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(122, 24, 24, 0.05);
-            transition: all 0.3s;
-            cursor: pointer;
-            will-change: transform;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--border-subtle);
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s;
         }
         .product-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
         .product-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(201, 168, 108, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            border-color: var(--accent);
         }
-        .product-card .icon-wrap {
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(10, 8, 8, 0.3);
-            font-size: 2.8rem;
-            color: var(--gold);
-            transition: transform 0.4s;
+        .product-img {
+            height: 280px;
+            background: var(--bg-secondary);
             position: relative;
+            overflow: hidden;
         }
-        .product-card:hover .icon-wrap {
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .product-card:hover .product-img img {
             transform: scale(1.05);
         }
-        .product-card .icon-wrap .perfume-icon {
-            font-size: 3rem;
-            opacity: 0.7;
-            filter: grayscale(0.3);
-        }
         .product-info {
-            padding: 1rem 1rem 1.2rem;
+            padding: 1.2rem 1.2rem 1.5rem;
         }
         .product-info h4 {
             font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            font-size: 0.85rem;
-            margin-bottom: 0.15rem;
-            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
         }
         .product-info .brand-name {
             color: var(--text-muted);
-            font-size: 0.6rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .product-info .price {
-            font-weight: 500;
-            color: var(--gold);
-            margin-top: 0.3rem;
-            font-size: 0.95rem;
-        }
-        .product-info .rating {
-            color: var(--text-secondary);
-            font-size: 0.7rem;
-            margin-top: 0.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
         }
         .product-actions {
             display: flex;
-            gap: 0.4rem;
-            margin-top: 0.6rem;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
         }
         .product-actions button {
-            background: rgba(201, 168, 108, 0.06);
-            border: 1px solid rgba(201, 168, 108, 0.08);
-            color: var(--text-secondary);
-            padding: 0.25rem 0.8rem;
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            padding: 0.4rem 1.2rem;
             border-radius: 30px;
-            font-size: 0.55rem;
+            font-size: 0.75rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.3s;
             flex: 1;
-            min-height: 30px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            min-height: 38px;
         }
         .product-actions button:hover {
-            background: var(--gold);
-            color: #0A0808;
-            border-color: var(--gold);
+            background: var(--accent-hover);
         }
         .product-actions .wishlist-btn {
-            flex: 0 0 auto;
-            padding: 0.25rem 0.6rem;
-            font-size: 0.7rem;
             background: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            flex: 0 0 auto;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        .product-actions .wishlist-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
         }
         .product-actions .wishlist-btn.liked {
             color: var(--accent);
             border-color: var(--accent);
         }
-        .product-actions .quick-view {
-            flex: 0 0 auto;
-            padding: 0.25rem 0.6rem;
-            font-size: 0.7rem;
-            background: transparent;
-        }
-        .product-actions .quick-view:hover {
-            background: rgba(201, 168, 108, 0.1);
-            color: var(--text-primary);
-        }
 
-        /* ============================================================
-           NOTES
-           ============================================================ */
+        /* === NOTES CLOUD === */
         .notes-cloud {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 0.5rem 1rem;
-            padding: 1.5rem 0;
+            gap: 0.8rem 1.5rem;
+            padding: 2rem 0;
         }
         .note-chip {
-            padding: 0.4rem 1.2rem;
+            padding: 0.6rem 1.6rem;
             border-radius: 50px;
-            background: rgba(26, 21, 21, 0.4);
-            border: 1px solid rgba(122, 24, 24, 0.06);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
             color: var(--text-secondary);
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: 300;
-            backdrop-filter: blur(4px);
+            font-weight: 400;
+            box-shadow: var(--shadow-heavy);
         }
         .note-chip:hover {
-            border-color: var(--gold);
+            border-color: var(--accent);
             color: var(--text-primary);
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
         .note-chip.active {
-            background: var(--gold);
-            color: #0A0808;
-            border-color: var(--gold);
-            font-weight: 500;
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
         }
 
-        /* ============================================================
-           ASSISTANT — ПОМОЩНИК
-           ============================================================ */
-        .assistant-toggle {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 999;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: var(--gold);
-            color: #0A0808;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 40px rgba(201, 168, 108, 0.15);
-        }
-        .assistant-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 60px rgba(201, 168, 108, 0.25);
-        }
-        .assistant-panel {
-            position: fixed;
-            bottom: 90px;
-            right: 24px;
-            z-index: 998;
-            width: 340px;
-            max-width: 90vw;
-            background: rgba(20, 16, 16, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(201, 168, 108, 0.1);
+        /* === FILTERS === */
+        .filters-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            align-items: center;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            padding: 1.2rem 2rem;
             border-radius: 16px;
-            padding: 1.5rem;
-            transform: translateY(20px) scale(0.95);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-subtle);
         }
-        .assistant-panel.open {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-            pointer-events: all;
-        }
-        .assistant-panel h4 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: var(--gold);
-        }
-        .assistant-panel p {
+        .filters-bar input,
+        .filters-bar select {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
             font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.6;
+            outline: none;
+            min-width: 160px;
         }
-        .assistant-panel .mood-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .filters-bar input::placeholder {
+            color: var(--text-muted);
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
             gap: 0.5rem;
         }
-        .assistant-panel .mood-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(201, 168, 108, 0.08);
+        .filter-group .brand-filter-btn {
+            background: transparent;
+            border: 1px solid var(--border-subtle);
             color: var(--text-secondary);
-            padding: 0.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
             font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-weight: 400;
         }
-        .assistant-panel .mood-btn:hover {
-            background: rgba(201, 168, 108, 0.06);
-            border-color: var(--gold);
-            color: var(--text-primary);
-        }
-        .assistant-panel .mood-btn .mood-icon {
-            display: block;
-            font-size: 1.3rem;
-            margin-bottom: 2px;
-        }
-        .assistant-panel .close-assistant {
-            position: absolute;
-            top: 0.8rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1rem;
-            cursor: pointer;
+        .filter-group .brand-filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
         }
 
-        /* ============================================================
-           BLOG
-           ============================================================ */
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .blog-card {
-            background: rgba(26, 21, 21, 0.4);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid rgba(122, 24, 24, 0.05);
-            transition: all 0.3s;
-            cursor: pointer;
-            backdrop-filter: blur(4px);
-        }
-        .blog-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(201, 168, 108, 0.15);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-        .blog-card .icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: var(--gold);
-        }
-        .blog-card h3 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-            line-height: 1.3;
-        }
-        .blog-card p {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 0.3rem;
-            line-height: 1.5;
-        }
-
-        /* ============================================================
-           ARTICLE
-           ============================================================ */
-        #articlePage {
-            display: none;
-            padding: 5rem 2rem 4rem;
-            max-width: 720px;
-            margin: 0 auto;
-            min-height: 80vh;
-        }
-        #articlePage.active {
-            display: block;
-        }
-        #articlePage .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            transition: color 0.2s;
-        }
-        #articlePage .back-link:hover {
-            color: var(--text-primary);
-        }
-        #articlePage h1 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.2;
-        }
-        #articlePage .article-body {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.8;
-        }
-        #articlePage .article-body p {
-            margin-bottom: 1rem;
-        }
-        #articlePage .article-body h2 {
-            font-size: 1.3rem;
-            margin: 1.5rem 0 0.8rem;
-            color: var(--text-primary);
-        }
-
-        /* ============================================================
-           CART
-           ============================================================ */
+        /* === CART DRAWER === */
         .cart-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
-            backdrop-filter: blur(4px);
+            transition: opacity 0.4s;
         }
         .cart-overlay.open {
             opacity: 1;
@@ -893,43 +523,38 @@
         }
         .cart-drawer {
             position: fixed;
-            right: -380px;
+            right: -420px;
             top: 0;
-            width: 360px;
+            width: 400px;
             max-width: 90vw;
             height: 100%;
-            background: #141010;
+            background: var(--bg-secondary);
             z-index: 2001;
-            padding: 1.5rem;
-            transition: right 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            padding: 2rem 1.5rem;
+            transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: var(--shadow-heavy);
             overflow-y: auto;
-            border-left: 1px solid rgba(122, 24, 24, 0.06);
+            border-left: 1px solid var(--border-subtle);
         }
         .cart-drawer.open {
             right: 0;
         }
         .cart-drawer h3 {
             font-family: 'DM Serif Display', serif;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
         .cart-item {
             display: flex;
-            gap: 0.8rem;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid rgba(122, 24, 24, 0.05);
-            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-subtle);
         }
-        .cart-item .icon-wrap {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(10, 8, 8, 0.3);
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
             border-radius: 8px;
-            font-size: 1.2rem;
-            color: var(--gold);
         }
         .cart-item-info {
             flex: 1;
@@ -937,114 +562,80 @@
         .cart-item-info h4 {
             font-family: 'Inter', sans-serif;
             font-weight: 500;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
         }
         .cart-item-info .price {
             color: var(--text-secondary);
-            font-size: 0.7rem;
-        }
-        .cart-item-qty {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .cart-item-qty button {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(122, 24, 24, 0.08);
-            color: var(--text-primary);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.7rem;
-        }
-        .cart-item-qty button:hover {
-            border-color: var(--gold);
-            color: var(--gold);
+            font-size: 0.8rem;
         }
         .cart-item-remove {
             background: none;
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            font-size: 0.8rem;
-            transition: color 0.2s;
-        }
-        .cart-item-remove:hover {
-            color: var(--accent);
+            font-size: 1rem;
         }
         .cart-total {
-            margin-top: 1.5rem;
-            font-size: 1.2rem;
+            margin-top: 2rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            border-top: 1px solid rgba(122, 24, 24, 0.06);
+            border-top: 1px solid var(--border-subtle);
             padding-top: 1rem;
             display: flex;
             justify-content: space-between;
-            color: var(--gold);
         }
         .cart-checkout {
             width: 100%;
-            padding: 0.7rem;
-            background: var(--gold);
-            color: #0A0808;
+            padding: 0.8rem;
+            background: var(--accent);
+            color: #fff;
             border: none;
             border-radius: 30px;
             margin-top: 1rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.85rem;
+            transition: background 0.3s;
         }
         .cart-checkout:hover {
-            background: var(--accent);
-            color: #fff;
+            background: var(--accent-hover);
         }
         .close-cart {
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             float: right;
             cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .close-cart:hover {
-            transform: rotate(90deg);
         }
 
-        /* ============================================================
-           MODAL
-           ============================================================ */
+        /* === MODAL === */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 3000;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s;
         }
         .modal-overlay.open {
             opacity: 1;
             pointer-events: all;
         }
         .modal-content {
-            background: #141010;
-            border-radius: 16px;
-            max-width: 560px;
-            width: 92%;
-            padding: 1.8rem;
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            max-width: 600px;
+            width: 90%;
+            padding: 2rem;
             position: relative;
-            transform: scale(0.95);
-            transition: transform 0.3s;
-            border: 1px solid rgba(122, 24, 24, 0.06);
-            max-height: 85vh;
+            transform: scale(0.9);
+            transition: transform 0.4s;
+            border: 1px solid var(--border-subtle);
+            max-height: 90vh;
             overflow-y: auto;
         }
         .modal-overlay.open .modal-content {
@@ -1054,156 +645,121 @@
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             position: absolute;
             top: 1rem;
-            right: 1.2rem;
+            right: 1.5rem;
             cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .modal-close:hover {
-            transform: rotate(90deg);
         }
         .modal-content h3 {
             font-family: 'DM Serif Display', serif;
-            font-size: 1.6rem;
+            font-size: 2rem;
             margin-bottom: 0.2rem;
         }
         .modal-content .brand {
             color: var(--text-muted);
             text-transform: uppercase;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
         }
         .modal-content .price {
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: 600;
-            margin: 0.8rem 0;
-            color: var(--gold);
+            margin: 1rem 0;
+        }
+        .modal-content .notes-pyramid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            margin: 1rem 0;
+        }
+        .modal-content .notes-pyramid span {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .modal-content .notes-pyramid strong {
+            color: var(--text-primary);
         }
 
-        /* ============================================================
-           FOOTER
-           ============================================================ */
+        /* === FOOTER === */
         footer {
-            background: #0A0808;
+            background: var(--bg-secondary);
             padding: 3rem 2rem 2rem;
-            border-top: 1px solid rgba(122, 24, 24, 0.05);
-            margin-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 3rem;
         }
         .footer-grid {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 2rem;
         }
         .footer-grid h4 {
             font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            font-size: 0.85rem;
-            margin-bottom: 0.8rem;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
             color: var(--text-primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
         .footer-grid p,
         .footer-grid a {
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             text-decoration: none;
             display: block;
-            margin-bottom: 0.2rem;
-            transition: color 0.2s;
+            margin-bottom: 0.3rem;
         }
         .footer-grid a:hover {
-            color: var(--gold);
+            color: var(--text-primary);
         }
         .footer-grid .socials {
             display: flex;
-            gap: 0.8rem;
-            font-size: 1.2rem;
+            gap: 1rem;
+            font-size: 1.4rem;
             margin-top: 0.5rem;
         }
         .footer-grid .socials a {
             color: var(--text-secondary);
-            transition: all 0.3s;
+            transition: color 0.2s;
         }
         .footer-grid .socials a:hover {
-            color: var(--gold);
-            transform: translateY(-2px);
+            color: var(--text-primary);
         }
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
             margin-top: 2rem;
-            border-top: 1px solid rgba(122, 24, 24, 0.05);
+            border-top: 1px solid var(--border-subtle);
             color: var(--text-muted);
-            font-size: 0.7rem;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem;
         }
 
-        /* ============================================================
-           SCROLL TOP
-           ============================================================ */
-        .scroll-top {
-            position: fixed;
-            bottom: 90px;
-            right: 24px;
-            z-index: 999;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(201, 168, 108, 0.06);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(201, 168, 108, 0.1);
-            color: var(--text-secondary);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            opacity: 0;
-            transform: translateY(15px);
-            pointer-events: none;
-        }
-        .scroll-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
-        }
-        .scroll-top:hover {
-            background: var(--gold);
-            color: #0A0808;
-            border-color: var(--gold);
-        }
-
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
+        /* === RESPONSIVE === */
         @media (max-width: 1024px) {
             .brands-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
             }
             .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         @media (max-width: 768px) {
             header {
                 padding: 0 1rem;
-                height: 56px;
             }
             nav {
                 display: none;
                 flex-direction: column;
-                background: rgba(10, 8, 8, 0.95);
+                background: var(--bg-glass);
                 backdrop-filter: blur(20px);
                 position: absolute;
-                top: 56px;
+                top: 70px;
                 left: 0;
                 width: 100%;
-                padding: 1.2rem 1.5rem;
-                gap: 0.8rem;
-                border-bottom: 1px solid rgba(122, 24, 24, 0.05);
+                padding: 1.5rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border-subtle);
             }
             nav.open {
                 display: flex;
@@ -1211,153 +767,70 @@
             .burger {
                 display: flex;
             }
-            .filters-wrapper {
-                padding: 0.4rem 1rem;
-                top: 56px;
+            .brands-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
             }
             .filters-bar {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 0.4rem;
             }
             .filters-bar input {
                 width: 100%;
-                min-width: unset;
-            }
-            .filters-bar .price-control {
-                justify-content: space-between;
-            }
-            .brands-grid {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-                gap: 0.5rem;
-            }
-            .brand-card {
-                padding: 0.6rem 0.3rem;
-            }
-            .brand-card h4 {
-                font-size: 0.55rem;
-            }
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 0.8rem;
-            }
-            .product-card .icon-wrap {
-                height: 110px;
-            }
-            .product-card .icon-wrap .perfume-icon {
-                font-size: 2.2rem;
-            }
-            .product-info h4 {
-                font-size: 0.75rem;
-            }
-            .blog-grid {
-                grid-template-columns: 1fr;
             }
             .cart-drawer {
                 width: 100%;
                 right: -100%;
             }
             .hero h1 {
-                font-size: clamp(32px, 8vw, 48px);
+                font-size: clamp(36px, 10vw, 60px);
             }
             section {
-                padding: 2.5rem 1rem;
+                padding: 3rem 1rem;
             }
             .modal-content {
-                padding: 1.2rem;
-                width: 95%;
-            }
-            #articlePage {
-                padding: 4rem 1rem 2rem;
-            }
-            #articlePage h1 {
-                font-size: 1.5rem;
-            }
-            .header-actions button {
-                font-size: 0.9rem;
-            }
-            .logo {
-                font-size: 1.1rem;
-            }
-            .assistant-panel {
-                width: 300px;
-                right: 16px;
-                bottom: 80px;
-            }
-            .assistant-toggle {
-                width: 44px;
-                height: 44px;
-                font-size: 1.1rem;
-                bottom: 16px;
-                right: 16px;
-            }
-            .scroll-top {
-                bottom: 76px;
-                right: 16px;
-                width: 36px;
-                height: 36px;
-                font-size: 0.8rem;
+                padding: 1.5rem;
             }
         }
         @media (max-width: 480px) {
-            .products-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.6rem;
-            }
-            .product-card .icon-wrap {
-                height: 90px;
-            }
-            .product-card .icon-wrap .perfume-icon {
-                font-size: 1.8rem;
-            }
-            .product-info {
-                padding: 0.6rem 0.6rem 0.8rem;
-            }
-            .product-info h4 {
-                font-size: 0.7rem;
-            }
-            .product-actions button {
-                font-size: 0.5rem;
-                padding: 0.2rem 0.5rem;
-                min-height: 24px;
-            }
             .brands-grid {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            }
-            .brand-card h4 {
-                font-size: 0.5rem;
-            }
-            .note-chip {
-                font-size: 0.65rem;
-                padding: 0.3rem 0.8rem;
-            }
-            .blog-card {
-                padding: 1rem;
-            }
-            .blog-card h3 {
-                font-size: 0.95rem;
-            }
-            .assistant-panel {
-                width: 280px;
-                padding: 1rem;
-                right: 12px;
-            }
-            .assistant-panel .mood-grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 0.3rem;
+                gap: 0.8rem;
             }
-            .assistant-panel .mood-btn {
-                padding: 0.3rem;
-                font-size: 0.6rem;
+            .brand-card {
+                padding: 1rem 0.5rem;
             }
-            .assistant-panel .mood-btn .mood-icon {
+            .product-img {
+                height: 200px;
+            }
+            .header-actions button {
                 font-size: 1rem;
+            }
+            .logo {
+                font-size: 1.2rem;
             }
         }
 
-        /* ============================================================
-           UTILITIES
-           ============================================================ */
+        /* === SKELETON === */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-secondary) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 12px;
+            min-height: 300px;
+        }
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* === UTILS === */
         .hidden {
             display: none !important;
         }
@@ -1365,74 +838,10 @@
             text-align: center;
         }
         .mt-2 {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
-
-        /* ============================================================
-           SORTING
-           ============================================================ */
-        .sort-select {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(122, 24, 24, 0.08);
-            color: var(--text-secondary);
-            padding: 0.25rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.6rem;
-            outline: none;
-            cursor: pointer;
-            transition: border-color 0.3s;
-            font-family: 'Inter', sans-serif;
-            letter-spacing: 0.5px;
-        }
-        .sort-select:focus {
-            border-color: var(--gold);
-        }
-        .sort-select option {
-            background: #0A0808;
-            color: var(--text-primary);
-        }
-
-        /* ============================================================
-           ANIMATIONS
-           ============================================================ */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .fade-in {
-            animation: fadeIn 0.6s ease forwards;
-        }
-
-        @keyframes pulseGlow {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(201, 168, 108, 0.05);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(201, 168, 108, 0.15);
-            }
-        }
-        .pulse-glow {
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-6px);
-            }
-        }
-        .float {
-            animation: float 4s ease-in-out infinite;
+        .mb-2 {
+            margin-bottom: 2rem;
         }
     </style>
 </head>
@@ -1440,41 +849,36 @@
 
     <!-- PRELOADER -->
     <div id="preloader">
-        <div class="initials">Головач.А.А</div>
-        <div class="brand-text">L'Ombre <span>·</span> Lourde</div>
-        <div class="loader-ring"></div>
-        <div class="loader-bar"><div class="fill" id="progressFill"></div></div>
+        <svg viewBox="0 0 800 200">
+            <path d="M40,150 Q80,60 130,130 Q170,180 210,100 Q250,30 290,140 Q330,190 370,80 Q410,20 450,120 Q490,170 530,90 Q570,30 610,130 Q650,180 690,100 Q730,40 770,140"
+            stroke="#F5F0EB" stroke-width="3" fill="none" stroke-dasharray="2000" stroke-dashoffset="2000"/>
+            <text x="280" y="190" font-family="'DM Serif Display',serif" font-size="28" fill="#F5F0EB" opacity="0" class="glow">L'Ombre · Lourde</text>
+        </svg>
     </div>
 
     <!-- HEADER -->
-    <header id="mainHeader">
-        <a href="#" class="logo">L'Ombre <span>·</span> Lourde</a>
+    <header>
+        <a href="#" class="logo">L'Ombre<span> · </span>Lourde</a>
         <nav id="mainNav">
             <a href="#brands">Бренды</a>
             <a href="#bestsellers">Бестселлеры</a>
             <a href="#notes">Ноты</a>
             <a href="#catalog">Каталог</a>
-            <a href="#blog">Журнал</a>
+            <a href="#">Журнал</a>
             <a href="#contacts">Контакты</a>
         </nav>
         <div class="header-actions">
-            <select class="sort-select" id="sortSelect">
-                <option value="default">Сортировка</option>
-                <option value="price-asc">Цена ↑</option>
-                <option value="price-desc">Цена ↓</option>
-                <option value="rating">Рейтинг</option>
-            </select>
-            <button id="searchToggle" title="Поиск (Ctrl+K)"><i class="fas fa-search"></i></button>
-            <button id="wishlistToggle" title="Избранное"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></button>
-            <button id="cartToggle" title="Корзина"><i class="fas fa-shopping-bag"></i><span class="badge" id="cartBadge">0</span></button>
+            <button id="searchToggle"><i class="fas fa-search"></i></button>
+            <button id="wishlistToggle"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></button>
+            <button id="cartToggle"><i class="fas fa-shopping-bag"></i><span class="badge" id="cartBadge">0</span></button>
             <button class="burger" id="burgerBtn"><span></span><span></span><span></span></button>
         </div>
     </header>
 
     <!-- HERO -->
     <section class="hero" id="hero">
-        <h1>Тяжелая артиллерия <br><span class="highlight">парфюмерии</span></h1>
-        <p>L'Ombre · Lourde — нишевые ароматы для избранных</p>
+        <h1>Тяжелая артиллерия <br>парфюмерии</h1>
+        <p>L’Ombre · Lourde — нишевые ароматы для избранных</p>
         <button class="btn-primary" id="exploreBtn">Исследовать коллекцию</button>
     </section>
 
@@ -1490,60 +894,40 @@
         <div class="products-grid" id="bestsellersGrid"></div>
     </section>
 
-    <!-- NOTES -->
+    <!-- NOTES CLOUD -->
     <section id="notes">
         <div class="section-title"><h2>Подбор по нотам</h2></div>
         <div class="notes-cloud" id="notesCloud"></div>
     </section>
 
-    <!-- CATALOG -->
+    <!-- CATALOG with FILTERS -->
     <section id="catalog">
         <div class="section-title"><h2>Каталог</h2></div>
-    </section>
-
-    <!-- FILTERS -->
-    <div class="filters-wrapper" id="filtersWrapper">
-        <div class="filters-bar">
-            <input type="text" id="searchInput" placeholder="Поиск ароматов... (Ctrl+K)">
+        <div class="filters-bar" id="filtersBar">
+            <input type="text" id="searchInput" placeholder="Поиск по ароматам...">
             <div class="filter-group" id="brandFilterGroup"></div>
-            <div class="price-control">
-                <span>Цена</span>
-                <input type="range" id="priceSlider" min="0" max="2000" value="2000">
-                <span id="priceDisplay">до 2000 BYN</span>
+            <div>
+                <span style="color:var(--text-secondary);font-size:0.8rem;">Цена: </span>
+                <input type="range" id="priceSlider" min="0" max="2000" value="2000" style="width:140px;">
+                <span id="priceDisplay" style="color:var(--text-secondary);font-size:0.8rem;">до 2000 BYN</span>
             </div>
         </div>
-    </div>
-
-    <!-- CATALOG GRID -->
-    <section id="catalog" style="padding-top:0;">
         <div class="products-grid" id="catalogGrid"></div>
-        <div id="infiniteTrigger" style="height:10px;margin-top:1rem;"></div>
+        <div class="text-center mt-2"><button id="loadMoreBtn" class="btn-primary" style="padding:0.7rem 2rem;font-size:0.9rem;">Загрузить еще</button></div>
     </section>
 
-    <!-- BLOG -->
-    <section id="blog">
-        <div class="section-title"><h2>Журнал</h2></div>
-        <div class="blog-grid" id="blogGrid"></div>
-    </section>
-
-    <!-- ARTICLE PAGE -->
-    <div id="articlePage">
-        <button class="back-link" id="backFromArticle"><i class="fas fa-arrow-left"></i> Назад</button>
-        <div id="articleContent"></div>
-    </div>
-
-    <!-- FOOTER -->
+    <!-- FOOTER / CONTACTS -->
     <footer id="contacts">
         <div class="footer-grid">
             <div>
                 <h4>L'Ombre · Lourde</h4>
-                <p style="font-size:0.8rem;color:var(--text-secondary);line-height:1.6;">Бутик нишевой парфюмерии, где каждый аромат — это история. Собираем самые тяжелые, темные и глубокие композиции со всего мира.</p>
+                <p>Бутик нишевой парфюмерии, где каждый аромат — это история. Мы собираем самые тяжелые, темные и глубокие композиции со всего мира.</p>
             </div>
             <div>
                 <h4>Контакты</h4>
-                <a href="tel:+375333624800"><i class="fas fa-phone" style="width:16px;"></i> +375(33)-362-48-00</a>
-                <a href="#"><i class="fas fa-envelope" style="width:16px;"></i> info@lombrelourde.by</a>
-                <p><i class="fas fa-map-marker-alt" style="width:16px;"></i> пер. Брестских Дивизий 11, 35</p>
+                <a href="tel:+375333624800"><i class="fas fa-phone"></i> +375(33)-362-48-00</a>
+                <a href="#"><i class="fas fa-envelope"></i> info@lombrelourde.by</a>
+                <p><i class="fas fa-map-marker-alt"></i> пер. Брестских Дивизий 11, 35</p>
             </div>
             <div>
                 <h4>Соцсети</h4>
@@ -1552,22 +936,22 @@
                     <a href="#"><i class="fab fa-telegram"></i></a>
                     <a href="#"><i class="fab fa-viber"></i></a>
                 </div>
-                <div style="margin-top:0.8rem;border-radius:8px;overflow:hidden;height:100px;background:rgba(255,255,255,0.02);">
-                    <iframe width="100%" height="100" frameborder="0" style="border:0;filter:grayscale(0.8);" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=27.56%2C53.90%2C27.57%2C53.91&layer=mapnik&marker=53.905%2C27.565"></iframe>
+                <div style="margin-top:1rem;border-radius:12px;overflow:hidden;height:120px;background:var(--bg-card);">
+                    <iframe width="100%" height="120" frameborder="0" style="border:0;filter:grayscale(0.8);" src="https://www.openstreetmap.org/export/embed.html?bbox=27.56%2C53.90%2C27.57%2C53.91&layer=mapnik&marker=53.905%2C27.565"></iframe>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">© 2026 L'Ombre · Lourde. Все права защищены. Головач.А.А</div>
+        <div class="footer-bottom">© 2026 L'Ombre · Lourde. Все права защищены.</div>
     </footer>
 
-    <!-- CART -->
+    <!-- CART DRAWER -->
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-drawer" id="cartDrawer">
         <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
         <h3>Корзина</h3>
         <div id="cartItems"></div>
         <div class="cart-total"><span>Итого</span><span id="cartTotal">0 BYN</span></div>
-        <button class="cart-checkout" id="checkoutBtn">Оформить заказ</button>
+        <button class="cart-checkout">Оформить заказ</button>
     </div>
 
     <!-- MODAL -->
@@ -1578,398 +962,910 @@
         </div>
     </div>
 
-    <!-- ASSISTANT -->
-    <button class="assistant-toggle pulse-glow" id="assistantToggle" title="Помощник"><i class="fas fa-wand-magic-sparkles"></i></button>
-    <div class="assistant-panel" id="assistantPanel">
-        <button class="close-assistant" id="closeAssistant"><i class="fas fa-times"></i></button>
-        <h4>Помощник</h4>
-        <p>Выберите настроение — я подберу аромат специально для вас</p>
-        <div class="mood-grid">
-            <button class="mood-btn" data-mood="romantic"><span class="mood-icon">🌹</span>Романтичный</button>
-            <button class="mood-btn" data-mood="energetic"><span class="mood-icon">⚡</span>Энергичный</button>
-            <button class="mood-btn" data-mood="serious"><span class="mood-icon">🏛️</span>Деловой</button>
-            <button class="mood-btn" data-mood="mysterious"><span class="mood-icon">🌙</span>Загадочный</button>
-            <button class="mood-btn" data-mood="fresh"><span class="mood-icon">🌊</span>Свежий</button>
-            <button class="mood-btn" data-mood="warm"><span class="mood-icon">🔥</span>Теплый</button>
-        </div>
-    </div>
-
-    <!-- SCROLL TOP -->
-    <button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
-
     <script>
         // ============================================================
-        // DATA — 80+ ароматов с иконками (без эмодзи, используем Font Awesome)
+        // DATA: 56 ароматов
         // ============================================================
-        const perfumes = [
-            // Nasomatto (6)
-            { id: 1, name: "Black Afgano", brand: "Nasomatto", price: 620, icon: "fa-skull", notes: { top: ["Бергамот",
-                    "Зеленые ноты"], heart: ["Табак", "Смолы", "Кофе"], base: ["Уд", "Древесина", "Ладан"] },
-                description: "Тяжелый, дымный, наркотический аромат.", rating: 4.8, reviews: 127, bestseller: true,
-                new: false, mood: "mysterious" },
-            { id: 2, name: "Baraonda", brand: "Nasomatto", price: 590, icon: "fa-whiskey-glass", notes: { top: ["Ром",
-                    "Виски"], heart: ["Древесина", "Табак"], base: ["Амбра", "Ваниль"] },
-                description: "Аромат с характером, как глоток виски у камина.", rating: 4.6, reviews: 89,
-                bestseller: true, new: false, mood: "warm" },
-            { id: 3, name: "Pardon", brand: "Nasomatto", price: 610, icon: "fa-crown", notes: { top: ["Шафран",
-                    "Кардамон"], heart: ["Жасмин", "Роза"], base: ["Уд", "Сандал"] },
-                description: "Элегантный, восточный, с характерной тяжестью.", rating: 4.7, reviews: 105,
-                bestseller: false, new: true, mood: "serious" },
-            { id: 4, name: "Duro", brand: "Nasomatto", price: 580, icon: "fa-shield", notes: { top: ["Перец",
-                    "Лаванда"], heart: ["Гвоздика", "Кожа"], base: ["Дуб", "Пачули"] },
-                description: "Мужественный, сухой, с древесной дымкой.", rating: 4.5, reviews: 76, bestseller: false,
-                new: false, mood: "serious" },
-            { id: 5, name: "Silver Musk", brand: "Nasomatto", price: 600, icon: "fa-star", notes: { top: ["Альдегиды",
-                    "Цитрусы"], heart: ["Мускус", "Цветы"], base: ["Амбра", "Древесина"] },
-                description: "Чистый, металлический мускус с неожиданной мягкостью.", rating: 4.4, reviews: 62,
-                bestseller: false, new: false, mood: "fresh" },
-            { id: 6, name: "China White", brand: "Nasomatto", price: 640, icon: "fa-feather", notes: { top: ["Личи",
-                    "Роза"], heart: ["Жасмин", "Иланг"], base: ["Мускус", "Амбра"] },
-                description: "Опиумный, цветочный, с азиатской сладостью.", rating: 4.3, reviews: 55, bestseller: false,
-                new: true, mood: "romantic" },
-
-            // Orto Parisi (5)
-            { id: 7, name: "Megamare", brand: "Orto Parisi", price: 580, icon: "fa-water", notes: { top: ["Морская соль",
-                    "Водоросли"], heart: ["Амбра", "Древесина"], base: ["Мускус", "Смолы"] },
-                description: "Океанская мощь, соленый бриз и темная глубина.", rating: 4.9, reviews: 210,
-                bestseller: true, new: false, mood: "fresh" },
-            { id: 8, name: "Terroni", brand: "Orto Parisi", price: 560, icon: "fa-mountain", notes: { top: ["Почва",
-                    "Ветивер"], heart: ["Древесина", "Табак"], base: ["Пачули", "Смолы"] },
-                description: "Земляной, корневой, с ароматом влажной почвы.", rating: 4.6, reviews: 98,
-                bestseller: false, new: false, mood: "serious" },
-            { id: 9, name: "Viride", brand: "Orto Parisi", price: 550, icon: "fa-leaf", notes: { top: ["Зеленые листья",
-                    "Трава"], heart: ["Мята", "Ель"], base: ["Мох", "Древесина"] },
-                description: "Лесная свежесть с горьким зеленым оттенком.", rating: 4.4, reviews: 73,
-                bestseller: false, new: false, mood: "fresh" },
-            { id: 10, name: "Bergamask", brand: "Orto Parisi", price: 570, icon: "fa-lemon", notes: { top: ["Бергамот",
-                    "Лимон"], heart: ["Мускус", "Амбра"], base: ["Древесина", "Ваниль"] },
-                description: "Яркий цитрус с мускусной глубиной.", rating: 4.3, reviews: 64, bestseller: false,
-                new: true, mood: "energetic" },
-            { id: 11, name: "Brutus", brand: "Orto Parisi", price: 590, icon: "fa-helmet", notes: { top: ["Кожа",
-                    "Табак"], heart: ["Смолы", "Ладан"], base: ["Уд", "Древесина"] },
-                description: "Мощный, кожаный, с дымным характером.", rating: 4.7, reviews: 82, bestseller: false,
-                new: false, mood: "serious" },
-
-            // Amouage (8)
-            { id: 12, name: "Interlude Man", brand: "Amouage", price: 820, icon: "fa-fire", notes: { top: ["Бергамот",
-                    "Орегано"], heart: ["Ладан", "Смолы"], base: ["Уд", "Амбра"] },
-                description: "Культовый аромат с дымно-смолистой глубиной.", rating: 4.9, reviews: 340,
-                bestseller: true, new: false, mood: "mysterious" },
-            { id: 13, name: "Reflection Man", brand: "Amouage", price: 780, icon: "fa-compact-disc", notes: { top: [
-                    "Розовый перец", "Бергамот"], heart: ["Жасмин", "Ирис"], base: ["Сандал", "Амбра"] },
-                description: "Элегантный, цветочный, с пудровым шлейфом.", rating: 4.7, reviews: 210,
-                bestseller: false, new: false, mood: "romantic" },
-            { id: 14, name: "Epic Man", brand: "Amouage", price: 790, icon: "fa-landmark", notes: { top: ["Перец",
-                    "Шафран"], heart: ["Ладан", "Роза"], base: ["Уд", "Амбра"] },
-                description: "Эпический восточный аромат с караванной историей.", rating: 4.8, reviews: 180,
-                bestseller: true, new: false, mood: "serious" },
-            { id: 15, name: "Jubilation XXV", brand: "Amouage", price: 850, icon: "fa-crown", notes: { top: ["Бергамот",
-                    "Корица"], heart: ["Смолы", "Табак"], base: ["Уд", "Пачули"] },
-                description: "Праздничный, богатый, с юбилейным характером.", rating: 4.6, reviews: 140,
-                bestseller: false, new: false, mood: "warm" },
-            { id: 16, name: "Lyric Man", brand: "Amouage", price: 760, icon: "fa-music", notes: { top: ["Бергамот",
-                    "Апельсин"], heart: ["Роза", "Гвоздика"], base: ["Сандал", "Мускус"] },
-                description: "Лиричный, цветочный, с восточным акцентом.", rating: 4.5, reviews: 115,
-                bestseller: false, new: true, mood: "romantic" },
-            { id: 17, name: "Honour Man", brand: "Amouage", price: 740, icon: "fa-medal", notes: { top: ["Перец",
-                    "Шалфей"], heart: ["Герань", "Лаванда"], base: ["Кожа", "Амбра"] },
-                description: "Достойный, благородный, с кожаным оттенком.", rating: 4.4, reviews: 98,
-                bestseller: false, new: false, mood: "serious" },
-            { id: 18, name: "Interlude Black Iris", brand: "Amouage", price: 830, icon: "fa-flower", notes: { top: [
-                    "Ирис", "Морковь"], heart: ["Ладан", "Кожа"], base: ["Уд", "Пачули"] },
-                description: "Темная версия культового Interlude с ирисом.", rating: 4.8, reviews: 160,
-                bestseller: true, new: true, mood: "mysterious" },
-            { id: 19, name: "Overture Man", brand: "Amouage", price: 810, icon: "fa-play", notes: { top: ["Шафран",
-                    "Кардамон"], heart: ["Смолы", "Табак"], base: ["Уд", "Амбра"] },
-                description: "Увертюра из дыма и пряностей.", rating: 4.6, reviews: 120, bestseller: false,
-                new: false, mood: "warm" },
-
-            // Montale (7)
-            { id: 20, name: "Oud Pashmina", brand: "Montale", price: 380, icon: "fa-scarf", notes: { top: ["Шафран",
-                    "Роза"], heart: ["Уд", "Кашемир"], base: ["Амбра", "Мускус"] },
-                description: "Мягкий уд с шелковистым кашемировым шлейфом.", rating: 4.3, reviews: 87,
-                bestseller: false, new: false, mood: "warm" },
-            { id: 21, name: "Black Oud", brand: "Montale", price: 360, icon: "fa-gem", notes: { top: ["Лимон",
-                    "Бергамот"], heart: ["Уд", "Табак"], base: ["Кожа", "Древесина"] },
-                description: "Темный уд с табачным оттенком и дымом.", rating: 4.5, reviews: 110, bestseller: true,
-                new: false, mood: "mysterious" },
-            { id: 22, name: "Intense Café", brand: "Montale", price: 390, icon: "fa-mug-saucer", notes: { top: ["Кофе",
-                    "Роза"], heart: ["Жасмин", "Ваниль"], base: ["Амбра", "Мускус"] },
-                description: "Кофейный аромат с розой и сладкими нюансами.", rating: 4.7, reviews: 230,
-                bestseller: true, new: false, mood: "energetic" },
-            { id: 23, name: "Sensual Instinct", brand: "Montale", price: 370, icon: "fa-pepper", notes: { top: [
-                    "Кардамон", "Перец"], heart: ["Уд", "Шафран"], base: ["Кожа", "Пачули"] },
-                description: "Соблазнительный, пряный, с животной чувственностью.", rating: 4.4, reviews: 95,
-                bestseller: false, new: false, mood: "mysterious" },
-            { id: 24, name: "Oud & Leather", brand: "Montale", price: 400, icon: "fa-bag", notes: { top: ["Кожа",
-                    "Бергамот"], heart: ["Уд", "Смолы"], base: ["Амбра", "Древесина"] },
-                description: "Кожа и уд в идеальном балансе, мощный и стойкий.", rating: 4.6, reviews: 130,
-                bestseller: false, new: true, mood: "serious" },
-            { id: 25, name: "White Oud", brand: "Montale", price: 350, icon: "fa-snowflake", notes: { top: ["Шафран",
-                    "Лаванда"], heart: ["Уд", "Роза"], base: ["Мускус", "Сандал"] },
-                description: "Белый уд — легкий, цветочный, с мускусным акцентом.", rating: 4.2, reviews: 78,
-                bestseller: false, new: false, mood: "romantic" },
-            { id: 26, name: "Roses Musk", brand: "Montale", price: 340, icon: "fa-rose", notes: { top: ["Роза",
-                    "Цитрусы"], heart: ["Мускус", "Жасмин"], base: ["Древесина", "Амбра"] },
-                description: "Нежная роза с мускусной глубиной.", rating: 4.3, reviews: 85, bestseller: false,
-                new: false, mood: "romantic" },
-
-            // Xerjoff (5)
-            { id: 27, name: "Naxos", brand: "Xerjoff", price: 720, icon: "fa-honey-pot", notes: { top: ["Мед",
-                    "Бергамот"], heart: ["Табак", "Корица"], base: ["Ваниль", "Амбра"] },
-                description: "Сладкий табак с медом и пряностями.", rating: 4.9, reviews: 280, bestseller: true,
-                new: false, mood: "warm" },
-            { id: 28, name: "Alexandria II", brand: "Xerjoff", price: 780, icon: "fa-moon", notes: { top: ["Лаванда",
-                    "Цитрусы"], heart: ["Роза", "Уд"], base: ["Амбра", "Пачули"] },
-                description: "Роскошный восточный аромат с удом и розой.", rating: 4.8, reviews: 200, bestseller: true,
-                new: false, mood: "mysterious" },
-            { id: 29, name: "Erba Pura", brand: "Xerjoff", price: 690, icon: "fa-fruit", notes: { top: ["Фрукты",
-                    "Цитрусы"], heart: ["Цветы", "Ваниль"], base: ["Мускус", "Древесина"] },
-                description: "Сочный, фруктовый, с мускусной глубиной.", rating: 4.5, reviews: 150, bestseller: false,
-                new: false, mood: "energetic" },
-            { id: 30, name: "More Than Words", brand: "Xerjoff", price: 740, icon: "fa-comment", notes: { top: ["Роза",
-                    "Шафран"], heart: ["Уд", "Жасмин"], base: ["Амбра", "Смолы"] },
-                description: "Сложный, восточный, с богатой цветочной душой.", rating: 4.6, reviews: 120,
-                bestseller: false, new: true, mood: "romantic" },
-            { id: 31, name: "Accento", brand: "Xerjoff", price: 660, icon: "fa-star", notes: { top: ["Бергамот",
-                    "Яблоко"], heart: ["Жасмин", "Роза"], base: ["Мускус", "Амбра"] },
-                description: "Свежий, цветочный, с ярким фруктовым стартом.", rating: 4.3, reviews: 90,
-                bestseller: false, new: false, mood: "fresh" },
-
-            // Frederic Malle (4)
-            { id: 32, name: "Musc Ravageur", brand: "Frederic Malle", price: 520, icon: "fa-moon", notes: { top: [
-                    "Бергамот", "Корица"], heart: ["Мускус", "Ваниль"], base: ["Амбра", "Древесина"] },
-                description: "Знаменитый мускусный аромат с животной теплотой.", rating: 4.8, reviews: 240,
-                bestseller: true, new: false, mood: "warm" },
-            { id: 33, name: "Portrait of a Lady", brand: "Frederic Malle", price: 580, icon: "fa-crown", notes: { top: [
-                    "Роза", "Черная смородина"], heart: ["Гвоздика", "Ладан"], base: ["Пачули", "Амбра"] },
-                description: "Портрет дамы: роза, ладан и темный пачули.", rating: 4.9, reviews: 300,
-                bestseller: true, new: false, mood: "romantic" },
-            { id: 34, name: "French Lover", brand: "Frederic Malle", price: 490, icon: "fa-flag", notes: { top: [
-                    "Анжелика", "Можжевельник"], heart: ["Древесина", "Перец"], base: ["Мох", "Сандал"] },
-                description: "Зеленый, древесный, с ароматом дикой природы.", rating: 4.4, reviews: 105,
-                bestseller: false, new: false, mood: "fresh" },
-            { id: 35, name: "Vetiver Extraordinaire", brand: "Frederic Malle", price: 500, icon: "fa-leaf", notes: { top: [
-                    "Ветивер", "Цитрусы"], heart: ["Древесина", "Перец"], base: ["Табак", "Амбра"] },
-                description: "Экстраординарный ветивер с дымным оттенком.", rating: 4.5, reviews: 115,
-                bestseller: false, new: true, mood: "serious" },
-
-            // Mancera (5)
-            { id: 36, name: "Aoud Lemon Mint", brand: "Mancera", price: 290, icon: "fa-lemon", notes: { top: ["Лимон",
-                    "Мята"], heart: ["Уд", "Роза"], base: ["Амбра", "Мускус"] },
-                description: "Свежий уд с лимоном и мятой — неожиданный контраст.", rating: 4.3, reviews: 120,
-                bestseller: false, new: false, mood: "fresh" },
-            { id: 37, name: "Instant Crush", brand: "Mancera", price: 310, icon: "fa-bolt", notes: { top: ["Шафран",
-                    "Бергамот"], heart: ["Жасмин", "Роза"], base: ["Амбра", "Ваниль"] },
-                description: "Мгновенная влюбленность: сладкий, цветочный, амбровый.", rating: 4.6, reviews: 200,
-                bestseller: true, new: false, mood: "energetic" },
-            { id: 38, name: "Red Tobacco", brand: "Mancera", price: 320, icon: "fa-fire", notes: { top: ["Табак",
-                    "Корица"], heart: ["Яблоко", "Роза"], base: ["Ваниль", "Амбра"] },
-                description: "Красный табак с пряностями и фруктовой сладостью.", rating: 4.7, reviews: 180,
-                bestseller: true, new: false, mood: "warm" },
-            { id: 39, name: "Cedrat Boise", brand: "Mancera", price: 280, icon: "fa-tree", notes: { top: ["Цитрусы",
-                    "Кедр"], heart: ["Кожа", "Древесина"], base: ["Мускус", "Амбра"] },
-                description: "Кедровый лес с цитрусовой свежестью и кожей.", rating: 4.4, reviews: 135,
-                bestseller: false, new: false, mood: "fresh" },
-            { id: 40, name: "Hindu Kush", brand: "Mancera", price: 300, icon: "fa-mountain", notes: { top: ["Конопля",
-                    "Шафран"], heart: ["Уд", "Смолы"], base: ["Пачули", "Древесина"] },
-                description: "Индуистский хребет: дымный, травяной, глубокий.", rating: 4.5, reviews: 110,
-                bestseller: false, new: true, mood: "mysterious" },
-
-            // Nishane (4)
-            { id: 41, name: "Hacivat", brand: "Nishane", price: 450, icon: "fa-pineapple", notes: { top: ["Ананас",
-                    "Цитрусы"], heart: ["Древесина", "Мох"], base: ["Амбра", "Мускус"] },
-                description: "Тропический древесный аромат с ананасовой свежестью.", rating: 4.8, reviews: 190,
-                bestseller: true, new: false, mood: "energetic" },
-            { id: 42, name: "Ani", brand: "Nishane", price: 470, icon: "fa-feather", notes: { top: ["Бергамот",
-                    "Имбирь"], heart: ["Ваниль", "Роза"], base: ["Амбра", "Древесина"] },
-                description: "Сладкая ваниль с восточными пряностями.", rating: 4.7, reviews: 160, bestseller: true,
-                new: false, mood: "warm" },
-            { id: 43, name: "Wulong Cha", brand: "Nishane", price: 420, icon: "fa-mug-hot", notes: { top: ["Чай",
-                    "Цитрусы"], heart: ["Жасмин", "Иланг"], base: ["Мускус", "Древесина"] },
-                description: "Улун с чайными листьями и цветочной душой.", rating: 4.4, reviews: 100,
-                bestseller: false, new: true, mood: "fresh" },
-            { id: 44, name: "Sultan Vetiver", brand: "Nishane", price: 480, icon: "fa-crown", notes: { top: ["Ветивер",
-                    "Кардамон"], heart: ["Древесина", "Перец"], base: ["Амбра", "Табак"] },
-                description: "Султанский ветивер с пряной глубиной.", rating: 4.6, reviews: 85, bestseller: false,
-                new: false, mood: "serious" },
-
-            // Diptyque (3)
-            { id: 45, name: "Tam Dao", brand: "Diptyque", price: 280, icon: "fa-tree", notes: { top: ["Сандал",
-                    "Кедр"], heart: ["Древесина", "Смолы"], base: ["Амбра", "Ветивер"] },
-                description: "Сандаловый храм, древесный и медитативный.", rating: 4.5, reviews: 140,
-                bestseller: false, new: false, mood: "serious" },
-            { id: 46, name: "Philosykos", brand: "Diptyque", price: 270, icon: "fa-leaf", notes: { top: ["Инжир",
-                    "Кокос"], heart: ["Зелень", "Цветы"], base: ["Древесина", "Амбра"] },
-                description: "Аромат инжирного дерева с молочной зеленью.", rating: 4.3, reviews: 115,
-                bestseller: false, new: false, mood: "fresh" },
-            { id: 47, name: "L'Ombre Dans L'Eau", brand: "Diptyque", price: 290, icon: "fa-droplet", notes: { top: [
-                    "Черная смородина", "Роза"], heart: ["Зелень", "Петитгрейн"], base: ["Древесина", "Мох"] },
-                description: "Тень на воде: ягодный, зеленый, влажный.", rating: 4.4, reviews: 95, bestseller: false,
-                new: true, mood: "fresh" },
-
-            // Byredo (3)
-            { id: 48, name: "Gypsy Water", brand: "Byredo", price: 380, icon: "fa-moon", notes: { top: ["Бергамот",
-                    "Перец"], heart: ["Ваниль", "Ладан"], base: ["Древесина", "Амбра"] },
-                description: "Цыганская вода: смолистая, ванильная, лесная.", rating: 4.7, reviews: 210,
-                bestseller: true, new: false, mood: "mysterious" },
-            { id: 49, name: "Mojave Ghost", brand: "Byredo", price: 390, icon: "fa-ghost", notes: { top: ["Мускус",
-                    "Амбра"], heart: ["Древесина", "Цветы"], base: ["Сандал", "Ваниль"] },
-                description: "Призрак Мохаве: мягкий, мускусный, с древесной душой.", rating: 4.5, reviews: 160,
-                bestseller: false, new: false, mood: "mysterious" },
-            { id: 50, name: "Black Saffron", brand: "Byredo", price: 370, icon: "fa-gem", notes: { top: ["Шафран",
-                    "Кожа"], heart: ["Малина", "Роза"], base: ["Амбра", "Древесина"] },
-                description: "Черный шафран с кожаными и ягодными нотами.", rating: 4.3, reviews: 105,
-                bestseller: false, new: false, mood: "serious" },
-
-            // Le Labo (3)
-            { id: 51, name: "Santal 33", brand: "Le Labo", price: 420, icon: "fa-tree", notes: { top: ["Сандал",
-                    "Кедр"], heart: ["Кожа", "Древесина"], base: ["Амбра", "Мускус"] },
-                description: "Культовый сандал с кожаной глубиной.", rating: 4.9, reviews: 400, bestseller: true,
-                new: false, mood: "serious" },
-            { id: 52, name: "Another 13", brand: "Le Labo", price: 410, icon: "fa-hashtag", notes: { top: ["Мускус",
-                    "Амбра"], heart: ["Цветы", "Древесина"], base: ["Ваниль", "Смолы"] },
-                description: "Еще 13: мускусный, амбровый, с чистым кожным звучанием.", rating: 4.6, reviews: 180,
-                bestseller: false, new: false, mood: "mysterious" },
-            { id: 53, name: "Rose 31", brand: "Le Labo", price: 400, icon: "fa-rose", notes: { top: ["Роза", "Перец"],
-                    heart: ["Гвоздика", "Древесина"], base: ["Мох", "Амбра"] },
-                description: "Роза 31: цветочная, пряная, с древесным акцентом.", rating: 4.4, reviews: 130,
-                bestseller: false, new: false, mood: "romantic" },
-
-            // Parfums de Marly (3)
-            { id: 54, name: "Layton", brand: "Parfums de Marly", price: 500, icon: "fa-apple", notes: { top: ["Яблоко",
-                    "Лаванда"], heart: ["Ваниль", "Роза"], base: ["Амбра", "Древесина"] },
-                description: "Лейтон: яблочная свежесть с ванильной сладостью.", rating: 4.8, reviews: 250,
-                bestseller: true, new: false, mood: "energetic" },
-            { id: 55, name: "Herod", brand: "Parfums de Marly", price: 520, icon: "fa-crown", notes: { top: ["Табак",
-                    "Корица"], heart: ["Ваниль", "Роза"], base: ["Амбра", "Пачули"] },
-                description: "Ирод: табак, корица и сладкая ваниль.", rating: 4.7, reviews: 190, bestseller: true,
-                new: false, mood: "warm" },
-            { id: 56, name: "Pegasus", brand: "Parfums de Marly", price: 490, icon: "fa-horse", notes: { top: [
-                    "Бергамот", "Лаванда"], heart: ["Миндаль", "Жасмин"], base: ["Амбра", "Древесина"] },
-                description: "Пегас: миндальный, цветочный, с амбровой глубиной.", rating: 4.5, reviews: 140,
-                bestseller: false, new: false, mood: "romantic" },
-
-            // Tom Ford
-            { id: 57, name: "Oud Wood", brand: "Tom Ford", price: 650, icon: "fa-tree", notes: { top: ["Кардамон",
-                    "Перец"], heart: ["Уд", "Древесина"], base: ["Ваниль", "Амбра"] },
-                description: "Изысканный уд с пряными и древесными нюансами.", rating: 4.8, reviews: 320,
-                bestseller: true, new: false, mood: "serious" },
-            { id: 58, name: "Tobacco Vanille", brand: "Tom Ford", price: 680, icon: "fa-fire", notes: { top: ["Табак",
-                    "Корица"], heart: ["Ваниль", "Какао"], base: ["Амбра", "Древесина"] },
-                description: "Табачный аромат с теплой ванильной сладостью.", rating: 4.9, reviews: 350,
-                bestseller: true, new: false, mood: "warm" },
-            { id: 59, name: "Black Orchid", brand: "Tom Ford", price: 620, icon: "fa-flower", notes: { top: ["Бергамот",
-                    "Черная смородина"], heart: ["Орхидея", "Роза"], base: ["Пачули", "Амбра"] },
-                description: "Темная, чувственная орхидея с восточным акцентом.", rating: 4.7, reviews: 280,
-                bestseller: true, new: false, mood: "mysterious" },
-            { id: 60, name: "Fucking Fabulous", brand: "Tom Ford", price: 700, icon: "fa-star", notes: { top: ["Лаванда",
-                    "Миндаль"], heart: ["Кожа", "Ирис"], base: ["Кашемир", "Амбра"] },
-                description: "Смелый, кожаный, с неожиданной сладостью.", rating: 4.6, reviews: 190,
-                bestseller: false, new: true, mood: "serious" },
-            { id: 61, name: "Neroli Portofino", brand: "Tom Ford", price: 580, icon: "fa-lemon", notes: { top: ["Нероли",
-                    "Бергамот"], heart: ["Жасмин", "Роза"], base: ["Амбра", "Мускус"] },
-                description: "Свежий, солнечный, с итальянским характером.", rating: 4.4, reviews: 160,
-                bestseller: false, new: false, mood: "energetic" },
-            { id: 62, name: "Lost Cherry", brand: "Tom Ford", price: 690, icon: "fa-cherry", notes: { top: ["Вишня",
-                    "Миндаль"], heart: ["Роза", "Ваниль"], base: ["Амбра", "Древесина"] },
-                description: "Сочная, сладкая вишня с теплой амбровой базой.", rating: 4.7, reviews: 220,
-                bestseller: true, new: false, mood: "romantic" },
-
-            // Valentino
-            { id: 63, name: "Born in Roma", brand: "Valentino", price: 420, icon: "fa-landmark", notes: { top: [
-                    "Бергамот", "Груша"], heart: ["Жасмин", "Роза"], base: ["Ваниль", "Древесина"] },
-                description: "Римский шик в каждой ноте.", rating: 4.5, reviews: 180, bestseller: false, new: false,
-                mood: "romantic" },
-            { id: 64, name: "Valentino Uomo", brand: "Valentino", price: 450, icon: "fa-user-tie", notes: { top: [
-                    "Бергамот", "Лимон"], heart: ["Жасмин", "Ирис"], base: ["Ваниль", "Древесина"] },
-                description: "Элегантный, стильный, для уверенного мужчины.", rating: 4.6, reviews: 150,
-                bestseller: true, new: false, mood: "serious" },
-            { id: 65, name: "Valentino Donna", brand: "Valentino", price: 440, icon: "fa-venus", notes: { top: [
-                    "Бергамот", "Груша"], heart: ["Роза", "Жасмин"], base: ["Ваниль", "Пачули"] },
-                description: "Женственный, нежный, с итальянским шармом.", rating: 4.7, reviews: 170, bestseller: true,
-                new: false, mood: "romantic" },
-
-            // Creed
-            { id: 66, name: "Aventus", brand: "Creed", price: 850, icon: "fa-bolt", notes: { top: ["Ананас",
-                    "Бергамот"], heart: ["Роза", "Жасмин"], base: ["Амбра", "Мускус"] },
-                description: "Легендарный аромат успеха и власти.", rating: 4.9, reviews: 450, bestseller: true,
-                new: false, mood: "energetic" },
-            { id: 67, name: "Green Irish Tweed", brand: "Creed", price: 780, icon: "fa-leaf", notes: { top: ["Лимон",
-                    "Мята"], heart: ["Герань", "Фиалка"], base: ["Сандал", "Мох"] },
-                description: "Зеленый, свежий, с ирландским характером.", rating: 4.8, reviews: 280, bestseller: true,
-                new: false, mood: "fresh" },
-            { id: 68, name: "Silver Mountain Water", brand: "Creed", price: 760, icon: "fa-mountain", notes: { top: [
-                    "Цитрусы", "Бергамот"], heart: ["Зеленый чай", "Иланг"], base: ["Мускус", "Амбра"] },
-                description: "Горная свежесть с минеральными оттенками.", rating: 4.6, reviews: 200,
-                bestseller: false, new: false, mood: "fresh" },
-
-            // Kilian
-            { id: 69, name: "Black Phantom", brand: "Kilian", price: 680, icon: "fa-skull", notes: { top: ["Ром",
-                    "Кофе"], heart: ["Миндаль", "Ваниль"], base: ["Амбра", "Древесина"] },
-                description: "Темный, сладкий, с гурманским характером.", rating: 4.8, reviews: 190, bestseller: true,
-                new: false, mood: "mysterious" },
-            { id: 70, name: "Love Don't Be Shy", brand: "Kilian", price: 650, icon: "fa-heart", notes: { top: ["Бергамот",
-                    "Груша"], heart: ["Роза", "Жасмин"], base: ["Ваниль", "Амбра"] },
-                description: "Нежный, сладкий, с цветочным сердцем.", rating: 4.7, reviews: 170, bestseller: false,
-                new: false, mood: "romantic" },
-            { id: 71, name: "Angels' Share", brand: "Kilian", price: 720, icon: "fa-whiskey-glass", notes: { top: [
-                    "Коньяк", "Корица"], heart: ["Яблоко", "Ваниль"], base: ["Амбра", "Древесина"] },
-                description: "Глоток ангельского наслаждения.", rating: 4.9, reviews: 230, bestseller: true,
-                new: true, mood: "warm" },
-
-            // MFK
-            { id: 72, name: "Baccarat Rouge 540", brand: "MFK", price: 880, icon: "fa-gem", notes: { top: ["Жасмин",
-                    "Шафран"], heart: ["Амбра", "Древесина"], base: ["Мускус", "Ваниль"] },
-                description: "Культовый аромат с амбровым сиянием.", rating: 4.9, reviews: 500, bestseller: true,
-                new: false, mood: "mysterious" },
-            { id: 73, name: "Grand Soir", brand: "MFK", price: 790, icon: "fa-sun", notes: { top: ["Лаванда",
-                    "Бергамот"], heart: ["Ваниль", "Амбра"], base: ["Древесина", "Пачули"] },
-                description: "Большой вечер: теплый, янтарный, роскошный.", rating: 4.8, reviews: 280,
-                bestseller: true, new: false, mood: "warm" },
-            { id: 74, name: "Gentle Fluidity Gold", brand: "MFK", price: 750, icon: "fa-star", notes: { top: [
-                    "Можжевельник", "Мускатный орех"], heart: ["Ваниль", "Амбра"], base: ["Мускус", "Древесина"] },
-                description: "Золотая текучесть: мягкая, теплая, элегантная.", rating: 4.6, reviews: 190,
-                bestseller: false, new: false, mood: "serious" },
-
-            // Penhaligon's
-            { id: 75, name: "Halfeti", brand: "Penhaligon's", price: 560, icon: "fa-flower", notes: { top: ["Бергамот",
-                    "Шафран"], heart: ["Роза", "Жасмин"], base: ["Уд", "Древесина"] },
-                description: "Загадочный, восточный, с турецким характером.", rating: 4.7, reviews: 160,
-                bestseller: true, new: false, mood: "mysterious" },
-            { id: 76, name: "Lothair", brand: "Penhaligon's", price: 520, icon: "fa-anchor", notes: { top: ["Мандарин",
-                    "Кардамон"], heart: ["Жасмин", "Роза"], base: ["Пачули", "Амбра"] },
-                description: "Морской бриз с восточными пряностями.", rating: 4.4, reviews: 120, bestseller: false,
-                new: false, mood: "fresh" },
-
-            // Jo Malone
-            { id: 77, name: "Oud & Bergamot", brand: "Jo Malone", price: 380, icon: "fa-lemon", notes: { top: ["Бергамот",
-                    "Лимон"], heart: ["Уд", "Кедр"], base: ["Амбра", "Мускус"] },
-                description: "Свежий цитрус с дымным удом.", rating: 4.5, reviews: 140, bestseller: false,
-                new: false, mood: "fresh" },
-            { id: 78, name: "Myrrh & Tonka", brand: "Jo Malone", price: 400, icon: "fa-star", notes: { top: ["Мирра",
-                    "Лаванда"], heart: ["Тонка", "Амбра"], base: ["Ваниль", "Древесина"] },
-                description: "Смолистая, сладкая, с бальзамическим шлейфом.", rating: 4.6, reviews: 130,
-                bestseller: true, new: false, mood: "warm" },
-
-            // Дополнительные
-            { id: 79, name: "Noir Extreme", brand: "Tom Ford", price: 640, icon: "fa-moon", notes: { top: ["Кардамон",
-                    "Перец"], heart: ["Роза", "Жасмин"], base: ["Амбра", "Древесина"] },
-                description: "Темная, чувственная, экстремальная версия.", rating: 4.7, reviews: 210,
-                bestseller: false, new: true, mood: "mysterious" },
-            { id: 80, name: "Velvet Orchid", brand: "Tom Ford", price: 610, icon: "fa-flower", notes: { top: ["Бергамот",
-                    "Ром"], heart: ["Орхидея", "Роза"], base: ["Ваниль", "Амбра"] },
-                description: "Бархатная орхидея с восточным характером.", rating: 4.5, reviews: 150,
-                bestseller: false, new: false, mood: "romantic" },
-            { id: 81, name: "Rosa Gallica", brand: "Diptyque", price: 300, icon: "fa-rose", notes: { top: ["Роза",
-                    "Личи"], heart: ["Гвоздика", "Жасмин"], base: ["Мох", "Амбра"] },
-                description: "Галльская роза с пряными нотами.", rating: 4.3, reviews: 80, bestseller: false,
-                new: true, mood: "romantic" },
-            { id: 82, name: "Fleur de Peau", brand: "Diptyque", price: 310, icon: "fa-feather", notes: { top: ["Бергамот",
-                    "Мимоза"], heart: ["Ирис", "Роза"], base: ["Мускус", "Амбра"] },
-                description: "Цветок кожи: нежный, пудровый, мускусный.", rating: 4.4, reviews: 95, bestseller: false,
-                new: false, mood: "romantic" },
-        ];
+        const perfumes = [{
+            id: 1,
+            name: "Black Afgano",
+            brand: "Nasomatto",
+            brandSlug: "nasomatto",
+            price: 620,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Зеленые ноты"], heart: ["Табак", "Смолы", "Кофе"], base: ["Уд", "Древесина",
+                    "Ладан"] },
+            description: "Тяжелый, дымный, наркотический аромат...",
+            rating: 4.8,
+            reviews: 127,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 30
+        }, {
+            id: 2,
+            name: "Baraonda",
+            brand: "Nasomatto",
+            brandSlug: "nasomatto",
+            price: 590,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Ром", "Виски"], heart: ["Древесина", "Табак"], base: ["Амбра", "Ваниль"] },
+            description: "Аромат с характером, как глоток виски у камина.",
+            rating: 4.6,
+            reviews: 89,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 30
+        }, {
+            id: 3,
+            name: "Pardon",
+            brand: "Nasomatto",
+            brandSlug: "nasomatto",
+            price: 610,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Шафран", "Кардамон"], heart: ["Жасмин", "Роза"], base: ["Уд", "Сандал"] },
+            description: "Элегантный, восточный, с характерной тяжестью.",
+            rating: 4.7,
+            reviews: 105,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 30
+        }, {
+            id: 4,
+            name: "Duro",
+            brand: "Nasomatto",
+            brandSlug: "nasomatto",
+            price: 580,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Перец", "Лаванда"], heart: ["Гвоздика", "Кожа"], base: ["Дуб", "Пачули"] },
+            description: "Мужественный, сухой, с древесной дымкой.",
+            rating: 4.5,
+            reviews: 76,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 30
+        }, {
+            id: 5,
+            name: "Silver Musk",
+            brand: "Nasomatto",
+            brandSlug: "nasomatto",
+            price: 600,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Альдегиды", "Цитрусы"], heart: ["Мускус", "Цветы"], base: ["Амбра", "Древесина"] },
+            description: "Чистый, металлический мускус с неожиданной мягкостью.",
+            rating: 4.4,
+            reviews: 62,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 30
+        }, {
+            id: 6,
+            name: "China White",
+            brand: "Nasomatto",
+            brandSlug: "nasomatto",
+            price: 640,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Личи", "Роза"], heart: ["Жасмин", "Иланг"], base: ["Мускус", "Амбра"] },
+            description: "Опиумный, цветочный, с характерной азиатской сладостью.",
+            rating: 4.3,
+            reviews: 55,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 30
+        }, {
+            id: 7,
+            name: "Megamare",
+            brand: "Orto Parisi",
+            brandSlug: "ortoparisi",
+            price: 580,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Морская соль", "Водоросли"], heart: ["Амбра", "Древесина"], base: ["Мускус", "Смолы"] },
+            description: "Океанская мощь, соленый бриз и темная глубина.",
+            rating: 4.9,
+            reviews: 210,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 8,
+            name: "Terroni",
+            brand: "Orto Parisi",
+            brandSlug: "ortoparisi",
+            price: 560,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Почва", "Ветивер"], heart: ["Древесина", "Табак"], base: ["Пачули", "Смолы"] },
+            description: "Земляной, корневой, с ароматом влажной почвы.",
+            rating: 4.6,
+            reviews: 98,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 9,
+            name: "Viride",
+            brand: "Orto Parisi",
+            brandSlug: "ortoparisi",
+            price: 550,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Зеленые листья", "Трава"], heart: ["Мята", "Ель"], base: ["Мох", "Древесина"] },
+            description: "Лесная свежесть с горьким зеленым оттенком.",
+            rating: 4.4,
+            reviews: 73,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 10,
+            name: "Bergamask",
+            brand: "Orto Parisi",
+            brandSlug: "ortoparisi",
+            price: 570,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Лимон"], heart: ["Мускус", "Амбра"], base: ["Древесина", "Ваниль"] },
+            description: "Яркий цитрус с мускусной глубиной.",
+            rating: 4.3,
+            reviews: 64,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 11,
+            name: "Brutus",
+            brand: "Orto Parisi",
+            brandSlug: "ortoparisi",
+            price: 590,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Кожа", "Табак"], heart: ["Смолы", "Ладан"], base: ["Уд", "Древесина"] },
+            description: "Мощный, кожаный, с дымным характером.",
+            rating: 4.7,
+            reviews: 82,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 12,
+            name: "Interlude Man",
+            brand: "Amouage",
+            brandSlug: "amouage",
+            price: 820,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Орегано"], heart: ["Ладан", "Смолы"], base: ["Уд", "Амбра"] },
+            description: "Культовый аромат с дымно-смолистой глубиной.",
+            rating: 4.9,
+            reviews: 340,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 13,
+            name: "Reflection Man",
+            brand: "Amouage",
+            brandSlug: "amouage",
+            price: 780,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Розовый перец", "Бергамот"], heart: ["Жасмин", "Ирис"], base: ["Сандал", "Амбра"] },
+            description: "Элегантный, цветочный, с пудровым шлейфом.",
+            rating: 4.7,
+            reviews: 210,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 14,
+            name: "Epic Man",
+            brand: "Amouage",
+            brandSlug: "amouage",
+            price: 790,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Перец", "Шафран"], heart: ["Ладан", "Роза"], base: ["Уд", "Амбра"] },
+            description: "Эпический восточный аромат с караванной историей.",
+            rating: 4.8,
+            reviews: 180,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 15,
+            name: "Jubilation XXV",
+            brand: "Amouage",
+            brandSlug: "amouage",
+            price: 850,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Корица"], heart: ["Смолы", "Табак"], base: ["Уд", "Пачули"] },
+            description: "Праздничный, богатый, с юбилейным характером.",
+            rating: 4.6,
+            reviews: 140,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 16,
+            name: "Lyric Man",
+            brand: "Amouage",
+            brandSlug: "amouage",
+            price: 760,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Апельсин"], heart: ["Роза", "Гвоздика"], base: ["Сандал", "Мускус"] },
+            description: "Лиричный, цветочный, с восточным акцентом.",
+            rating: 4.5,
+            reviews: 115,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 17,
+            name: "Honour Man",
+            brand: "Amouage",
+            brandSlug: "amouage",
+            price: 740,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Перец", "Шалфей"], heart: ["Герань", "Лаванда"], base: ["Кожа", "Амбра"] },
+            description: "Достойный, благородный, с кожаным оттенком.",
+            rating: 4.4,
+            reviews: 98,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 18,
+            name: "Interlude Black Iris",
+            brand: "Amouage",
+            brandSlug: "amouage",
+            price: 830,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Ирис", "Морковь"], heart: ["Ладан", "Кожа"], base: ["Уд", "Пачули"] },
+            description: "Темная версия культового Interlude с ирисом.",
+            rating: 4.8,
+            reviews: 160,
+            bestseller: true,
+            new: true,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 19,
+            name: "Oud Pashmina",
+            brand: "Montale",
+            brandSlug: "montale",
+            price: 380,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Шафран", "Роза"], heart: ["Уд", "Кашемир"], base: ["Амбра", "Мускус"] },
+            description: "Мягкий уд с шелковистым кашемировым шлейфом.",
+            rating: 4.3,
+            reviews: 87,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 20,
+            name: "Black Oud",
+            brand: "Montale",
+            brandSlug: "montale",
+            price: 360,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Лимон", "Бергамот"], heart: ["Уд", "Табак"], base: ["Кожа", "Древесина"] },
+            description: "Темный уд с табачным оттенком и дымом.",
+            rating: 4.5,
+            reviews: 110,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 21,
+            name: "Intense Café",
+            brand: "Montale",
+            brandSlug: "montale",
+            price: 390,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Кофе", "Роза"], heart: ["Жасмин", "Ваниль"], base: ["Амбра", "Мускус"] },
+            description: "Кофейный аромат с розой и сладкими нюансами.",
+            rating: 4.7,
+            reviews: 230,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 22,
+            name: "Sensual Instinct",
+            brand: "Montale",
+            brandSlug: "montale",
+            price: 370,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Кардамон", "Перец"], heart: ["Уд", "Шафран"], base: ["Кожа", "Пачули"] },
+            description: "Соблазнительный, пряный, с животной чувственностью.",
+            rating: 4.4,
+            reviews: 95,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 23,
+            name: "Oud & Leather",
+            brand: "Montale",
+            brandSlug: "montale",
+            price: 400,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Кожа", "Бергамот"], heart: ["Уд", "Смолы"], base: ["Амбра", "Древесина"] },
+            description: "Кожа и уд в идеальном балансе, мощный и стойкий.",
+            rating: 4.6,
+            reviews: 130,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 24,
+            name: "White Oud",
+            brand: "Montale",
+            brandSlug: "montale",
+            price: 350,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Шафран", "Лаванда"], heart: ["Уд", "Роза"], base: ["Мускус", "Сандал"] },
+            description: "Белый уд — легкий, цветочный, с мускусным акцентом.",
+            rating: 4.2,
+            reviews: 78,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 25,
+            name: "Naxos",
+            brand: "Xerjoff",
+            brandSlug: "xerjoff",
+            price: 720,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Мед", "Бергамот"], heart: ["Табак", "Корица"], base: ["Ваниль", "Амбра"] },
+            description: "Сладкий табак с медом и пряностями.",
+            rating: 4.9,
+            reviews: 280,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 26,
+            name: "Alexandria II",
+            brand: "Xerjoff",
+            brandSlug: "xerjoff",
+            price: 780,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Лаванда", "Цитрусы"], heart: ["Роза", "Уд"], base: ["Амбра", "Пачули"] },
+            description: "Роскошный восточный аромат с удом и розой.",
+            rating: 4.8,
+            reviews: 200,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 27,
+            name: "Erba Pura",
+            brand: "Xerjoff",
+            brandSlug: "xerjoff",
+            price: 690,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Фрукты", "Цитрусы"], heart: ["Цветы", "Ваниль"], base: ["Мускус", "Древесина"] },
+            description: "Сочный, фруктовый, с мускусной глубиной.",
+            rating: 4.5,
+            reviews: 150,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 28,
+            name: "More Than Words",
+            brand: "Xerjoff",
+            brandSlug: "xerjoff",
+            price: 740,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Роза", "Шафран"], heart: ["Уд", "Жасмин"], base: ["Амбра", "Смолы"] },
+            description: "Сложный, восточный, с богатой цветочной душой.",
+            rating: 4.6,
+            reviews: 120,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 29,
+            name: "Accento",
+            brand: "Xerjoff",
+            brandSlug: "xerjoff",
+            price: 660,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Яблоко"], heart: ["Жасмин", "Роза"], base: ["Мускус", "Амбра"] },
+            description: "Свежий, цветочный, с ярким фруктовым стартом.",
+            rating: 4.3,
+            reviews: 90,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 30,
+            name: "Musc Ravageur",
+            brand: "Frederic Malle",
+            brandSlug: "fredericmalle",
+            price: 520,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Корица"], heart: ["Мускус", "Ваниль"], base: ["Амбра", "Древесина"] },
+            description: "Знаменитый мускусный аромат с животной теплотой.",
+            rating: 4.8,
+            reviews: 240,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 31,
+            name: "Portrait of a Lady",
+            brand: "Frederic Malle",
+            brandSlug: "fredericmalle",
+            price: 580,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Роза", "Черная смородина"], heart: ["Гвоздика", "Ладан"], base: ["Пачули", "Амбра"] },
+            description: "Портрет дамы: роза, ладан и темный пачули.",
+            rating: 4.9,
+            reviews: 300,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 32,
+            name: "French Lover",
+            brand: "Frederic Malle",
+            brandSlug: "fredericmalle",
+            price: 490,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Анжелика", "Можжевельник"], heart: ["Древесина", "Перец"], base: ["Мох", "Сандал"] },
+            description: "Зеленый, древесный, с ароматом дикой природы.",
+            rating: 4.4,
+            reviews: 105,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 33,
+            name: "Vetiver Extraordinaire",
+            brand: "Frederic Malle",
+            brandSlug: "fredericmalle",
+            price: 500,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Ветивер", "Цитрусы"], heart: ["Древесина", "Перец"], base: ["Табак", "Амбра"] },
+            description: "Экстраординарный ветивер с дымным оттенком.",
+            rating: 4.5,
+            reviews: 115,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 34,
+            name: "Aoud Lemon Mint",
+            brand: "Mancera",
+            brandSlug: "mancera",
+            price: 290,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Лимон", "Мята"], heart: ["Уд", "Роза"], base: ["Амбра", "Мускус"] },
+            description: "Свежий уд с лимоном и мятой — неожиданный контраст.",
+            rating: 4.3,
+            reviews: 120,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 120
+        }, {
+            id: 35,
+            name: "Instant Crush",
+            brand: "Mancera",
+            brandSlug: "mancera",
+            price: 310,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Шафран", "Бергамот"], heart: ["Жасмин", "Роза"], base: ["Амбра", "Ваниль"] },
+            description: "Мгновенная влюбленность: сладкий, цветочный, амбровый.",
+            rating: 4.6,
+            reviews: 200,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 120
+        }, {
+            id: 36,
+            name: "Red Tobacco",
+            brand: "Mancera",
+            brandSlug: "mancera",
+            price: 320,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Табак", "Корица"], heart: ["Яблоко", "Роза"], base: ["Ваниль", "Амбра"] },
+            description: "Красный табак с пряностями и фруктовой сладостью.",
+            rating: 4.7,
+            reviews: 180,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 120
+        }, {
+            id: 37,
+            name: "Cedrat Boise",
+            brand: "Mancera",
+            brandSlug: "mancera",
+            price: 280,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Цитрусы", "Кедр"], heart: ["Кожа", "Древесина"], base: ["Мускус", "Амбра"] },
+            description: "Кедровый лес с цитрусовой свежестью и кожей.",
+            rating: 4.4,
+            reviews: 135,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 120
+        }, {
+            id: 38,
+            name: "Hindu Kush",
+            brand: "Mancera",
+            brandSlug: "mancera",
+            price: 300,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Конопля", "Шафран"], heart: ["Уд", "Смолы"], base: ["Пачули", "Древесина"] },
+            description: "Индуистский хребет: дымный, травяной, глубокий.",
+            rating: 4.5,
+            reviews: 110,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 120
+        }, {
+            id: 39,
+            name: "Black Vanilla",
+            brand: "Mancera",
+            brandSlug: "mancera",
+            price: 290,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Ваниль", "Бергамот"], heart: ["Роза", "Жасмин"], base: ["Амбра", "Мускус"] },
+            description: "Черная ваниль с темными цветочными оттенками.",
+            rating: 4.2,
+            reviews: 85,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 120
+        }, {
+            id: 40,
+            name: "Hacivat",
+            brand: "Nishane",
+            brandSlug: "nishane",
+            price: 450,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Ананас", "Цитрусы"], heart: ["Древесина", "Мох"], base: ["Амбра", "Мускус"] },
+            description: "Тропический древесный аромат с ананасовой свежестью.",
+            rating: 4.8,
+            reviews: 190,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 41,
+            name: "Ani",
+            brand: "Nishane",
+            brandSlug: "nishane",
+            price: 470,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Имбирь"], heart: ["Ваниль", "Роза"], base: ["Амбра", "Древесина"] },
+            description: "Сладкая ваниль с восточными пряностями.",
+            rating: 4.7,
+            reviews: 160,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 42,
+            name: "Fan Your Flames",
+            brand: "Nishane",
+            brandSlug: "nishane",
+            price: 460,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Ром", "Кокос"], heart: ["Табак", "Древесина"], base: ["Амбра", "Смолы"] },
+            description: "Ром и табак с кокосовой сладостью.",
+            rating: 4.5,
+            reviews: 125,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 43,
+            name: "Wulong Cha",
+            brand: "Nishane",
+            brandSlug: "nishane",
+            price: 420,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Чай", "Цитрусы"], heart: ["Жасмин", "Иланг"], base: ["Мускус", "Древесина"] },
+            description: "Улун с чайными листьями и цветочной душой.",
+            rating: 4.4,
+            reviews: 100,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 44,
+            name: "Sultan Vetiver",
+            brand: "Nishane",
+            brandSlug: "nishane",
+            price: 480,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Ветивер", "Кардамон"], heart: ["Древесина", "Перец"], base: ["Амбра", "Табак"] },
+            description: "Султанский ветивер с пряной глубиной.",
+            rating: 4.6,
+            reviews: 85,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 45,
+            name: "Tam Dao",
+            brand: "Diptyque",
+            brandSlug: "diptyque",
+            price: 280,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Сандал", "Кедр"], heart: ["Древесина", "Смолы"], base: ["Амбра", "Ветивер"] },
+            description: "Сандаловый храм, древесный и медитативный.",
+            rating: 4.5,
+            reviews: 140,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 46,
+            name: "Philosykos",
+            brand: "Diptyque",
+            brandSlug: "diptyque",
+            price: 270,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Инжир", "Кокос"], heart: ["Зелень", "Цветы"], base: ["Древесина", "Амбра"] },
+            description: "Аромат инжирного дерева с молочной зеленью.",
+            rating: 4.3,
+            reviews: 115,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 47,
+            name: "L'Ombre Dans L'Eau",
+            brand: "Diptyque",
+            brandSlug: "diptyque",
+            price: 290,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Черная смородина", "Роза"], heart: ["Зелень", "Петитгрейн"], base: ["Древесина",
+                    "Мох"
+                ] },
+            description: "Тень на воде: ягодный, зеленый, влажный.",
+            rating: 4.4,
+            reviews: 95,
+            bestseller: false,
+            new: true,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 48,
+            name: "Gypsy Water",
+            brand: "Byredo",
+            brandSlug: "byredo",
+            price: 380,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Перец"], heart: ["Ваниль", "Ладан"], base: ["Древесина", "Амбра"] },
+            description: "Цыганская вода: смолистая, ванильная, лесная.",
+            rating: 4.7,
+            reviews: 210,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 49,
+            name: "Mojave Ghost",
+            brand: "Byredo",
+            brandSlug: "byredo",
+            price: 390,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Мускус", "Амбра"], heart: ["Древесина", "Цветы"], base: ["Сандал", "Ваниль"] },
+            description: "Призрак Мохаве: мягкий, мускусный, с древесной душой.",
+            rating: 4.5,
+            reviews: 160,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 50,
+            name: "Black Saffron",
+            brand: "Byredo",
+            brandSlug: "byredo",
+            price: 370,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Шафран", "Кожа"], heart: ["Малина", "Роза"], base: ["Амбра", "Древесина"] },
+            description: "Черный шафран с кожаными и ягодными нотами.",
+            rating: 4.3,
+            reviews: 105,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 100
+        }, {
+            id: 51,
+            name: "Santal 33",
+            brand: "Le Labo",
+            brandSlug: "lelabo",
+            price: 420,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Сандал", "Кедр"], heart: ["Кожа", "Древесина"], base: ["Амбра", "Мускус"] },
+            description: "Культовый сандал с кожаной глубиной.",
+            rating: 4.9,
+            reviews: 400,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 52,
+            name: "Another 13",
+            brand: "Le Labo",
+            brandSlug: "lelabo",
+            price: 410,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Мускус", "Амбра"], heart: ["Цветы", "Древесина"], base: ["Ваниль", "Смолы"] },
+            description: "Еще 13: мускусный, амбровый, с чистым кожным звучанием.",
+            rating: 4.6,
+            reviews: 180,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 53,
+            name: "Rose 31",
+            brand: "Le Labo",
+            brandSlug: "lelabo",
+            price: 400,
+            image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=500&fit=crop"],
+            notes: { top: ["Роза", "Перец"], heart: ["Гвоздика", "Древесина"], base: ["Мох", "Амбра"] },
+            description: "Роза 31: цветочная, пряная, с древесным акцентом.",
+            rating: 4.4,
+            reviews: 130,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 50
+        }, {
+            id: 54,
+            name: "Layton",
+            brand: "Parfums de Marly",
+            brandSlug: "parfumsdemarly",
+            price: 500,
+            image: "https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1590736969956-7062bc9f1c0c?w=400&h=500&fit=crop"],
+            notes: { top: ["Яблоко", "Лаванда"], heart: ["Ваниль", "Роза"], base: ["Амбра", "Древесина"] },
+            description: "Лейтон: яблочная свежесть с ванильной сладостью.",
+            rating: 4.8,
+            reviews: 250,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 75
+        }, {
+            id: 55,
+            name: "Herod",
+            brand: "Parfums de Marly",
+            brandSlug: "parfumsdemarly",
+            price: 520,
+            image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=500&fit=crop"],
+            notes: { top: ["Табак", "Корица"], heart: ["Ваниль", "Роза"], base: ["Амбра", "Пачули"] },
+            description: "Ирод: табак, корица и сладкая ваниль.",
+            rating: 4.7,
+            reviews: 190,
+            bestseller: true,
+            new: false,
+            inStock: true,
+            volume: 75
+        }, {
+            id: 56,
+            name: "Pegasus",
+            brand: "Parfums de Marly",
+            brandSlug: "parfumsdemarly",
+            price: 490,
+            image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop",
+            images: ["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=500&fit=crop"],
+            notes: { top: ["Бергамот", "Лаванда"], heart: ["Миндаль", "Жасмин"], base: ["Амбра", "Древесина"] },
+            description: "Пегас: миндальный, цветочный, с амбровой глубиной.",
+            rating: 4.5,
+            reviews: 140,
+            bestseller: false,
+            new: false,
+            inStock: true,
+            volume: 75
+        }];
 
         // ============================================================
         // STATE
@@ -1980,17 +1876,14 @@
         let activeNotes = [];
         let maxPrice = 2000;
         let searchTerm = '';
-        let sortOption = 'default';
         let catalogPage = 0;
         const perPage = 12;
-        let allLoaded = false;
-        let isLoading = false;
 
         // ============================================================
         // DOM REFS
         // ============================================================
-        const $ = s => document.querySelector(s);
-        const $$ = s => document.querySelectorAll(s);
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => document.querySelectorAll(s);
 
         const preloader = $('#preloader');
         const brandsGrid = $('#brandsGrid');
@@ -2001,7 +1894,7 @@
         const priceSlider = $('#priceSlider');
         const priceDisplay = $('#priceDisplay');
         const brandFilterGroup = $('#brandFilterGroup');
-        const infiniteTrigger = $('#infiniteTrigger');
+        const loadMoreBtn = $('#loadMoreBtn');
         const cartDrawer = $('#cartDrawer');
         const cartOverlay = $('#cartOverlay');
         const cartItems = $('#cartItems');
@@ -2018,24 +1911,13 @@
         const burgerBtn = $('#burgerBtn');
         const mainNav = $('#mainNav');
         const exploreBtn = $('#exploreBtn');
-        const scrollTop = $('#scrollTop');
-        const mainHeader = $('#mainHeader');
-        const checkoutBtn = $('#checkoutBtn');
-        const searchToggle = $('#searchToggle');
-        const blogGrid = $('#blogGrid');
-        const articlePage = $('#articlePage');
-        const articleContent = $('#articleContent');
-        const backFromArticle = $('#backFromArticle');
-        const sortSelect = $('#sortSelect');
-        const assistantToggle = $('#assistantToggle');
-        const assistantPanel = $('#assistantPanel');
-        const closeAssistant = $('#closeAssistant');
 
         // ============================================================
         // UTILITY
         // ============================================================
         function getUniqueBrands() {
-            return [...new Set(perfumes.map(p => p.brand))];
+            const brands = perfumes.map(p => p.brand);
+            return [...new Set(brands)];
         }
 
         function getAllNotes() {
@@ -2049,7 +1931,7 @@
         }
 
         function getFilteredProducts() {
-            let result = perfumes.filter(p => {
+            return perfumes.filter(p => {
                 const brandOk = activeBrands.length === 0 || activeBrands.includes(p.brand);
                 const priceOk = p.price <= maxPrice;
                 const searchOk = !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -2060,29 +1942,10 @@
                 );
                 return brandOk && priceOk && searchOk && noteOk;
             });
-
-            switch (sortOption) {
-                case 'price-asc':
-                    result.sort((a, b) => a.price - b.price);
-                    break;
-                case 'price-desc':
-                    result.sort((a, b) => b.price - a.price);
-                    break;
-                case 'rating':
-                    result.sort((a, b) => b.rating - a.rating);
-                    break;
-                default:
-                    break;
-            }
-            return result;
         }
 
         function getBestsellers() {
-            return perfumes.filter(p => p.bestseller).slice(0, 8);
-        }
-
-        function getIconClass(icon) {
-            return icon || 'fa-perfume';
+            return perfumes.filter(p => p.bestseller).slice(0, 6);
         }
 
         // ============================================================
@@ -2104,7 +1967,7 @@
                         activeBrands.push(brand);
                     }
                     renderBrands();
-                    renderCatalog(true);
+                    renderCatalog();
                     updateBrandFilters();
                 });
             });
@@ -2113,10 +1976,7 @@
         function renderBestsellers() {
             const items = getBestsellers();
             bestsellersGrid.innerHTML = items.map((p, i) => productCardHTML(p, i)).join('');
-            requestAnimationFrame(() => {
-                bestsellersGrid.querySelectorAll('.product-card').forEach(c => c.classList.add('visible'));
-            });
-            attachProductEvents(bestsellersGrid);
+            observeCards();
         }
 
         function renderNotes() {
@@ -2133,24 +1993,21 @@
                         activeNotes.push(note);
                     }
                     renderNotes();
-                    renderCatalog(true);
+                    renderCatalog();
                 });
             });
         }
 
         function productCardHTML(p, index) {
             const inWish = wishlist.includes(p.id);
-            const icon = getIconClass(p.icon);
-
             return `
-            <div class="product-card" data-id="${p.id}" style="transition-delay:${index * 0.03}s" data-mood="${p.mood || ''}">
-                <div class="icon-wrap">
-                    <i class="fas ${icon} perfume-icon"></i>
+            <div class="product-card" data-id="${p.id}" style="transition-delay:${index * 0.05}s">
+                <div class="product-img">
+                    <img src="${p.image}" alt="${p.name}" loading="lazy">
                 </div>
                 <div class="product-info">
                     <h4>${p.name}</h4>
                     <div class="brand-name">${p.brand}</div>
-                    <div class="rating">⭐ ${p.rating} (${p.reviews})</div>
                     <div class="price">${p.price} BYN</div>
                     <div class="product-actions">
                         <button class="add-to-cart" data-id="${p.id}">В корзину</button>
@@ -2163,37 +2020,27 @@
         }
 
         function renderCatalog(resetPage = true) {
-            if (resetPage) {
-                catalogPage = 0;
-                allLoaded = false;
-                catalogGrid.innerHTML = '';
-            }
+            if (resetPage) catalogPage = 0;
             const filtered = getFilteredProducts();
             const start = catalogPage * perPage;
-            const end = Math.min(start + perPage, filtered.length);
-
-            const pageItems = filtered.slice(start, end);
-            const html = pageItems.map((p, i) => productCardHTML(p, i)).join('');
-            catalogGrid.innerHTML += html;
-
+            const end = start + perPage;
+            const pageItems = filtered.slice(0, end);
+            catalogGrid.innerHTML = pageItems.map((p, i) => productCardHTML(p, i)).join('');
+            observeCards();
             if (end >= filtered.length) {
-                allLoaded = true;
+                loadMoreBtn.classList.add('hidden');
+            } else {
+                loadMoreBtn.classList.remove('hidden');
             }
-
-            requestAnimationFrame(() => {
-                catalogGrid.querySelectorAll('.product-card:not(.visible)').forEach((c, i) => {
-                    setTimeout(() => c.classList.add('visible'), i * 30);
-                });
-            });
-
-            attachProductEvents(catalogGrid);
+            // Обновляем счетчик
             updateCartBadge();
             updateWishlistBadge();
+            attachProductEvents();
         }
 
         function renderCart() {
             if (cart.length === 0) {
-                cartItems.innerHTML = '<p style="color:#6B5F58;font-size:0.85rem;">Корзина пуста</p>';
+                cartItems.innerHTML = '<p style="color:var(--text-muted);">Корзина пуста</p>';
                 cartTotal.textContent = '0 BYN';
                 return;
             }
@@ -2202,41 +2049,18 @@
                 const p = perfumes.find(x => x.id === item.id);
                 if (!p) return '';
                 total += p.price * item.qty;
-                const icon = getIconClass(p.icon);
                 return `
                 <div class="cart-item">
-                    <div class="icon-wrap"><i class="fas ${icon}"></i></div>
+                    <img src="${p.image}" alt="${p.name}">
                     <div class="cart-item-info">
                         <h4>${p.name}</h4>
-                        <div class="price">${p.price} BYN</div>
-                    </div>
-                    <div class="cart-item-qty">
-                        <button class="qty-dec" data-id="${p.id}">−</button>
-                        <span style="font-size:0.8rem;">${item.qty}</span>
-                        <button class="qty-inc" data-id="${p.id}">+</button>
+                        <div class="price">${p.price} BYN × ${item.qty}</div>
                     </div>
                     <button class="cart-item-remove" data-id="${p.id}"><i class="fas fa-trash-alt"></i></button>
                 </div>
                 `;
             }).join('');
-            cartTotal.textContent = total + ' BYN';
-
-            cartItems.querySelectorAll('.qty-inc, .qty-dec').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = parseInt(btn.dataset.id);
-                    const item = cart.find(i => i.id === id);
-                    if (!item) return;
-                    if (btn.classList.contains('qty-inc')) {
-                        item.qty++;
-                    } else {
-                        item.qty--;
-                        if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
-                    }
-                    saveCart();
-                    renderCart();
-                    updateCartBadge();
-                });
-            });
+            cartTotal.textContent = total.toFixed(0) + ' BYN';
             cartItems.querySelectorAll('.cart-item-remove').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const id = parseInt(btn.dataset.id);
@@ -2273,161 +2097,57 @@
                         activeBrands.push(brand);
                     }
                     renderBrands();
-                    renderCatalog(true);
+                    renderCatalog();
                     updateBrandFilters();
                 });
             });
         }
 
         // ============================================================
-        // BLOG — СТАТЬИ
+        // OBSERVER
         // ============================================================
-        const articles = [{
-            id: 1,
-            title: "История удного дерева: от древности до наших дней",
-            icon: "fa-scroll",
-            content: `
-                <p>Удное дерево, или агаровое дерево, — одно из самых загадочных и ценных растений в мире парфюмерии. Его смола, известная как уд или агаровое масло, используется в создании ароматов уже более 3000 лет.</p>
-                <p>Первые упоминания об уде встречаются в древнеиндийских текстах «Веды», где он описывается как священное благовоние. В Древнем Египте уд использовали для бальзамирования и религиозных церемоний.</p>
-                <p>В Китае и Японии агаровое дерево ценилось не меньше золота — его использовали в медицине и для создания дорогих ароматических композиций.</p>
-                <h2>Как добывают уд</h2>
-                <p>Агаровое дерево (Aquilaria) растет в лесах Юго-Восточной Азии. Смола образуется только в ответ на грибковую инфекцию — дерево начинает вырабатывать защитную смолу, которая пропитывает древесину.</p>
-                <p>Этот процесс занимает десятилетия, а качественная смола может созревать до 50 лет. Именно поэтому настоящий уд стоит так дорого.</p>
-            `
-        }, {
-            id: 2,
-            title: "Как читать парфюмерную пирамиду: гид для начинающих",
-            icon: "fa-book",
-            content: `
-                <p>Парфюмерная пирамида — это схема, которая показывает, как раскрывается аромат на коже. Она состоит из трех уровней: верхние ноты, средние (сердце) и базовые ноты.</p>
-                <h2>Верхние ноты — первое впечатление</h2>
-                <p>Это то, что вы чувствуете в первые 5-15 минут после нанесения. Они создают первое впечатление об аромате. Обычно это легкие, летучие ингредиенты: цитрусы, зелень, фруктовые ноты.</p>
-                <h2>Средние ноты — сердце аромата</h2>
-                <p>Раскрываются через 15-30 минут и держатся 2-4 часа. Это основа аромата — цветочные, пряные, древесные ноты. Именно они определяют характер композиции.</p>
-                <h2>Базовые ноты — шлейф и стойкость</h2>
-                <p>Появляются через 2-4 часа и могут держаться до 24 часов. Это тяжелые, стойкие ингредиенты: уд, амбра, мускус, смолы, пачули, ваниль. Они обеспечивают долговечность аромата.</p>
-            `
-        }, {
-            id: 3,
-            title: "Топ-5 тяжелых ароматов, которые меняют реальность",
-            icon: "fa-fire",
-            content: `
-                <p>Тяжелые ароматы — это не просто запахи, это целые истории, которые окутывают вас с головы до ног. Вот пятерка самых мощных и запоминающихся композиций.</p>
-                <h2>1. Black Afgano — Nasomatto</h2>
-                <p>Легендарный аромат с дымным, наркотическим характером. В его основе — уд, смолы и табак. Создает ощущение загадочности и власти.</p>
-                <h2>2. Interlude Man — Amouage</h2>
-                <p>Известный как «голубой зверь». Мощный, смолистый, с нотами ладана, уда и амбры. Оставляет шлейф на несколько дней.</p>
-                <h2>3. Megamare — Orto Parisi</h2>
-                <p>Океанская мощь в чистом виде. Соленый бриз, водоросли и амбра создают ощущение бескрайнего моря.</p>
-                <h2>4. Tobacco Vanille — Tom Ford</h2>
-                <p>Табак с теплой ванильной сладостью. Пряный, согревающий, идеальный для холодного времени года.</p>
-                <h2>5. Baccarat Rouge 540 — MFK</h2>
-                <p>Амбровое сияние с жасмином и шафраном. Прозрачный, но невероятно стойкий.</p>
-            `
-        }, {
-            id: 4,
-            title: "10 правил выбора идеального аромата",
-            icon: "fa-star",
-            content: `
-                <p>Выбор аромата — это искусство. Вот 10 правил, которые помогут вам найти свой идеальный парфюм.</p>
-                <h2>1. Не торопитесь</h2>
-                <p>Нанесите аромат на кожу и дайте ему раскрыться в течение часа.</p>
-                <h2>2. Тестируйте на коже</h2>
-                <p>Аромат на бумажной полоске и на коже звучит по-разному.</p>
-                <h2>3. Не смешивайте</h2>
-                <p>Тестируйте не более 3-4 ароматов за раз.</p>
-                <h2>4. Учитывайте сезон</h2>
-                <p>Для зимы — тяжелые, теплые ароматы. Для лета — легкие, свежие.</p>
-                <h2>5. Доверяйте своим ощущениям</h2>
-                <p>Аромат должен вызывать у вас эмоции.</p>
-            `
-        }];
-
-        function renderBlog() {
-            blogGrid.innerHTML = articles.map(a => `
-                <div class="blog-card" data-article="${a.id}">
-                    <div class="icon"><i class="fas ${a.icon}"></i></div>
-                    <h3>${a.title}</h3>
-                    <p>${a.content.replace(/<[^>]*>/g, '').slice(0, 100)}...</p>
-                </div>
-            `).join('');
-
-            blogGrid.querySelectorAll('.blog-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const id = parseInt(card.dataset.article);
-                    openArticle(id);
+        function observeCards() {
+            const cards = catalogGrid.querySelectorAll('.product-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
                 });
+            }, { threshold: 0.1 });
+            cards.forEach(card => observer.observe(card));
+            // также для бестселлеров
+            const bc = bestsellersGrid.querySelectorAll('.product-card');
+            bc.forEach(c => {
+                const obs = new IntersectionObserver((e) => {
+                    if (e[0].isIntersecting) c.classList.add('visible');
+                }, { threshold: 0.1 });
+                obs.observe(c);
             });
         }
-
-        function openArticle(id) {
-            const article = articles.find(a => a.id === id);
-            if (!article) return;
-
-            articleContent.innerHTML = `
-                <h1>${article.title}</h1>
-                <div class="article-body">${article.content}</div>
-            `;
-
-            document.querySelectorAll('section').forEach(s => s.style.display = 'none');
-            document.querySelector('.filters-wrapper').style.display = 'none';
-            articlePage.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function closeArticle() {
-            articlePage.classList.remove('active');
-            document.querySelectorAll('section').forEach(s => s.style.display = 'block');
-            document.querySelector('.filters-wrapper').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ============================================================
-        // ASSISTANT
-        // ============================================================
-        assistantToggle.addEventListener('click', () => {
-            assistantPanel.classList.toggle('open');
-        });
-
-        closeAssistant.addEventListener('click', () => {
-            assistantPanel.classList.remove('open');
-        });
-
-        document.querySelectorAll('.mood-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const mood = btn.dataset.mood;
-                const filtered = perfumes.filter(p => p.mood === mood);
-                if (filtered.length === 0) {
-                    alert('К сожалению, ароматов с таким настроением пока нет. Попробуйте другое настроение.');
-                    return;
-                }
-                // Применяем фильтр и показываем
-                const names = filtered.slice(0, 5).map(p => `${p.name} (${p.brand})`).join('\n• ');
-                alert(`Ароматы для настроения "${btn.textContent.trim()}":\n\n• ${names}\n\nПосмотрите их в каталоге!`);
-                assistantPanel.classList.remove('open');
-                // Прокручиваем к каталогу
-                document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
-            });
-        });
 
         // ============================================================
         // EVENTS
         // ============================================================
-        function attachProductEvents(container) {
-            container.querySelectorAll('.add-to-cart').forEach(btn => {
+        function attachProductEvents() {
+            // add to cart
+            catalogGrid.querySelectorAll('.add-to-cart').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const id = parseInt(btn.dataset.id);
                     const existing = cart.find(item => item.id === id);
-                    if (existing) existing.qty += 1;
-                    else cart.push({ id, qty: 1 });
+                    if (existing) {
+                        existing.qty += 1;
+                    } else {
+                        cart.push({ id, qty: 1 });
+                    }
                     saveCart();
                     renderCart();
                     updateCartBadge();
                 });
             });
-
-            container.querySelectorAll('.wishlist-btn').forEach(btn => {
+            // wishlist
+            catalogGrid.querySelectorAll('.wishlist-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const id = parseInt(btn.dataset.id);
@@ -2442,18 +2162,17 @@
                     updateWishlistBadge();
                 });
             });
-
-            container.querySelectorAll('.quick-view').forEach(btn => {
+            // quick view
+            catalogGrid.querySelectorAll('.quick-view').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const id = parseInt(btn.dataset.id);
                     openModal(id);
                 });
             });
-
-            container.querySelectorAll('.product-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    if (e.target.closest('button')) return;
+            // клик по карточке — тоже открываем
+            catalogGrid.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', () => {
                     const id = parseInt(card.dataset.id);
                     openModal(id);
                 });
@@ -2466,38 +2185,30 @@
         function openModal(id) {
             const p = perfumes.find(x => x.id === id);
             if (!p) return;
-            const inWish = wishlist.includes(p.id);
-            const icon = getIconClass(p.icon);
-
+            const pyramid = p.notes ? `
+                <div class="notes-pyramid">
+                    <span><strong>Верхние:</strong> ${p.notes.top.join(', ')}</span>
+                    <span><strong>Средние:</strong> ${p.notes.heart.join(', ')}</span>
+                    <span><strong>Базовые:</strong> ${p.notes.base.join(', ')}</span>
+                </div>
+            ` : '';
             modalBody.innerHTML = `
-                <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
-                    <div style="flex:1;min-width:120px;text-align:center;font-size:4rem;background:rgba(10,8,8,0.3);border-radius:12px;padding:1rem;">
-                        <i class="fas ${icon}" style="color:var(--gold);"></i>
-                    </div>
-                    <div style="flex:2;min-width:200px;">
-                        <h3>${p.name}</h3>
-                        <div class="brand">${p.brand}</div>
-                        <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.85rem;">
-                            <span>⭐ ${p.rating} (${p.reviews})</span>
-                        </div>
-                        <div class="price">${p.price} BYN</div>
-                        <p style="color:#A89890;margin:0.8rem 0;font-size:0.9rem;">${p.description}</p>
-                        <div style="background:rgba(255,255,255,0.02);padding:0.8rem;border-radius:8px;border:1px solid rgba(122,24,24,0.06);font-size:0.8rem;">
-                            <p style="color:#A89890;"><strong style="color:#F5F0EB;">Верхние:</strong> ${p.notes.top.join(', ')}</p>
-                            <p style="color:#A89890;"><strong style="color:#F5F0EB;">Средние:</strong> ${p.notes.heart.join(', ')}</p>
-                            <p style="color:#A89890;"><strong style="color:#F5F0EB;">Базовые:</strong> ${p.notes.base.join(', ')}</p>
-                        </div>
-                        <div style="display:flex;gap:0.8rem;margin-top:1rem;flex-wrap:wrap;">
-                            <button class="btn-primary" style="padding:0.5rem 1.5rem;font-size:0.8rem;" data-add-id="${p.id}">В корзину</button>
-                            <button style="background:transparent;border:1px solid rgba(122,24,24,0.1);padding:0.5rem 1.5rem;border-radius:30px;color:#F5F0EB;font-size:0.8rem;cursor:pointer;transition:all 0.3s;" data-wish-id="${p.id}">
-                                <i class="fas fa-heart" style="color:${inWish ? '#7A1818' : 'var(--text-secondary)'};"></i> ${inWish ? 'В избранном' : 'В избранное'}
-                            </button>
-                        </div>
-                    </div>
+                <h3>${p.name}</h3>
+                <div class="brand">${p.brand}</div>
+                <div style="display:flex;gap:1rem;margin:0.5rem 0;">
+                    <span>⭐ ${p.rating} (${p.reviews})</span>
+                    <span>${p.volume} мл</span>
+                </div>
+                <div class="price">${p.price} BYN</div>
+                <p style="color:var(--text-secondary);">${p.description}</p>
+                ${pyramid}
+                <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
+                    <button class="btn-primary" style="padding:0.5rem 2rem;" data-add-id="${p.id}">В корзину</button>
+                    <button class="btn-primary" style="background:transparent;border:1px solid var(--border-subtle);padding:0.5rem 2rem;" data-wish-id="${p.id}"><i class="fas fa-heart"></i> ${wishlist.includes(p.id) ? 'В избранном' : 'В избранное'}</button>
                 </div>
             `;
             modalOverlay.classList.add('open');
-
+            // события внутри модалки
             modalBody.querySelector('[data-add-id]')?.addEventListener('click', () => {
                 const existing = cart.find(item => item.id === p.id);
                 if (existing) existing.qty += 1;
@@ -2506,13 +2217,15 @@
                 renderCart();
                 updateCartBadge();
             });
-
             modalBody.querySelector('[data-wish-id]')?.addEventListener('click', () => {
-                if (wishlist.includes(p.id)) wishlist = wishlist.filter(i => i !== p.id);
-                else wishlist.push(p.id);
+                if (wishlist.includes(p.id)) {
+                    wishlist = wishlist.filter(i => i !== p.id);
+                } else {
+                    wishlist.push(p.id);
+                }
                 localStorage.setItem('wishlist', JSON.stringify(wishlist));
                 updateWishlistBadge();
-                openModal(p.id);
+                openModal(p.id); // обновить
             });
         }
 
@@ -2531,55 +2244,23 @@
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
                 searchTerm = searchInput.value.trim();
-                renderCatalog(true);
-            }, 250);
-        });
-
-        searchToggle.addEventListener('click', () => {
-            searchInput.focus();
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                searchInput.focus();
-            }
-            if (e.key === 'Escape') {
-                if (modalOverlay.classList.contains('open')) modalOverlay.classList.remove('open');
-                if (cartDrawer.classList.contains('open')) closeCartFn();
-                if (articlePage.classList.contains('active')) closeArticle();
-                if (assistantPanel.classList.contains('open')) assistantPanel.classList.remove('open');
-            }
+                renderCatalog();
+            }, 300);
         });
 
         priceSlider.addEventListener('input', () => {
             maxPrice = parseInt(priceSlider.value);
             priceDisplay.textContent = `до ${maxPrice} BYN`;
-            renderCatalog(true);
+            renderCatalog();
         });
 
-        sortSelect.addEventListener('change', () => {
-            sortOption = sortSelect.value;
-            renderCatalog(true);
+        loadMoreBtn.addEventListener('click', () => {
+            catalogPage++;
+            renderCatalog(false);
         });
 
         // ============================================================
-        // INFINITE SCROLL
-        // ============================================================
-        const infiniteObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !allLoaded && !isLoading) {
-                    isLoading = true;
-                    catalogPage++;
-                    renderCatalog(false);
-                    setTimeout(() => { isLoading = false; }, 400);
-                }
-            });
-        }, { threshold: 0.05, rootMargin: '0px 0px 100px 0px' });
-        infiniteObserver.observe(infiniteTrigger);
-
-        // ============================================================
-        // CART
+        // CART DRAWER
         // ============================================================
         function openCart() {
             cartDrawer.classList.add('open');
@@ -2597,23 +2278,7 @@
         cartOverlay.addEventListener('click', closeCartFn);
 
         // ============================================================
-        // CHECKOUT
-        // ============================================================
-        checkoutBtn.addEventListener('click', () => {
-            if (cart.length === 0) {
-                alert('Корзина пуста');
-                return;
-            }
-            alert('Заказ оформлен! Спасибо за покупку!');
-            cart = [];
-            saveCart();
-            renderCart();
-            updateCartBadge();
-            closeCartFn();
-        });
-
-        // ============================================================
-        // WISHLIST
+        // WISHLIST (показываем в модалке через клик на иконку в хедере)
         // ============================================================
         wishlistToggle.addEventListener('click', () => {
             if (wishlist.length === 0) {
@@ -2622,30 +2287,26 @@
             }
             const items = wishlist.map(id => perfumes.find(p => p.id === id)).filter(Boolean);
             modalBody.innerHTML = `
-                <h3 style="font-size:1.4rem;">Избранное</h3>
-                ${items.map(p => {
-                    const icon = getIconClass(p.icon);
-                    return `
-                    <div style="display:flex;gap:0.8rem;padding:0.5rem 0;border-bottom:1px solid rgba(122,24,24,0.05);align-items:center;">
-                        <div style="font-size:1.3rem;width:36px;text-align:center;color:var(--gold);"><i class="fas ${icon}"></i></div>
+                <h3>Избранное</h3>
+                ${items.map(p => `
+                    <div style="display:flex;gap:1rem;padding:0.5rem 0;border-bottom:1px solid var(--border-subtle);align-items:center;">
+                        <img src="${p.image}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;">
                         <div style="flex:1;">
-                            <strong style="font-weight:500;">${p.name}</strong>
-                            <span style="color:#6B5F58;font-size:0.7rem;display:block;">${p.brand}</span>
+                            <strong>${p.name}</strong> <span style="color:var(--text-muted);font-size:0.8rem;">${p.brand}</span>
+                            <div>${p.price} BYN</div>
                         </div>
-                        <div style="color:var(--gold);font-weight:500;">${p.price} BYN</div>
-                        <button style="background:none;border:none;color:#6B5F58;cursor:pointer;font-size:0.8rem;" data-remove="${p.id}"><i class="fas fa-trash-alt"></i></button>
+                        <button style="background:none;border:none;color:var(--accent);cursor:pointer;" data-remove="${p.id}"><i class="fas fa-trash-alt"></i></button>
                     </div>
-                `}).join('')}
+                `).join('')}
             `;
             modalOverlay.classList.add('open');
-
             modalBody.querySelectorAll('[data-remove]').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const id = parseInt(btn.dataset.remove);
                     wishlist = wishlist.filter(i => i !== id);
                     localStorage.setItem('wishlist', JSON.stringify(wishlist));
                     updateWishlistBadge();
-                    wishlistToggle.click();
+                    wishlistToggle.click(); // refresh
                 });
             });
         });
@@ -2673,70 +2334,51 @@
         });
 
         // ============================================================
-        // SCROLL TOP
-        // ============================================================
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.scrollY;
-            if (currentScroll > 500) {
-                scrollTop.classList.add('visible');
-            } else {
-                scrollTop.classList.remove('visible');
-            }
-            if (currentScroll > 100 && currentScroll > lastScroll) {
-                mainHeader.classList.add('hidden');
-            } else {
-                mainHeader.classList.remove('hidden');
-            }
-            lastScroll = currentScroll;
-        }, { passive: true });
-
-        scrollTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // ============================================================
-        // BACK FROM ARTICLE
-        // ============================================================
-        backFromArticle.addEventListener('click', closeArticle);
-
-        // ============================================================
         // INIT
         // ============================================================
         function init() {
             renderBrands();
             renderBestsellers();
             renderNotes();
-            renderCatalog(true);
+            renderCatalog();
             updateBrandFilters();
             updateCartBadge();
             updateWishlistBadge();
-            renderBlog();
+            // Preloader fade
+            setTimeout(() => {
+                preloader.classList.add('fade');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    document.body.classList.add('loaded');
+                }, 800);
+            }, 3200);
+            // observe hero
+            const hero = document.querySelector('.hero');
+            const heroObs = new IntersectionObserver((e) => {
+                e.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            heroObs.observe(hero);
+            hero.style.opacity = '0';
+            hero.style.transform = 'translateY(30px)';
+            hero.style.transition = 'all 0.8s ease';
+        }
 
-            // Preloader
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 3 + 1;
-                if (progress > 100) progress = 100;
-                document.getElementById('progressFill').style.width = progress + '%';
-                if (progress === 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        preloader.classList.add('fade');
-                        setTimeout(() => {
-                            preloader.style.display = 'none';
-                            document.body.classList.add('loaded');
-                        }, 600);
-                    }, 300);
+        document.addEventListener('DOMContentLoaded', init);
+
+        // доп. анимация для карточек при скролле (повторная инициализация)
+        document.addEventListener('scroll', () => {
+            document.querySelectorAll('.product-card:not(.visible)').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    card.classList.add('visible');
                 }
-            }, 50);
-        }
-
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(() => init(), { timeout: 100 });
-        } else {
-            document.addEventListener('DOMContentLoaded', init);
-        }
+            });
+        });
     </script>
 </body>
 </html>
